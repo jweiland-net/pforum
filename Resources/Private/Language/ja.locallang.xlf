@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2013-08-32T14:44:32Z" product-name="pforum" target-language="ja">
+    <header/>
+    <body>
+      <trans-unit id="tx_pforum_domain_model_forum">
+        <source>Forum</source>
+        <target state="needs-translation">Forum</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.title">
+        <source>Title</source>
+        <target state="needs-translation">Title</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.teaser">
+        <source>Teaser</source>
+        <target state="needs-translation">Teaser</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.topics">
+        <source>Topics</source>
+        <target state="needs-translation">Topics</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic">
+        <source>Topic</source>
+        <target state="needs-translation">Topic</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.crdate">
+        <source>Creation date</source>
+        <target state="needs-translation">Creation date</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.title">
+        <source>Title</source>
+        <target state="needs-translation">Title</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.description">
+        <source>Description</source>
+        <target state="needs-translation">Description</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.posts">
+        <source>Posts</source>
+        <target state="needs-translation">Posts</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.user">
+        <source>User</source>
+        <target state="needs-translation">User</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.images">
+        <source>Images</source>
+        <target state="needs-translation">Images</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post">
+        <source>Post</source>
+        <target state="needs-translation">Post</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.crdate">
+        <source>Creation date</source>
+        <target state="needs-translation">Creation date</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.title">
+        <source>Title</source>
+        <target state="needs-translation">Title</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.description">
+        <source>Description</source>
+        <target state="needs-translation">Description</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.user">
+        <source>User</source>
+        <target state="needs-translation">User</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.images">
+        <source>Images</source>
+        <target state="needs-translation">Images</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer">
+        <source>User</source>
+        <target state="needs-translation">User</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.name">
+        <source>Name</source>
+        <target state="needs-translation">Name</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.username">
+        <source>Username</source>
+        <target state="needs-translation">Username</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.email">
+        <source>E-Mail</source>
+        <target state="needs-translation">E-Mail</target>
+      </trans-unit>
+      <trans-unit id="noResults">
+        <source>No results found</source>
+        <target state="needs-translation">No results found</target>
+      </trans-unit>
+      <trans-unit id="noPosts">
+        <source>There are no posts to this topic yet.</source>
+        <target state="needs-translation">There are no posts to this topic yet.</target>
+      </trans-unit>
+      <trans-unit id="noTopics">
+        <source>There are no topics to this forum yet.</source>
+        <target state="needs-translation">There are no topics to this forum yet.</target>
+      </trans-unit>
+      <trans-unit id="noHiddenRecords">
+        <source>There are currently no activateable records available</source>
+        <target state="needs-translation">There are currently no activateable records available</target>
+      </trans-unit>
+      <trans-unit id="newTopic">
+        <source>Create new Topic</source>
+        <target state="needs-translation">Create new Topic</target>
+      </trans-unit>
+      <trans-unit id="topicCreated">
+        <source>Your new Topic was created.</source>
+        <target state="needs-translation">Your new Topic was created.</target>
+      </trans-unit>
+      <trans-unit id="hiddenTopicCreatedAndActivateByAdmin">
+        <source>New Topic was created, but must be reviewed by an administrator.</source>
+        <target state="needs-translation">New Topic was created, but must be reviewed by an administrator.</target>
+      </trans-unit>
+      <trans-unit id="hiddenTopicCreatedAndActivateByUser">
+        <source>New Topic was created. We have send an email to you to activate, edit and delete your topic.</source>
+        <target state="needs-translation">New Topic was created. We have send an email to you to activate, edit and delete your topic.</target>
+      </trans-unit>
+      <trans-unit id="topicUpdated">
+        <source>Topic was updated.</source>
+        <target state="needs-translation">Topic was updated.</target>
+      </trans-unit>
+      <trans-unit id="topicDeleted">
+        <source>Topic was deleted.</source>
+        <target state="needs-translation">Topic was deleted.</target>
+      </trans-unit>
+      <trans-unit id="newPost">
+        <source>Create new Post</source>
+        <target state="needs-translation">Create new Post</target>
+      </trans-unit>
+      <trans-unit id="postCreated">
+        <source>Your new Post was created.</source>
+        <target state="needs-translation">Your new Post was created.</target>
+      </trans-unit>
+      <trans-unit id="hiddenPostCreatedAndActivateByAdmin">
+        <source>New Topic was created, but must be reviewed by an administrator.</source>
+        <target state="needs-translation">New Topic was created, but must be reviewed by an administrator.</target>
+      </trans-unit>
+      <trans-unit id="hiddenPostCreatedAndActivateByUser">
+        <source>New Post was created. We have send an email to you to activate, edit and delete your post.</source>
+        <target state="needs-translation">New Post was created. We have send an email to you to activate, edit and delete your post.</target>
+      </trans-unit>
+      <trans-unit id="postUpdated">
+        <source>Post was updated.</source>
+        <target state="needs-translation">Post was updated.</target>
+      </trans-unit>
+      <trans-unit id="postDeleted">
+        <source>Post was deleted.</source>
+        <target state="needs-translation">Post was deleted.</target>
+      </trans-unit>
+      <trans-unit id="anonymous">
+        <source>Anonymous User</source>
+        <target state="needs-translation">Anonymous User</target>
+      </trans-unit>
+      <trans-unit id="activate">
+        <source>Activate</source>
+        <target state="needs-translation">Activate</target>
+      </trans-unit>
+      <trans-unit id="activateTopic">
+        <source>Activate Topic</source>
+        <target state="needs-translation">Activate Topic</target>
+      </trans-unit>
+      <trans-unit id="activatePost">
+        <source>Activate Post</source>
+        <target state="needs-translation">Activate Post</target>
+      </trans-unit>
+      <trans-unit id="editTopic">
+        <source>Edit Topic</source>
+        <target state="needs-translation">Edit Topic</target>
+      </trans-unit>
+      <trans-unit id="editPost">
+        <source>Edit Post</source>
+        <target state="needs-translation">Edit Post</target>
+      </trans-unit>
+      <trans-unit id="deleteTopic">
+        <source>Delete Topic</source>
+        <target state="needs-translation">Delete Topic</target>
+      </trans-unit>
+      <trans-unit id="deletePost">
+        <source>Delete Post</source>
+        <target state="needs-translation">Delete Post</target>
+      </trans-unit>
+      <trans-unit id="topicActivated">
+        <source>Topic was successfully activated</source>
+        <target state="needs-translation">Topic was successfully activated</target>
+      </trans-unit>
+      <trans-unit id="postActivated">
+        <source>Post was successfully activated</source>
+        <target state="needs-translation">Post was successfully activated</target>
+      </trans-unit>
+      <trans-unit id="preview">
+        <source>Preview</source>
+        <target state="needs-translation">Preview</target>
+      </trans-unit>
+      <trans-unit id="validator.anonymousUser.email">
+        <source>The email of user object is mandatory</source>
+        <target state="needs-translation">The email of user object is mandatory</target>
+      </trans-unit>
+      <trans-unit id="validator.anonymousUser.validEmail">
+        <source>The email of user object is not a valid email</source>
+        <target state="needs-translation">The email of user object is not a valid email</target>
+      </trans-unit>
+      <trans-unit id="validator.anonymousUser.username">
+        <source>The username of user object is mandatory</source>
+        <target state="needs-translation">The username of user object is mandatory</target>
+      </trans-unit>
+      <trans-unit id="email.topic.subject">
+        <source>Manage your newly created topic</source>
+        <target state="needs-translation">Manage your newly created topic</target>
+      </trans-unit>
+      <trans-unit id="email.post.subject">
+        <source>Manage your newly created post</source>
+        <target state="needs-translation">Manage your newly created post</target>
+      </trans-unit>
+      <trans-unit id="email.topic.text">
+        <source>You have created a new topic. Now you have following options</source>
+        <target state="needs-translation">You have created a new topic. Now you have following options</target>
+      </trans-unit>
+      <trans-unit id="email.post.text">
+        <source>You have created a new posting. Now you have following options</source>
+        <target state="needs-translation">You have created a new posting. Now you have following options</target>
+      </trans-unit>
+      <trans-unit id="error.activateFirst">
+        <source>Sorry. This entry can't be edited or deleted as long as this record was not activated first.</source>
+        <target state="needs-translation">Sorry. This entry can't be edited or deleted as long as this record was not activated first.</target>
+      </trans-unit>
+      <trans-unit id="from">
+        <source>from</source>
+        <target state="needs-translation">from</target>
+      </trans-unit>
+      <trans-unit id="save">
+        <source>save</source>
+        <target state="needs-translation">save</target>
+      </trans-unit>
+      <trans-unit id="reset">
+        <source>Reset</source>
+        <target state="needs-translation">Reset</target>
+      </trans-unit>
+      <trans-unit id="error.upload">
+        <source>Something went wrong with your uploaded files. Please try again. Error: </source>
+        <target state="needs-translation">Something went wrong with your uploaded files. Please try again. Error: </target>
+      </trans-unit>
+      <trans-unit id="error.fileExtension">
+        <source>You only can upload files with following file extensions: %1$s</source>
+        <target state="needs-translation">You only can upload files with following file extensions: %1$s</target>
+      </trans-unit>
+      <trans-unit id="mandatory">
+        <source>mandatory</source>
+        <target state="needs-translation">mandatory</target>
+      </trans-unit>
+      <trans-unit id="be.administrateForumRecords">
+        <source>Manage records of pforum</source>
+        <target state="needs-translation">Manage records of pforum</target>
+      </trans-unit>
+      <trans-unit id="be.administrateHiddenRecords">
+        <source>Hidden records</source>
+        <target state="needs-translation">Hidden records</target>
+      </trans-unit>
+      <trans-unit id="be.administrateTopicRecords">
+        <source>Manage hidden topics</source>
+        <target state="needs-translation">Manage hidden topics</target>
+      </trans-unit>
+      <trans-unit id="be.administratePostRecords">
+        <source>Manage hidden posts</source>
+        <target state="needs-translation">Manage hidden posts</target>
+      </trans-unit>
+      <trans-unit id="be.administrateRecords">
+        <source>Manage</source>
+        <target state="needs-translation">Manage</target>
+      </trans-unit>
+      <trans-unit id="be.administrateTopicRecords.description">
+        <source>If activated in TypoScript of pforum, new topics are hidden on creation. Within this BE module you can activate such records.</source>
+        <target state="needs-translation">If activated in TypoScript of pforum, new topics are hidden on creation. Within this BE module you can activate such records.</target>
+      </trans-unit>
+      <trans-unit id="be.administratePostRecords.description">
+        <source>If activated in TypoScript of pforum, new postings are hidden on creation. Within this BE module you can activate such records.</source>
+        <target state="needs-translation">If activated in TypoScript of pforum, new postings are hidden on creation. Within this BE module you can activate such records.</target>
+      </trans-unit>
+      <trans-unit id="be.noRecordsInStorage">
+        <source>Currently, there are no hidden records for selected record type.</source>
+        <target state="needs-translation">Currently, there are no hidden records for selected record type.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
