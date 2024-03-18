@@ -3,12 +3,12 @@
   <file source-language="en" datatype="plaintext" original="messages" date="2013-08-23T13:20:00Z" product-name="pforum" target-language="de">
     <header/>
     <body>
-      <trans-unit id="emailFromAddress" xml:space="preserve">
+      <trans-unit id="emailFromAddress" xml:space="preserve" approved="yes">
 				<source>FROM email address: The senders email address. If not given the extension tries to get one from installtool.</source>
-			<target state="needs-translation">FROM email address: The senders email address. If not given the extension tries to get one from installtool.</target></trans-unit>
-      <trans-unit id="emailFromName" xml:space="preserve">
+			<target state="final">E-Mail von Adresse: Die E-Mail-Adresse des Absenders. Falls nicht angegeben versucht die Erweiterung eine von INSTALL_TOOL zu erhalten.</target></trans-unit>
+      <trans-unit id="emailFromName" xml:space="preserve" approved="yes">
 				<source>FROM email name: The senders email name. If not given the extension tries to get one from installtool.</source>
-			<target state="needs-translation">FROM email name: The senders email name. If not given the extension tries to get one from installtool.</target></trans-unit>
+			<target state="final">E-Mail von Adresse: Die E-Mail-Adresse des Absenders. Falls nicht angegeben versucht die Erweiterung eine von INSTALL_TOOL zu erhalten.</target></trans-unit>
     </body>
   </file>
 </xliff>
