@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2013-08-32T14:44:32Z" product-name="pforum" target-language="de">
+    <header/>
+    <body>
+      <trans-unit id="tx_pforum_domain_model_forum" approved="yes">
+        <source>Forum</source>
+        <target state="final">Forum</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.title" approved="yes">
+        <source>Title</source>
+        <target state="final">Titel</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.teaser" approved="yes">
+        <source>Teaser</source>
+        <target state="final">Kurzbeschreibung</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.topics" approved="yes">
+        <source>Topics</source>
+        <target state="final">Themen</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic" approved="yes">
+        <source>Topic</source>
+        <target state="final">Thema</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.crdate" approved="yes">
+        <source>Creation date</source>
+        <target state="final">Erstelldatum</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.title" approved="yes">
+        <source>Title</source>
+        <target state="final">Titel</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.description" approved="yes">
+        <source>Description</source>
+        <target state="final">Beschreibung</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.posts" approved="yes">
+        <source>Posts</source>
+        <target state="final">Beiträge</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.user" approved="yes">
+        <source>User</source>
+        <target state="final">Benutzer</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.images" approved="yes">
+        <source>Images</source>
+        <target state="final">Bilder</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post" approved="yes">
+        <source>Post</source>
+        <target state="final">Beitrag</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.crdate" approved="yes">
+        <source>Creation date</source>
+        <target state="final">Erstelldatum</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.title" approved="yes">
+        <source>Title</source>
+        <target state="final">Titel</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.description" approved="yes">
+        <source>Description</source>
+        <target state="final">Beschreibung</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.user" approved="yes">
+        <source>User</source>
+        <target state="final">Benutzer</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.images" approved="yes">
+        <source>Images</source>
+        <target state="final">Bilder</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer" approved="yes">
+        <source>User</source>
+        <target state="final">Benutzer</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.name" approved="yes">
+        <source>Name</source>
+        <target state="final">Name</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.username" approved="yes">
+        <source>Username</source>
+        <target state="final">Benutzername</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.email" approved="yes">
+        <source>E-Mail</source>
+        <target state="final">E-Mail</target>
+      </trans-unit>
+      <trans-unit id="noResults" approved="yes">
+        <source>No results found</source>
+        <target state="final">Keine Ergebnisse gefunden</target>
+      </trans-unit>
+      <trans-unit id="noPosts" approved="yes">
+        <source>There are no posts to this topic yet.</source>
+        <target state="final">Für dieses Thema gibt es noch keine Beiträge.</target>
+      </trans-unit>
+      <trans-unit id="noTopics" approved="yes">
+        <source>There are no topics to this forum yet.</source>
+        <target state="final">In diesem Forum gibt es noch keine Themen.</target>
+      </trans-unit>
+      <trans-unit id="noHiddenRecords" approved="yes">
+        <source>There are currently no activateable records available</source>
+        <target state="final">Derzeit sind keine aktivierbaren Datensätze verfügbar</target>
+      </trans-unit>
+      <trans-unit id="newTopic" approved="yes">
+        <source>Create new Topic</source>
+        <target state="final">Erstelle ein neues Thema</target>
+      </trans-unit>
+      <trans-unit id="topicCreated" approved="yes">
+        <source>Your new Topic was created.</source>
+        <target state="final">Dein neues Thema wurde erstellt.</target>
+      </trans-unit>
+      <trans-unit id="hiddenTopicCreatedAndActivateByAdmin" approved="yes">
+        <source>New Topic was created, but must be reviewed by an administrator.</source>
+        <target state="final">Neues Thema wurde erstellt, muss aber von einem Administrator überprüft werden.</target>
+      </trans-unit>
+      <trans-unit id="hiddenTopicCreatedAndActivateByUser" approved="yes">
+        <source>New Topic was created. We have send an email to you to activate, edit and delete your topic.</source>
+        <target state="final">Neues Thema wurde erstellt. Wir haben dir eine E-Mail gesendet, um dein Thema zu aktivieren, zu bearbeiten und zu löschen.</target>
+      </trans-unit>
+      <trans-unit id="topicUpdated" approved="yes">
+        <source>Topic was updated.</source>
+        <target state="final">Thema wurde aktualisiert.</target>
+      </trans-unit>
+      <trans-unit id="topicDeleted" approved="yes">
+        <source>Topic was deleted.</source>
+        <target state="final">Thema wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit id="newPost" approved="yes">
+        <source>Create new Post</source>
+        <target state="final">Neuen Beitrag erstellen</target>
+      </trans-unit>
+      <trans-unit id="postCreated" approved="yes">
+        <source>Your new Post was created.</source>
+        <target state="final">Ihr neuer Beitrag wurde erstellt.</target>
+      </trans-unit>
+      <trans-unit id="hiddenPostCreatedAndActivateByAdmin" approved="yes">
+        <source>New Topic was created, but must be reviewed by an administrator.</source>
+        <target state="final">Neues Thema wurde erstellt, muss aber von einem Administrator überprüft werden.</target>
+      </trans-unit>
+      <trans-unit id="hiddenPostCreatedAndActivateByUser" approved="yes">
+        <source>New Post was created. We have send an email to you to activate, edit and delete your post.</source>
+        <target state="final">Neuer Beitrag wurde erstellt. Wir haben dir eine E-Mail gesendet, um deinen Beitrag zu aktivieren, zu bearbeiten und zu löschen.</target>
+      </trans-unit>
+      <trans-unit id="postUpdated" approved="yes">
+        <source>Post was updated.</source>
+        <target state="final">Beitrag wurde aktualisiert.</target>
+      </trans-unit>
+      <trans-unit id="postDeleted" approved="yes">
+        <source>Post was deleted.</source>
+        <target state="final">Beitrag wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit id="anonymous" approved="yes">
+        <source>Anonymous User</source>
+        <target state="final">Anonymer Benutzer</target>
+      </trans-unit>
+      <trans-unit id="activate" approved="yes">
+        <source>Activate</source>
+        <target state="final">Aktivieren</target>
+      </trans-unit>
+      <trans-unit id="activateTopic" approved="yes">
+        <source>Activate Topic</source>
+        <target state="final">Thema aktivieren</target>
+      </trans-unit>
+      <trans-unit id="activatePost" approved="yes">
+        <source>Activate Post</source>
+        <target state="final">Beitrag aktivieren</target>
+      </trans-unit>
+      <trans-unit id="editTopic" approved="yes">
+        <source>Edit Topic</source>
+        <target state="final">Thema bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="editPost" approved="yes">
+        <source>Edit Post</source>
+        <target state="final">Beitrag bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="deleteTopic" approved="yes">
+        <source>Delete Topic</source>
+        <target state="final">Thema löschen</target>
+      </trans-unit>
+      <trans-unit id="deletePost" approved="yes">
+        <source>Delete Post</source>
+        <target state="final">Beitrag löschen</target>
+      </trans-unit>
+      <trans-unit id="topicActivated" approved="yes">
+        <source>Topic was successfully activated</source>
+        <target state="final">Thema wurde erfolgreich aktiviert</target>
+      </trans-unit>
+      <trans-unit id="postActivated" approved="yes">
+        <source>Post was successfully activated</source>
+        <target state="final">Beitrag wurde erfolgreich aktiviert</target>
+      </trans-unit>
+      <trans-unit id="preview" approved="yes">
+        <source>Preview</source>
+        <target state="final">Vorschau</target>
+      </trans-unit>
+      <trans-unit id="validator.anonymousUser.email" approved="yes">
+        <source>The email of user object is mandatory</source>
+        <target state="final">Die E-Mail des Benutzers ist obligatorisch</target>
+      </trans-unit>
+      <trans-unit id="validator.anonymousUser.validEmail" approved="yes">
+        <source>The email of user object is not a valid email</source>
+        <target state="final">Die E-Mail des Benutzers ist keine gültige E-Mail</target>
+      </trans-unit>
+      <trans-unit id="validator.anonymousUser.username" approved="yes">
+        <source>The username of user object is mandatory</source>
+        <target state="final">Der Benutzername ist erforderlich</target>
+      </trans-unit>
+      <trans-unit id="email.topic.subject" approved="yes">
+        <source>Manage your newly created topic</source>
+        <target state="final">Verwalten Sie Ihren neue Eintrag</target>
+      </trans-unit>
+      <trans-unit id="email.post.subject" approved="yes">
+        <source>Manage your newly created post</source>
+        <target state="final">Verwalten Sie Ihren neu erstellten Beitrag</target>
+      </trans-unit>
+      <trans-unit id="email.topic.text" approved="yes">
+        <source>You have created a new topic. Now you have following options</source>
+        <target state="final">Sie haben ein neues Thema erstellt. Sie haben nun folgende Optionen</target>
+      </trans-unit>
+      <trans-unit id="email.post.text" approved="yes">
+        <source>You have created a new posting. Now you have following options</source>
+        <target state="final">Sie haben einen neuen Beitrag erstellt. Sie haben nun folgende Optionen</target>
+      </trans-unit>
+      <trans-unit id="error.activateFirst" approved="yes">
+        <source>Sorry. This entry can't be edited or deleted as long as this record was not activated first.</source>
+        <target state="final">Entschuldigung. Dieser Eintrag kann nicht bearbeitet oder gelöscht werden, solange dieser Eintrag nicht zuerst aktiviert wurde.</target>
+      </trans-unit>
+      <trans-unit id="from" approved="yes">
+        <source>from</source>
+        <target state="final">von</target>
+      </trans-unit>
+      <trans-unit id="save" approved="yes">
+        <source>save</source>
+        <target state="final">speichern</target>
+      </trans-unit>
+      <trans-unit id="reset" approved="yes">
+        <source>Reset</source>
+        <target state="final">Zurücksetzen</target>
+      </trans-unit>
+      <trans-unit id="error.upload" approved="yes">
+        <source>Something went wrong with your uploaded files. Please try again. Error: </source>
+        <target state="final">Etwas ist mit Ihren hochgeladenen Dateien schief gelaufen. Bitte versuchen Sie es erneut. Fehler: </target>
+      </trans-unit>
+      <trans-unit id="error.fileExtension" approved="yes">
+        <source>You only can upload files with following file extensions: %1$s</source>
+        <target state="final">Sie können nur Dateien mit folgenden Dateiendungen hochladen: %1$s</target>
+      </trans-unit>
+      <trans-unit id="mandatory" approved="yes">
+        <source>mandatory</source>
+        <target state="final">erforderlich</target>
+      </trans-unit>
+      <trans-unit id="be.administrateForumRecords" approved="yes">
+        <source>Manage records of pforum</source>
+        <target state="final">Datensätze von pforum verwalten</target>
+      </trans-unit>
+      <trans-unit id="be.administrateHiddenRecords" approved="yes">
+        <source>Hidden records</source>
+        <target state="final">Versteckte Datensätze</target>
+      </trans-unit>
+      <trans-unit id="be.administrateTopicRecords" approved="yes">
+        <source>Manage hidden topics</source>
+        <target state="final">Versteckte Themen verwalten</target>
+      </trans-unit>
+      <trans-unit id="be.administratePostRecords" approved="yes">
+        <source>Manage hidden posts</source>
+        <target state="final">Versteckte Beiträge verwalten</target>
+      </trans-unit>
+      <trans-unit id="be.administrateRecords" approved="yes">
+        <source>Manage</source>
+        <target state="final">Verwalten</target>
+      </trans-unit>
+      <trans-unit id="be.administrateTopicRecords.description" approved="yes">
+        <source>If activated in TypoScript of pforum, new topics are hidden on creation. Within this BE module you can activate such records.</source>
+        <target state="final">Wenn diese Option in der pforum TS Konfiguration aktiviert ist, werden neue Themen und Beiträge beim Erstellen versteckt.</target>
+      </trans-unit>
+      <trans-unit id="be.administratePostRecords.description" approved="yes">
+        <source>If activated in TypoScript of pforum, new postings are hidden on creation. Within this BE module you can activate such records.</source>
+        <target state="final">Wenn diese Option in der pforum TS Konfiguration aktiviert ist, werden neue Themen und Beiträge beim Erstellen versteckt.</target>
+      </trans-unit>
+      <trans-unit id="be.noRecordsInStorage" approved="yes">
+        <source>Currently, there are no hidden records for selected record type.</source>
+        <target state="final">Derzeit gibt es keine versteckten Datensätze für den ausgewählten Datensatztyp.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
