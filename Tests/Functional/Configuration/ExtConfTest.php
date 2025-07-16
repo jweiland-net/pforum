@@ -10,13 +10,12 @@
 namespace JWeiland\Pforum\Tests\Functional\Configuration;
 
 use JWeiland\Pforum\Configuration\ExtConf;
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * Test case
  */
-class ExtConfTest extends FunctionalTestCase
+class ExtConfTest extends \TYPO3\TestingFramework\Core\Functional\FunctionalTestCase
 {
     use ProphecyTrait;
 

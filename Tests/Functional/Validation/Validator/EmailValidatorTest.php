@@ -9,8 +9,8 @@
 
 namespace JWeiland\Pforum\Tests\Functional\Validation\Validator;
 
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 use JWeiland\Pforum\Validation\Validator\EmailValidator;
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use TYPO3\CMS\Core\Localization\LanguageService;

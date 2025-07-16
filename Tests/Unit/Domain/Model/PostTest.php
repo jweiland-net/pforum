@@ -9,8 +9,8 @@
 
 namespace JWeiland\Pforum\Tests\Unit\Domain\Model;
 
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use JWeiland\Pforum\Domain\Model\Post;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 /**

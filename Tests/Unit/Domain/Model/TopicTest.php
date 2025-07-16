@@ -9,9 +9,9 @@
 
 namespace JWeiland\Pforum\Tests\Unit\Domain\Model;
 
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
