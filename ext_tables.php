@@ -1,15 +1,18 @@
 <?php
-if (!defined('TYPO3_MODE')) {
+if (!defined('TYPO3')) {
     die('Access denied.');
 }
 
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+use JWeiland\Pforum\Controller\AdministrationController;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+
+ExtensionUtility::registerModule(
     'pforum',
     'web',
     'administration',
     '',
     [
-        \JWeiland\Pforum\Controller\AdministrationController::class => 'index, listHiddenTopics, listHiddenPosts, activateTopic, activatePost',
+        AdministrationController::class => 'index, listHiddenTopics, listHiddenPosts, activateTopic, activatePost',
     ],
     [
         'access' => 'user,group',
