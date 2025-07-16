@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Domain\Model;
 
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
@@ -22,8 +23,8 @@ class Forum extends AbstractEntity
 {
     /**
      * @var string
-     * @Extbase\Validate("NotEmpty")
      */
+    #[Extbase\Validate(['validator' => 'NotEmpty'])]
     protected $title = '';
 
     /**
@@ -32,9 +33,9 @@ class Forum extends AbstractEntity
     protected $teaser = '';
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\JWeiland\Pforum\Domain\Model\Topic>
-     * @Extbase\ORM\Lazy
+     * @var ObjectStorage<Topic>
      */
+    #[Lazy]
     protected $topics;
 
     public function __construct()

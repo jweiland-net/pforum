@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Domain\Model;
 
+use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
@@ -32,44 +34,44 @@ class Topic extends AbstractEntity
     protected $crdate;
 
     /**
-     * @var \JWeiland\Pforum\Domain\Model\Forum
+     * @var Forum
      */
     protected $forum;
 
     /**
      * @var string
-     * @Extbase\Validate("NotEmpty")
      */
+    #[Extbase\Validate(['validator' => 'NotEmpty'])]
     protected $title = '';
 
     /**
      * @var string
-     * @Extbase\Validate("NotEmpty")
      */
+    #[Extbase\Validate(['validator' => 'NotEmpty'])]
     protected $description = '';
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\JWeiland\Pforum\Domain\Model\Post>
-     * @Extbase\ORM\Cascade("remove")
-     * @Extbase\ORM\Lazy
+     * @var ObjectStorage<Post>
      */
+    #[Cascade(['value' => 'remove'])]
+    #[Lazy]
     protected $posts;
 
     /**
-     * @var \JWeiland\Pforum\Domain\Model\AnonymousUser
-     * @Extbase\ORM\Cascade("remove")
+     * @var AnonymousUser
      */
+    #[Cascade(['value' => 'remove'])]
     protected $anonymousUser;
 
     /**
-     * @var \JWeiland\Pforum\Domain\Model\FrontendUser
+     * @var FrontendUser
      */
     protected $frontendUser;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
-     * @Extbase\ORM\Lazy
+     * @var ObjectStorage<FileReference>
      */
+    #[Lazy]
     protected $images;
 
     public function __construct()

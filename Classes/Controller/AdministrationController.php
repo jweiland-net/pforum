@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Controller;
 
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use Psr\Http\Message\ResponseInterface;
 use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\Repository\PostRepository;
@@ -29,16 +31,6 @@ use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 class AdministrationController extends ActionController
 {
     /**
-     * @var BackendTemplateView
-     */
-    protected $view;
-
-    /**
-     * @var BackendTemplateView
-     */
-    protected $defaultViewObjectName = BackendTemplateView::class;
-
-    /**
      * @var TopicRepository
      */
     protected $topicRepository;
@@ -48,7 +40,7 @@ class AdministrationController extends ActionController
      */
     protected $postRepository;
 
-    public function __construct(TopicRepository $topicRepository, PostRepository $postRepository)
+    public function __construct(TopicRepository $topicRepository, PostRepository $postRepository, private ModuleTemplateFactory $moduleTemplateFactory)
     {
         $this->topicRepository = $topicRepository;
         $this->postRepository = $postRepository;
@@ -70,23 +62,25 @@ class AdministrationController extends ActionController
 
     protected function createDocheaderActionButtons(): void
     {
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         if (!in_array($this->actionMethodName, ['indexAction', 'listHiddenTopicsAction', 'listHiddenPostsAction'], true)) {
             return;
         }
 
-        $buttonBar = $this->view->getModuleTemplate()->getDocHeaderComponent()->getButtonBar();
+        $buttonBar = $moduleTemplate->getDocHeaderComponent()->getButtonBar();
         $uriBuilder = $this->controllerContext->getUriBuilder();
 
         $button = $buttonBar->makeLinkButton()
             ->setHref($uriBuilder->reset()->uriFor('index', [], 'Administration'))
             ->setTitle('Back')
-            ->setIcon($this->view->getModuleTemplate()->getIconFactory()->getIcon('actions-view-go-back', Icon::SIZE_SMALL));
+            ->setIcon($moduleTemplate->getIconFactory()->getIcon('actions-view-go-back', Icon::SIZE_SMALL));
         $buttonBar->addButton($button, ButtonBar::BUTTON_POSITION_LEFT);
     }
 
     protected function createShortcutButton(): void
     {
-        $buttonBar = $this->view->getModuleTemplate()->getDocHeaderComponent()->getButtonBar();
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $buttonBar = $moduleTemplate->getDocHeaderComponent()->getButtonBar();
 
         // Shortcut
         $shortcutButton = $buttonBar->makeShortcutButton()
@@ -96,18 +90,27 @@ class AdministrationController extends ActionController
         $buttonBar->addButton($shortcutButton, ButtonBar::BUTTON_POSITION_RIGHT);
     }
 
-    public function indexAction(): void
+    public function indexAction(): ResponseInterface
     {
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $moduleTemplate->setContent($this->view->render());
+        return $this->htmlResponse($moduleTemplate->renderContent());
     }
 
-    public function listHiddenTopicsAction(): void
+    public function listHiddenTopicsAction(): ResponseInterface
     {
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $this->view->assign('topics', $this->topicRepository->findAllHidden()->toArray());
+        $moduleTemplate->setContent($this->view->render());
+        return $this->htmlResponse($moduleTemplate->renderContent());
     }
 
-    public function listHiddenPostsAction(): void
+    public function listHiddenPostsAction(): ResponseInterface
     {
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $this->view->assign('posts', $this->postRepository->findAllHidden()->toArray());
+        $moduleTemplate->setContent($this->view->render());
+        return $this->htmlResponse($moduleTemplate->renderContent());
     }
 
     /**

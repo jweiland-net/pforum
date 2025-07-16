@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Controller;
 
+use Psr\Http\Message\ResponseInterface;
 use JWeiland\Pforum\Domain\Model\Forum;
 use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Helper\FrontendGroupHelper;
@@ -37,7 +38,7 @@ class TopicController extends AbstractController
         $this->frontendGroupHelper = $frontendGroupHelper;
     }
 
-    public function showAction(Topic $topic): void
+    public function showAction(Topic $topic): ResponseInterface
     {
         $posts = $this->postRepository->findByTopic($topic);
         if ($this->frontendGroupHelper->uidExistsInGroupData((int)($this->settings['uidOfAdminGroup'] ?? 0))) {
@@ -51,9 +52,10 @@ class TopicController extends AbstractController
             'topic' => $topic,
             'posts' => $posts,
         ]);
+        return $this->htmlResponse();
     }
 
-    public function newAction(Forum $forum): void
+    public function newAction(Forum $forum): ResponseInterface
     {
         $this->deleteUploadedFilesOnValidationErrors('topic');
 
@@ -61,6 +63,7 @@ class TopicController extends AbstractController
             'forum' => $forum,
             'topic' => GeneralUtility::makeInstance(Topic::class),
         ]);
+        return $this->htmlResponse();
     }
 
     /**
@@ -123,18 +126,19 @@ class TopicController extends AbstractController
      * @param bool $isPreview If is preview there will be an additional output above edit form
      * @param bool $isNew We need the information if updateAction was called from createAction.
      *                    If so we have to passthrough this information
-     * @Extbase\IgnoreValidation("topic")
      */
+    #[Extbase\IgnoreValidation(['value' => 'topic'])]
     public function editAction(
         Topic $topic = null,
         bool $isPreview = false,
         bool $isNew = false
-    ): void {
+    ): ResponseInterface {
         $this->postProcessAndAssignFluidVariables([
             'topic' => $topic,
             'isPreview' => $isPreview,
             'isNew' => $isNew,
         ]);
+        return $this->htmlResponse();
     }
 
     /**

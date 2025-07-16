@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Controller;
 
+use Psr\Http\Message\ResponseInterface;
 use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\Model\User;
@@ -29,12 +30,13 @@ class PostController extends AbstractController
     /**
      * @param Topic $topic
      * @param Post|null $post
-     * @Extbase\IgnoreValidation("post")
      */
-    public function newAction(Topic $topic, Post $post = null): void
+    #[Extbase\IgnoreValidation(['value' => 'post'])]
+    public function newAction(Topic $topic, Post $post = null): ResponseInterface
     {
         $this->view->assign('topic', $topic);
         $this->view->assign('post', $post);
+        return $this->htmlResponse();
     }
 
     /**
@@ -110,13 +112,14 @@ class PostController extends AbstractController
      * @param bool $isPreview
      * @param bool $isNew We need the information if updateAction was called from createAction.
      *                    If so we have to passthrough this information
-     * @Extbase\IgnoreValidation("post")
      */
-    public function editAction(Post $post = null, bool $isPreview = false, bool $isNew = false): void
+    #[Extbase\IgnoreValidation(['value' => 'post'])]
+    public function editAction(Post $post = null, bool $isPreview = false, bool $isNew = false): ResponseInterface
     {
         $this->view->assign('post', $post);
         $this->view->assign('isPreview', $isPreview);
         $this->view->assign('isNew', $isNew);
+        return $this->htmlResponse();
     }
 
     /**
