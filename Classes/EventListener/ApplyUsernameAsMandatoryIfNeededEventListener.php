@@ -24,11 +24,6 @@ use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
  */
 class ApplyUsernameAsMandatoryIfNeededEventListener extends AbstractControllerEventListener
 {
-    /**
-     * @var ObjectManagerInterface
-     */
-    protected $objectManager;
-
     protected $allowedControllerActions = [
         'Topic' => [
             'create',
@@ -40,10 +35,9 @@ class ApplyUsernameAsMandatoryIfNeededEventListener extends AbstractControllerEv
         ]
     ];
 
-    public function __construct(ObjectManagerInterface $objectManager)
-    {
-        $this->objectManager = $objectManager;
-    }
+    public function __construct(
+        protected readonly ValidatorResolver $validatorResolver
+    ) {}
 
     public function __invoke(PreProcessControllerActionEvent $controllerActionEvent): void
     {
