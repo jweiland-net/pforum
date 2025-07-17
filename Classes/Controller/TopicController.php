@@ -18,7 +18,7 @@ use JWeiland\Pforum\Helper\FrontendGroupHelper;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\Mailer;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -268,7 +268,7 @@ class TopicController extends AbstractController
             $this->addFlashMessage(
                 'You must be logged in before creating a topic',
                 '',
-                AbstractMessage::WARNING
+                ContextualFeedbackSeverity::WARNING
             );
             $this->redirect('show', 'Forum', 'Pforum', ['forum' => $forum]);
         }

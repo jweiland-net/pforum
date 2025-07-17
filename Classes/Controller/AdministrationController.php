@@ -21,40 +21,29 @@ use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\View\BackendTemplateView;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Imaging\Icon;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use TYPO3Fluid\Fluid\View\TemplateAwareViewInterface;
 
 /**
  * Main controller to list and show postings/questions
  */
 class AdministrationController extends ActionController
 {
-    /**
-     * @var TopicRepository
-     */
-    protected $topicRepository;
-
-    /**
-     * @var PostRepository
-     */
-    protected $postRepository;
-
-    public function __construct(TopicRepository $topicRepository, PostRepository $postRepository, private ModuleTemplateFactory $moduleTemplateFactory)
-    {
-        $this->topicRepository = $topicRepository;
-        $this->postRepository = $postRepository;
-    }
+    public function __construct(
+        private readonly TopicRepository $topicRepository,
+        private readonly PostRepository $postRepository,
+        private readonly ModuleTemplateFactory $moduleTemplateFactory
+    ) {}
 
     /**
      * Set up the doc header properly here
      */
-    protected function initializeView(ViewInterface $view): void
+    protected function initializeView($view): void
     {
-        if ($view instanceof BackendTemplateView) {
-            parent::initializeView($view);
+        if ($view instanceof TemplateAwareViewInterface) {
             //$view->getModuleTemplate()->getDocHeaderComponent()->setMetaInformation([]);
-
             $this->createDocheaderActionButtons();
             $this->createShortcutButton();
         }
@@ -123,7 +112,7 @@ class AdministrationController extends ActionController
         $this->addFlashMessage(
             'Topic "' . $record->getTitle() . '" was activated.',
             'Topic activated',
-            AbstractMessage::INFO
+            ContextualFeedbackSeverity::INFO
         );
         $this->redirect('listHiddenTopics');
     }
@@ -138,7 +127,7 @@ class AdministrationController extends ActionController
         $this->addFlashMessage(
             'Post "' . $record->getTitle() . '" was activated.',
             'Post activated',
-            AbstractMessage::INFO
+            ContextualFeedbackSeverity::INFO
         );
         $this->redirect('listHiddenPosts');
     }

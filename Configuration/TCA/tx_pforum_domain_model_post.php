@@ -160,12 +160,11 @@ return [
         'images' => [
             'exclude' => true,
             'label' => 'LLL:EXT:pforum/Resources/Private/Language/locallang_db.xlf:tx_pforum_domain_model_post.images',
-            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
-                'images', [
-                    'minitems' => 0,
-                    'maxitems' => 5,
-                ]
-            ),
+            'config' => [
+                'type' => 'file',
+                'minitems' => 0,
+                'maxitems' => 5,
+            ],
         ],
         'topic' => [
             'config' => [
