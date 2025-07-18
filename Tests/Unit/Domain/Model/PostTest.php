@@ -17,10 +17,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  */
 class PostTest extends UnitTestCase
 {
-    /**
-     * @var Post
-     */
-    protected $subject;
+    protected Post $subject;
 
     protected function setUp(): void
     {

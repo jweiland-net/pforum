@@ -19,10 +19,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  */
 class TopicTest extends UnitTestCase
 {
-    /**
-     * @var Topic
-     */
-    protected $subject;
+    protected Topic $subject;
 
     protected function setUp(): void
     {

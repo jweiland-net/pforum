@@ -10,8 +10,6 @@
 namespace JWeiland\Pforum\Tests\Functional\Validation\Validator;
 
 use JWeiland\Pforum\Validation\Validator\EmailValidator;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
@@ -25,23 +23,12 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
  */
 class EmailValidatorTest extends FunctionalTestCase
 {
-    use ProphecyTrait;
+    protected EmailValidator $subject;
 
-    /**
-     * @var EmailValidator
-     */
-    protected $subject;
+    protected ConfigurationManagerInterface $configurationManagerProphecy;
 
-    /**
-     * @var ConfigurationManagerInterface|ObjectProphecy
-     */
-    protected $configurationManagerProphecy;
-
-    /**
-     * @var array
-     */
-    protected $testExtensionsToLoad = [
-        'typo3conf/ext/pforum',
+    protected array $testExtensionsToLoad = [
+        'jweiland/pforum',
     ];
 
     protected function setUp(): void

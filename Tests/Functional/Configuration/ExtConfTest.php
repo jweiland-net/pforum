@@ -10,25 +10,16 @@
 namespace JWeiland\Pforum\Tests\Functional\Configuration;
 
 use JWeiland\Pforum\Configuration\ExtConf;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * Test case
  */
 class ExtConfTest extends \TYPO3\TestingFramework\Core\Functional\FunctionalTestCase
 {
-    use ProphecyTrait;
+    protected ExtConf $subject;
 
-    /**
-     * @var ExtConf
-     */
-    protected $subject;
-
-    /**
-     * @var array
-     */
-    protected $testExtensionsToLoad = [
-        'typo3conf/ext/pforum',
+    protected array $testExtensionsToLoad = [
+        'jweiland/pforum',
     ];
 
     protected function setUp(): void
