@@ -85,7 +85,7 @@ class TopicController extends AbstractController
         $this->forumRepository->update($forum);
 
         // if a preview was requested direct to preview action
-        if ($this->controllerContext->getRequest()->hasArgument('preview')) {
+        if ($this->request->hasArgument('preview')) {
             $topic->setHidden(true); // topic should not be visible while previewing
             $this->persistenceManager->persistAll(); // we need an uid before redirecting
             $this->redirect(
@@ -161,7 +161,7 @@ class TopicController extends AbstractController
         $this->topicRepository->update($topic);
 
         // if a preview was requested direct to preview action
-        if ($this->controllerContext->getRequest()->hasArgument('preview')) {
+        if ($this->request->hasArgument('preview')) {
             $topic->setHidden(true);
             $this->redirect(
                 'edit',
