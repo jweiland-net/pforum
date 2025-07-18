@@ -23,56 +23,35 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
  */
 class Topic extends AbstractEntity
 {
-    /**
-     * @var bool
-     */
-    protected $hidden = false;
+    protected bool $hidden = false;
 
-    /**
-     * @var \DateTime
-     */
-    protected $crdate;
+    protected \DateTime $crdate;
 
-    /**
-     * @var Forum
-     */
-    protected $forum;
+    protected Forum $forum;
 
-    /**
-     * @var string
-     */
     #[Extbase\Validate(['validator' => 'NotEmpty'])]
-    protected $title = '';
+    protected string $title = '';
 
-    /**
-     * @var string
-     */
     #[Extbase\Validate(['validator' => 'NotEmpty'])]
-    protected $description = '';
+    protected string $description = '';
 
     /**
      * @var ObjectStorage<Post>
      */
     #[Cascade(['value' => 'remove'])]
     #[Lazy]
-    protected $posts;
+    protected ObjectStorage $posts;
 
-    /**
-     * @var AnonymousUser
-     */
     #[Cascade(['value' => 'remove'])]
-    protected $anonymousUser;
+    protected AnonymousUser $anonymousUser;
 
-    /**
-     * @var FrontendUser
-     */
-    protected $frontendUser;
+    protected FrontendUser $frontendUser;
 
     /**
      * @var ObjectStorage<FileReference>
      */
     #[Lazy]
-    protected $images;
+    protected ObjectStorage $images;
 
     public function __construct()
     {

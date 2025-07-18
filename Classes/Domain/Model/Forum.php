@@ -21,22 +21,16 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
  */
 class Forum extends AbstractEntity
 {
-    /**
-     * @var string
-     */
     #[Extbase\Validate(['validator' => 'NotEmpty'])]
-    protected $title = '';
+    protected string $title = '';
 
-    /**
-     * @var string
-     */
-    protected $teaser = '';
+    protected string $teaser = '';
 
     /**
      * @var ObjectStorage<Topic>
      */
     #[Lazy]
-    protected $topics;
+    protected ObjectStorage $topics;
 
     public function __construct()
     {

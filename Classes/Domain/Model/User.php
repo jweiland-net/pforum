@@ -21,22 +21,13 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  */
 class User extends AbstractEntity
 {
-    /**
-     * @var string
-     */
-    protected $name = '';
+    protected string $name = '';
 
-    /**
-     * @var string
-     */
     #[Extbase\Validate(['validator' => UsernameValidator::class])]
-    protected $username = '';
+    protected string $username = '';
 
-    /**
-     * @var string
-     */
     #[Extbase\Validate(['validator' => EmailValidator::class])]
-    protected $email = '';
+    protected string $email = '';
 
     public function getName(): string
     {
