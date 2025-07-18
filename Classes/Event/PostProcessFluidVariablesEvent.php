@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/pforum.
+ * This file is part of the package jweiland/telephonedirectory.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -37,7 +37,7 @@ class PostProcessFluidVariablesEvent implements ControllerActionEventInterface
     public function __construct(
         Request $request,
         array $settings,
-        array $fluidVariables
+        array $fluidVariables,
     ) {
         $this->request = $request;
         $this->settings = $settings;

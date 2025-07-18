@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the package jweiland/pforum.
+ * This file is part of the package jweiland/telephonedirectory.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -9,7 +9,6 @@
 
 namespace JWeiland\Pforum\Tests\Functional\Validation\Validator;
 
-use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 use JWeiland\Pforum\Validation\Validator\EmailValidator;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -19,6 +18,7 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Error\Result;
 use TYPO3\CMS\Extbase\Validation\Error;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
  * Test case
@@ -41,7 +41,7 @@ class EmailValidatorTest extends FunctionalTestCase
      * @var array
      */
     protected $testExtensionsToLoad = [
-        'typo3conf/ext/pforum'
+        'typo3conf/ext/pforum',
     ];
 
     protected function setUp(): void
@@ -68,7 +68,7 @@ class EmailValidatorTest extends FunctionalTestCase
 
         self::assertEquals(
             new Result(),
-            $this->subject->validate('hello')
+            $this->subject->validate('hello'),
         );
     }
 
@@ -81,7 +81,7 @@ class EmailValidatorTest extends FunctionalTestCase
 
         self::assertEquals(
             new Result(),
-            $this->subject->validate(123)
+            $this->subject->validate(123),
         );
     }
 
@@ -94,7 +94,7 @@ class EmailValidatorTest extends FunctionalTestCase
 
         self::assertEquals(
             new Result(),
-            $this->subject->validate('info@example.com')
+            $this->subject->validate('info@example.com'),
         );
     }
 
@@ -109,13 +109,13 @@ class EmailValidatorTest extends FunctionalTestCase
         $expectedResult->addError(
             new Error(
                 'The email of user object is mandatory',
-                1378288238
-            )
+                1378288238,
+            ),
         );
 
         self::assertEquals(
             $expectedResult,
-            $this->subject->validate('')
+            $this->subject->validate(''),
         );
     }
 
@@ -130,13 +130,13 @@ class EmailValidatorTest extends FunctionalTestCase
         $expectedResult->addError(
             new Error(
                 'The email of user object is not a valid email',
-                1457431804
-            )
+                1457431804,
+            ),
         );
 
         self::assertEquals(
             $expectedResult,
-            $this->subject->validate('hello')
+            $this->subject->validate('hello'),
         );
     }
 
@@ -146,11 +146,11 @@ class EmailValidatorTest extends FunctionalTestCase
             ->getConfiguration(
                 ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
                 'pforum',
-                'forum'
+                'forum',
             )
             ->shouldBeCalled()
             ->willReturn([
-                'emailIsMandatory' => $isMandatory ? '1' : '0'
+                'emailIsMandatory' => $isMandatory ? '1' : '0',
             ]);
         $this->subject->injectConfigurationManager($this->configurationManagerProphecy->reveal());
     }

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the package jweiland/pforum.
+ * This file is part of the package jweiland/telephonedirectory.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -28,7 +28,7 @@ class ExtConfTest extends \TYPO3\TestingFramework\Core\Functional\FunctionalTest
      * @var array
      */
     protected $testExtensionsToLoad = [
-        'typo3conf/ext/pforum'
+        'typo3conf/ext/pforum',
     ];
 
     protected function setUp(): void
@@ -64,7 +64,7 @@ class ExtConfTest extends \TYPO3\TestingFramework\Core\Functional\FunctionalTest
         $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'] = $email;
         self::assertSame(
             $email,
-            $this->subject->getEmailFromAddress()
+            $this->subject->getEmailFromAddress(),
         );
     }
 
@@ -78,7 +78,7 @@ class ExtConfTest extends \TYPO3\TestingFramework\Core\Functional\FunctionalTest
 
         self::assertSame(
             $email,
-            $this->subject->getEmailFromAddress()
+            $this->subject->getEmailFromAddress(),
         );
     }
 
@@ -100,7 +100,7 @@ class ExtConfTest extends \TYPO3\TestingFramework\Core\Functional\FunctionalTest
         $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'] = $name;
         self::assertSame(
             $name,
-            $this->subject->getEmailFromName()
+            $this->subject->getEmailFromName(),
         );
     }
 
@@ -114,7 +114,7 @@ class ExtConfTest extends \TYPO3\TestingFramework\Core\Functional\FunctionalTest
 
         self::assertSame(
             $name,
-            $this->subject->getEmailFromName()
+            $this->subject->getEmailFromName(),
         );
     }
 }

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/pforum.
+ * This file is part of the package jweiland/telephonedirectory.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -11,14 +11,14 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Controller;
 
-use TYPO3\CMS\Backend\Template\ModuleTemplate;
-use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
-use Psr\Http\Message\ResponseInterface;
 use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\Repository\PostRepository;
 use JWeiland\Pforum\Domain\Repository\TopicRepository;
+use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
@@ -116,7 +116,7 @@ class AdministrationController extends ActionController
         $this->addFlashMessage(
             'Topic "' . $record->getTitle() . '" was activated.',
             'Topic activated',
-            ContextualFeedbackSeverity::INFO
+            ContextualFeedbackSeverity::INFO,
         );
 
         return $this->redirect('listHiddenTopics');
@@ -129,7 +129,7 @@ class AdministrationController extends ActionController
         $this->addFlashMessage(
             'Post "' . $record->getTitle() . '" was activated.',
             'Post activated',
-            ContextualFeedbackSeverity::INFO
+            ContextualFeedbackSeverity::INFO,
         );
 
         return $this->redirect('listHiddenPosts');

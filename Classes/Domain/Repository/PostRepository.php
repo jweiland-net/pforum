@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/pforum.
+ * This file is part of the package jweiland/telephonedirectory.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -36,7 +36,7 @@ class PostRepository extends Repository implements HiddenRepositoryInterface
         $query = $this->createQuery();
         $query->setOrderings([
             'title' => QueryInterface::ORDER_ASCENDING,
-            'description' => QueryInterface::ORDER_ASCENDING
+            'description' => QueryInterface::ORDER_ASCENDING,
         ]);
 
         return $query->matching($query->equals('hidden', 1))->execute();

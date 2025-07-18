@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/pforum.
+ * This file is part of the package jweiland/telephonedirectory.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -53,12 +53,12 @@ class PostCheckFileReferenceEvent
         array $source,
         int $key,
         ?FileReference $alreadyPersistedImage,
-        array $uploadedFile
+        array $uploadedFile,
     ) {
         $this->source = $source;
         $this->key = $key;
         $this->alreadyPersistedImage = $alreadyPersistedImage;
-        $this->uploadedFile= $uploadedFile;
+        $this->uploadedFile = $uploadedFile;
     }
 
     public function getSource(): array

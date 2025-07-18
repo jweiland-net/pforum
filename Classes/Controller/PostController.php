@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/pforum.
+ * This file is part of the package jweiland/telephonedirectory.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -11,10 +11,10 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Controller;
 
-use Psr\Http\Message\ResponseInterface;
 use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\Model\User;
+use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\Mailer;
@@ -61,7 +61,7 @@ class PostController extends AbstractController
                 'edit',
                 'Post',
                 'Pforum',
-                ['post' => $post, 'isPreview' => true, 'isNew' => true]
+                ['post' => $post, 'isPreview' => true, 'isNew' => true],
             );
         }
 
@@ -145,7 +145,7 @@ class PostController extends AbstractController
                 'edit',
                 'Post',
                 'Pforum',
-                ['post' => $post, 'isPreview' => true, 'isNew' => $isNew]
+                ['post' => $post, 'isPreview' => true, 'isNew' => $isNew],
             );
         } else {
             if ($isNew) {
@@ -261,7 +261,7 @@ class PostController extends AbstractController
     {
         if (is_array($GLOBALS['TSFE']->fe_user->user) && $GLOBALS['TSFE']->fe_user->user['uid']) {
             $user = $this->frontendUserRepository->findByUid(
-                (int)$GLOBALS['TSFE']->fe_user->user['uid']
+                (int)$GLOBALS['TSFE']->fe_user->user['uid'],
             );
             $post->setFrontendUser($user);
         } else {
@@ -292,17 +292,17 @@ class PostController extends AbstractController
         if ($this->settings['post']['hideAtCreation']) {
             if ($this->settings['post']['activateByAdmin']) {
                 $this->addFlashMessage(
-                    LocalizationUtility::translate('hiddenPostCreatedAndActivateByAdmin', 'pforum')
+                    LocalizationUtility::translate('hiddenPostCreatedAndActivateByAdmin', 'pforum'),
                 );
             } else {
                 $this->addFlashMessage(
-                    LocalizationUtility::translate('hiddenPostCreatedAndActivateByUser', 'pforum')
+                    LocalizationUtility::translate('hiddenPostCreatedAndActivateByUser', 'pforum'),
                 );
             }
         } else {
             // if topic is not hidden at creation there is no need to activate it by admin
             $this->addFlashMessage(
-                LocalizationUtility::translate('postCreated', 'pforum')
+                LocalizationUtility::translate('postCreated', 'pforum'),
             );
         }
     }

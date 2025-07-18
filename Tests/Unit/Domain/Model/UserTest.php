@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the package jweiland/pforum.
+ * This file is part of the package jweiland/telephonedirectory.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -9,9 +9,9 @@
 
 namespace JWeiland\Pforum\Tests\Unit\Domain\Model;
 
-use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use JWeiland\Pforum\Domain\Model\User;
 use Prophecy\PhpUnit\ProphecyTrait;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test case
@@ -42,7 +42,7 @@ class UserTest extends UnitTestCase
     {
         self::assertSame(
             '',
-            $this->subject->getName()
+            $this->subject->getName(),
         );
     }
 
@@ -55,7 +55,7 @@ class UserTest extends UnitTestCase
 
         self::assertSame(
             'foo bar',
-            $this->subject->getName()
+            $this->subject->getName(),
         );
     }
 
@@ -84,7 +84,7 @@ class UserTest extends UnitTestCase
     {
         self::assertSame(
             '',
-            $this->subject->getUsername()
+            $this->subject->getUsername(),
         );
     }
 
@@ -97,7 +97,7 @@ class UserTest extends UnitTestCase
 
         self::assertSame(
             'foo bar',
-            $this->subject->getUsername()
+            $this->subject->getUsername(),
         );
     }
 
@@ -126,7 +126,7 @@ class UserTest extends UnitTestCase
     {
         self::assertSame(
             '',
-            $this->subject->getEmail()
+            $this->subject->getEmail(),
         );
     }
 
@@ -139,7 +139,7 @@ class UserTest extends UnitTestCase
 
         self::assertSame(
             'foo bar',
-            $this->subject->getEmail()
+            $this->subject->getEmail(),
         );
     }
 

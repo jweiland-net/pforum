@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the package jweiland/pforum.
+ * This file is part of the package jweiland/telephonedirectory.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -9,7 +9,6 @@
 
 namespace JWeiland\Pforum\Tests\Functional\Validation\Validator;
 
-use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 use JWeiland\Pforum\Validation\Validator\UsernameValidator;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -19,6 +18,7 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Error\Result;
 use TYPO3\CMS\Extbase\Validation\Error;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
  * Test case
@@ -41,7 +41,7 @@ class UsernameValidatorTest extends FunctionalTestCase
      * @var array
      */
     protected $testExtensionsToLoad = [
-        'typo3conf/ext/pforum'
+        'typo3conf/ext/pforum',
     ];
 
     protected function setUp(): void
@@ -68,7 +68,7 @@ class UsernameValidatorTest extends FunctionalTestCase
 
         self::assertEquals(
             new Result(),
-            $this->subject->validate('')
+            $this->subject->validate(''),
         );
     }
 
@@ -81,7 +81,7 @@ class UsernameValidatorTest extends FunctionalTestCase
 
         self::assertEquals(
             new Result(),
-            $this->subject->validate(123)
+            $this->subject->validate(123),
         );
     }
 
@@ -94,7 +94,7 @@ class UsernameValidatorTest extends FunctionalTestCase
 
         self::assertEquals(
             new Result(),
-            $this->subject->validate('stefan')
+            $this->subject->validate('stefan'),
         );
     }
 
@@ -109,13 +109,13 @@ class UsernameValidatorTest extends FunctionalTestCase
         $expectedResult->addError(
             new Error(
                 'The username of user object is mandatory',
-                1378304890
-            )
+                1378304890,
+            ),
         );
 
         self::assertEquals(
             $expectedResult,
-            $this->subject->validate('')
+            $this->subject->validate(''),
         );
     }
 
@@ -125,11 +125,11 @@ class UsernameValidatorTest extends FunctionalTestCase
             ->getConfiguration(
                 ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
                 'pforum',
-                'forum'
+                'forum',
             )
             ->shouldBeCalled()
             ->willReturn([
-                'usernameIsMandatory' => $isMandatory ? '1' : '0'
+                'usernameIsMandatory' => $isMandatory ? '1' : '0',
             ]);
         $this->subject->injectConfigurationManager($this->configurationManagerProphecy->reveal());
     }

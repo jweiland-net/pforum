@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/pforum.
+ * This file is part of the package jweiland/telephonedirectory.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -116,10 +116,10 @@ class AbstractController extends ActionController
         $tsSettings = $this->configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
             'pforum',
-            'doNotLoadFlexFormSettings'
+            'doNotLoadFlexFormSettings',
         );
         $mergedSettings = $this->configurationManager->getConfiguration(
-            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
         );
 
         foreach ($mergedSettings as $key => $value) {
@@ -154,7 +154,7 @@ class AbstractController extends ActionController
             throw new \RuntimeException(
                 'You can\'t hide topics at creation, deactivate admin activation and mark email as NOT mandatory.' .
                 'This would produce hidden records which will never be visible',
-                1378371532
+                1378371532,
             );
         }
         if (
@@ -165,7 +165,7 @@ class AbstractController extends ActionController
             throw new \RuntimeException(
                 'You can\'t hide posts at creation, deactivate admin activation and mark email ' .
                 'as NOT mandatory. This would produce hidden records which will never be visible',
-                1378371541
+                1378371541,
             );
         }
     }
@@ -193,8 +193,8 @@ class AbstractController extends ActionController
             new PostProcessFluidVariablesEvent(
                 $this->request,
                 $this->settings,
-                $variables
-            )
+                $variables,
+            ),
         );
 
         $this->view->assignMultiple($event->getFluidVariables());
@@ -206,8 +206,8 @@ class AbstractController extends ActionController
             new PreProcessControllerActionEvent(
                 $this->request,
                 $this->arguments,
-                $this->settings
-            )
+                $this->settings,
+            ),
         );
     }
 }

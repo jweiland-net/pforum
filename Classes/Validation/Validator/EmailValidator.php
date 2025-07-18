@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/pforum.
+ * This file is part of the package jweiland/telephonedirectory.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -34,12 +34,12 @@ class EmailValidator extends AbstractValidator
             if ($value === '') {
                 $this->addError(
                     LocalizationUtility::translate('validator.anonymousUser.email', 'pforum'),
-                    1378288238
+                    1378288238,
                 );
             } elseif (!GeneralUtility::validEmail($value)) {
                 $this->addError(
                     LocalizationUtility::translate('validator.anonymousUser.validEmail', 'pforum'),
-                    1457431804
+                    1457431804,
                 );
             }
         }

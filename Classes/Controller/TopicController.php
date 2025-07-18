@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/pforum.
+ * This file is part of the package jweiland/telephonedirectory.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -11,10 +11,10 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Controller;
 
-use Psr\Http\Message\ResponseInterface;
 use JWeiland\Pforum\Domain\Model\Forum;
 use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Helper\FrontendGroupHelper;
+use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\Mailer;
@@ -92,7 +92,7 @@ class TopicController extends AbstractController
                 'edit',
                 'Topic',
                 'Pforum',
-                ['topic' => $topic, 'isPreview' => true, 'isNew' => true]
+                ['topic' => $topic, 'isPreview' => true, 'isNew' => true],
             );
         }
 
@@ -131,7 +131,7 @@ class TopicController extends AbstractController
     public function editAction(
         Topic $topic = null,
         bool $isPreview = false,
-        bool $isNew = false
+        bool $isNew = false,
     ): ResponseInterface {
         $this->postProcessAndAssignFluidVariables([
             'topic' => $topic,
@@ -167,7 +167,7 @@ class TopicController extends AbstractController
                 'edit',
                 'Topic',
                 'Pforum',
-                ['topic' => $topic, 'isPreview' => true, 'isNew' => $isNew]
+                ['topic' => $topic, 'isPreview' => true, 'isNew' => $isNew],
             );
         } else {
             if ($isNew) {
@@ -260,7 +260,7 @@ class TopicController extends AbstractController
     {
         if (is_array($GLOBALS['TSFE']->fe_user->user) && $GLOBALS['TSFE']->fe_user->user['uid']) {
             $user = $this->frontendUserRepository->findByUid(
-                (int)$GLOBALS['TSFE']->fe_user->user['uid']
+                (int)$GLOBALS['TSFE']->fe_user->user['uid'],
             );
             $topic->setFrontendUser($user);
         } else {
@@ -268,7 +268,7 @@ class TopicController extends AbstractController
             $this->addFlashMessage(
                 'You must be logged in before creating a topic',
                 '',
-                ContextualFeedbackSeverity::WARNING
+                ContextualFeedbackSeverity::WARNING,
             );
             $this->redirect('show', 'Forum', 'Pforum', ['forum' => $forum]);
         }
@@ -295,17 +295,17 @@ class TopicController extends AbstractController
         if ($this->settings['topic']['hideAtCreation']) {
             if ($this->settings['topic']['activateByAdmin']) {
                 $this->addFlashMessage(
-                    LocalizationUtility::translate('hiddenTopicCreatedAndActivateByAdmin', 'pforum')
+                    LocalizationUtility::translate('hiddenTopicCreatedAndActivateByAdmin', 'pforum'),
                 );
             } else {
                 $this->addFlashMessage(
-                    LocalizationUtility::translate('hiddenTopicCreatedAndActivateByUser', 'pforum')
+                    LocalizationUtility::translate('hiddenTopicCreatedAndActivateByUser', 'pforum'),
                 );
             }
         } else {
             // if topic is not hidden at creation there is no need to activate it by admin
             $this->addFlashMessage(
-                LocalizationUtility::translate('topicCreated', 'pforum')
+                LocalizationUtility::translate('topicCreated', 'pforum'),
             );
         }
     }
