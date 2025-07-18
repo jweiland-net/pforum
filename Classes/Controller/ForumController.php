@@ -20,10 +20,7 @@ use JWeiland\Pforum\Helper\FrontendGroupHelper;
  */
 class ForumController extends AbstractController
 {
-    /**
-     * @var FrontendGroupHelper
-     */
-    protected $frontendGroupHelper;
+    protected FrontendGroupHelper $frontendGroupHelper;
 
     public function injectFrontendGroupHelper(FrontendGroupHelper $frontendGroupHelper): void
     {
@@ -33,8 +30,9 @@ class ForumController extends AbstractController
     public function listAction(): ResponseInterface
     {
         $this->postProcessAndAssignFluidVariables([
-            'forums' => $this->forumRepository->findAll()
+            'forums' => $this->forumRepository->findAll(),
         ]);
+
         return $this->htmlResponse();
     }
 
@@ -52,6 +50,7 @@ class ForumController extends AbstractController
             'forum' => $forum,
             'topics' => $topics,
         ]);
+
         return $this->htmlResponse();
     }
 }
