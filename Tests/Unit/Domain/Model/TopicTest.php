@@ -11,7 +11,6 @@ namespace JWeiland\Pforum\Tests\Unit\Domain\Model;
 
 use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
-use Prophecy\PhpUnit\ProphecyTrait;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -20,8 +19,6 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  */
 class TopicTest extends UnitTestCase
 {
-    use ProphecyTrait;
-
     /**
      * @var Topic
      */

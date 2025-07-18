@@ -10,7 +10,6 @@
 namespace JWeiland\Pforum\Tests\Unit\Domain\Model;
 
 use JWeiland\Pforum\Domain\Model\User;
-use Prophecy\PhpUnit\ProphecyTrait;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -18,8 +17,6 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  */
 class UserTest extends UnitTestCase
 {
-    use ProphecyTrait;
-
     /**
      * @var User
      */

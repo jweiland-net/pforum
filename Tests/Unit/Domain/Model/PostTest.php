@@ -10,7 +10,6 @@
 namespace JWeiland\Pforum\Tests\Unit\Domain\Model;
 
 use JWeiland\Pforum\Domain\Model\Post;
-use Prophecy\PhpUnit\ProphecyTrait;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -18,8 +17,6 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  */
 class PostTest extends UnitTestCase
 {
-    use ProphecyTrait;
-
     /**
      * @var Post
      */
