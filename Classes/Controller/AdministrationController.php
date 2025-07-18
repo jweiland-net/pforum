@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Controller;
 
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use Psr\Http\Message\ResponseInterface;
 use JWeiland\Pforum\Domain\Model\Post;
@@ -18,12 +19,11 @@ use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\Repository\PostRepository;
 use JWeiland\Pforum\Domain\Repository\TopicRepository;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
-use TYPO3\CMS\Backend\View\BackendTemplateView;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3Fluid\Fluid\View\TemplateAwareViewInterface;
 
 /**
@@ -31,10 +31,13 @@ use TYPO3Fluid\Fluid\View\TemplateAwareViewInterface;
  */
 class AdministrationController extends ActionController
 {
+    private ModuleTemplate $moduleTemplate;
+
     public function __construct(
         private readonly TopicRepository $topicRepository,
         private readonly PostRepository $postRepository,
-        private readonly ModuleTemplateFactory $moduleTemplateFactory
+        private readonly ModuleTemplateFactory $moduleTemplateFactory,
+        private readonly IconFactory $iconFactory,
     ) {}
 
     /**
@@ -51,61 +54,62 @@ class AdministrationController extends ActionController
 
     protected function createDocheaderActionButtons(): void
     {
-        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         if (!in_array($this->actionMethodName, ['indexAction', 'listHiddenTopicsAction', 'listHiddenPostsAction'], true)) {
             return;
         }
-
-        $buttonBar = $moduleTemplate->getDocHeaderComponent()->getButtonBar();
-        $uriBuilder = $this->controllerContext->getUriBuilder();
-
+        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
+        $uriBuilder = $this->uriBuilder;
         $button = $buttonBar->makeLinkButton()
             ->setHref($uriBuilder->reset()->uriFor('index', [], 'Administration'))
             ->setTitle('Back')
-            ->setIcon($moduleTemplate->getIconFactory()->getIcon('actions-view-go-back', Icon::SIZE_SMALL));
+            ->setIcon($this->iconFactory->getIcon('actions-view-go-back', Icon::SIZE_SMALL));
         $buttonBar->addButton($button, ButtonBar::BUTTON_POSITION_LEFT);
     }
 
     protected function createShortcutButton(): void
     {
-        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-        $buttonBar = $moduleTemplate->getDocHeaderComponent()->getButtonBar();
+        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
+        $pageId = (int)($this->request->getQueryParams()['id'] ?? 0);
 
         // Shortcut
         $shortcutButton = $buttonBar->makeShortcutButton()
-            ->setModuleName('web_PforumAdministration')
-            ->setGetVariables(['route', 'module', 'id'])
-            ->setDisplayName('Shortcut');
+            ->setRouteIdentifier('pforumBackendModule')
+            ->setDisplayName('Shortcut')
+            ->setArguments([
+                'id' => $pageId,
+            ]);
         $buttonBar->addButton($shortcutButton, ButtonBar::BUTTON_POSITION_RIGHT);
     }
 
     public function indexAction(): ResponseInterface
     {
-        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-        $moduleTemplate->setContent($this->view->render());
-        return $this->htmlResponse($moduleTemplate->renderContent());
+        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $this->moduleTemplate->setContent($this->view->render());
+
+        return $this->htmlResponse($this->moduleTemplate->renderContent());
     }
 
     public function listHiddenTopicsAction(): ResponseInterface
     {
-        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $this->view->assign('topics', $this->topicRepository->findAllHidden()->toArray());
-        $moduleTemplate->setContent($this->view->render());
-        return $this->htmlResponse($moduleTemplate->renderContent());
+        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $this->moduleTemplate->setContent($this->view->render());
+
+        return $this->htmlResponse($this->moduleTemplate->renderContent());
     }
 
     public function listHiddenPostsAction(): ResponseInterface
     {
-        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $this->view->assign('posts', $this->postRepository->findAllHidden()->toArray());
-        $moduleTemplate->setContent($this->view->render());
-        return $this->htmlResponse($moduleTemplate->renderContent());
+        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $this->moduleTemplate->setContent($this->view->render());
+
+        return $this->htmlResponse($this->moduleTemplate->renderContent());
     }
 
-    /**
-     * @param Topic $record
-     */
-    public function activateTopicAction(Topic $record): void
+    public function activateTopicAction(Topic $record): ResponseInterface
     {
         $record->setHidden(false);
         $this->topicRepository->update($record);
@@ -114,13 +118,11 @@ class AdministrationController extends ActionController
             'Topic activated',
             ContextualFeedbackSeverity::INFO
         );
-        $this->redirect('listHiddenTopics');
+
+        return $this->redirect('listHiddenTopics');
     }
 
-    /**
-     * @param Post $record
-     */
-    public function activatePostAction(Post $record): void
+    public function activatePostAction(Post $record): ResponseInterface
     {
         $record->setHidden(false);
         $this->postRepository->update($record);
@@ -129,7 +131,8 @@ class AdministrationController extends ActionController
             'Post activated',
             ContextualFeedbackSeverity::INFO
         );
-        $this->redirect('listHiddenPosts');
+
+        return $this->redirect('listHiddenPosts');
     }
 
     protected function getBackendUser(): BackendUserAuthentication

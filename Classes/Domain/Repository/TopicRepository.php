@@ -44,6 +44,7 @@ class TopicRepository extends Repository implements HiddenRepositoryInterface
 
     /**
      * @param mixed $value
+     * @param string $property
      * @return Topic|null
      */
     public function findHiddenObject($value, string $property = 'uid'): ?Topic

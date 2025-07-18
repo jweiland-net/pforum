@@ -27,10 +27,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class PostController extends AbstractController
 {
-    /**
-     * @param Topic $topic
-     * @param Post|null $post
-     */
     #[Extbase\IgnoreValidation(['value' => 'post'])]
     public function newAction(Topic $topic, Post $post = null): ResponseInterface
     {
