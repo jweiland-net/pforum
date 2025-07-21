@@ -18,10 +18,7 @@ use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 
 class AddPaginatorEventListener extends AbstractControllerEventListener
 {
-    /**
-     * @var int
-     */
-    protected $itemsPerPage = 15;
+    protected int $itemsPerPage = 15;
 
     protected $allowedControllerActions = [
         'Forum' => [

@@ -28,10 +28,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class TopicController extends AbstractController
 {
-    /**
-     * @var FrontendGroupHelper
-     */
-    protected $frontendGroupHelper;
+    protected FrontendGroupHelper $frontendGroupHelper;
 
     public function injectFrontendGroupHelper(FrontendGroupHelper $frontendGroupHelper): void
     {

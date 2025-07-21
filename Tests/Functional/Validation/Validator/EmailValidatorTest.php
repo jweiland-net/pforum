@@ -10,8 +10,8 @@
 namespace JWeiland\Pforum\Tests\Functional\Validation\Validator;
 
 use JWeiland\Pforum\Validation\Validator\EmailValidator;
+use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Error\Result;
@@ -25,7 +25,10 @@ class EmailValidatorTest extends FunctionalTestCase
 {
     protected EmailValidator $subject;
 
-    protected ConfigurationManagerInterface $configurationManagerProphecy;
+    /**
+     * @var ConfigurationManager|MockObject
+     */
+    protected $configurationManagerMock;
 
     protected array $testExtensionsToLoad = [
         'jweiland/pforum',
@@ -34,9 +37,8 @@ class EmailValidatorTest extends FunctionalTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $GLOBALS['LANG'] = GeneralUtility::makeInstance(LanguageService::class);
-        $this->configurationManagerProphecy = $this->prophesize(ConfigurationManager::class);
 
+        $GLOBALS['LANG'] = $this->createMock(LanguageService::class);
         $this->subject = new EmailValidator();
     }
 
@@ -49,7 +51,7 @@ class EmailValidatorTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function validateWillNotAddAnyErrorIfEmailIsNotMandatory()
+    public function validateWillNotAddAnyErrorIfEmailIsNotMandatory(): void
     {
         $this->setEmailIsMandatory(false);
 
@@ -62,7 +64,7 @@ class EmailValidatorTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function validateWillNotAddAnyErrorIfEmailIsNotString()
+    public function validateWillNotAddAnyErrorIfEmailIsNotString(): void
     {
         $this->setEmailIsMandatory(true);
 
@@ -75,7 +77,7 @@ class EmailValidatorTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function validateWillNotAddAnyErrorIfEmailIsValidAndIsString()
+    public function validateWillNotAddAnyErrorIfEmailIsValidAndIsString(): void
     {
         $this->setEmailIsMandatory(true);
 
@@ -88,7 +90,7 @@ class EmailValidatorTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function validateWillAddErrorIfEmailIsStringAndEmpty()
+    public function validateWillAddErrorIfEmailIsStringAndEmpty(): void
     {
         $this->setEmailIsMandatory(true);
 
@@ -109,7 +111,7 @@ class EmailValidatorTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function validateWillAddErrorIfEmailIsStringAndNotValid()
+    public function validateWillAddErrorIfEmailIsStringAndNotValid(): void
     {
         $this->setEmailIsMandatory(true);
 
@@ -127,18 +129,21 @@ class EmailValidatorTest extends FunctionalTestCase
         );
     }
 
-    protected function setEmailIsMandatory(bool $isMandatory)
+    protected function setEmailIsMandatory(bool $isMandatory): void
     {
-        $this->configurationManagerProphecy
-            ->getConfiguration(
+        $this->configurationManagerMock = $this->createMock(ConfigurationManagerInterface::class);
+        $this->configurationManagerMock
+            ->expects(self::once())
+            ->method('getConfiguration')
+            ->with(
                 ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
                 'pforum',
                 'forum',
             )
-            ->shouldBeCalled()
             ->willReturn([
                 'emailIsMandatory' => $isMandatory ? '1' : '0',
             ]);
-        $this->subject->injectConfigurationManager($this->configurationManagerProphecy->reveal());
+
+        $this->subject->injectConfigurationManager($this->configurationManagerMock);
     }
 }

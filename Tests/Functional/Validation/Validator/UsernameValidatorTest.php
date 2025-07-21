@@ -11,7 +11,6 @@ namespace JWeiland\Pforum\Tests\Functional\Validation\Validator;
 
 use JWeiland\Pforum\Validation\Validator\UsernameValidator;
 use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Error\Result;
@@ -25,7 +24,7 @@ class UsernameValidatorTest extends FunctionalTestCase
 {
     protected UsernameValidator $subject;
 
-    protected ConfigurationManagerInterface $configurationManagerProphecy;
+    protected ConfigurationManagerInterface $configurationManagerMock;
 
     protected array $testExtensionsToLoad = [
         'jweiland/pforum',
@@ -34,8 +33,8 @@ class UsernameValidatorTest extends FunctionalTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $GLOBALS['LANG'] = GeneralUtility::makeInstance(LanguageService::class);
-        $this->configurationManagerProphecy = $this->prophesize(ConfigurationManager::class);
+        $GLOBALS['LANG'] = $this->createMock(LanguageService::class);
+        $this->configurationManagerMock = $this->createMock(ConfigurationManager::class);
 
         $this->subject = new UsernameValidator();
     }
@@ -108,16 +107,17 @@ class UsernameValidatorTest extends FunctionalTestCase
 
     protected function setUsernameIsMandatory(bool $isMandatory)
     {
-        $this->configurationManagerProphecy
-            ->getConfiguration(
+        $this->configurationManagerMock
+            ->expects(self::once())
+            ->method('getConfiguration')
+            ->with(
                 ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
                 'pforum',
                 'forum',
             )
-            ->shouldBeCalled()
             ->willReturn([
                 'usernameIsMandatory' => $isMandatory ? '1' : '0',
             ]);
-        $this->subject->injectConfigurationManager($this->configurationManagerProphecy->reveal());
+        $this->subject->injectConfigurationManager($this->configurationManagerMock);
     }
 }

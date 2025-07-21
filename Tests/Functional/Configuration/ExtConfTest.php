@@ -10,11 +10,12 @@
 namespace JWeiland\Pforum\Tests\Functional\Configuration;
 
 use JWeiland\Pforum\Configuration\ExtConf;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
  * Test case
  */
-class ExtConfTest extends \TYPO3\TestingFramework\Core\Functional\FunctionalTestCase
+class ExtConfTest extends FunctionalTestCase
 {
     protected ExtConf $subject;
 

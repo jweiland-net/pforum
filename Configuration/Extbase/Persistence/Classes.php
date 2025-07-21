@@ -7,8 +7,10 @@
  * LICENSE file that was distributed with this source code.
  */
 
+use JWeiland\Pforum\Domain\Model\FrontendUser;
+
 return [
-    JWeiland\Pforum\Domain\Model\FrontendUser::class => [
+    FrontendUser::class => [
         'tableName' => 'fe_users',
     ],
 ];

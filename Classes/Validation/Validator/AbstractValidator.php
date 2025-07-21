@@ -26,17 +26,12 @@ abstract class AbstractValidator extends \TYPO3\CMS\Extbase\Validation\Validator
      */
     protected $acceptsEmptyValues = false;
 
-    /**
-     * @var ConfigurationManagerInterface
-     */
-    protected $configurationManager;
+    protected ConfigurationManagerInterface $configurationManager;
 
     /**
      * Contains the settings of the current extension.
-     *
-     * @var array
      */
-    protected $settings = [];
+    protected array $settings = [];
 
     public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
     {

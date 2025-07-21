@@ -30,45 +30,21 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Session;
  */
 class AbstractController extends ActionController
 {
-    /**
-     * @var ExtConf
-     */
-    protected $extConf;
+    protected ExtConf $extConf;
 
-    /**
-     * @var Session
-     */
-    protected $session;
+    protected Session $session;
 
-    /**
-     * @var ForumRepository
-     */
-    protected $forumRepository;
+    protected ForumRepository $forumRepository;
 
-    /**
-     * @var TopicRepository
-     */
-    protected $topicRepository;
+    protected TopicRepository $topicRepository;
 
-    /**
-     * @var PostRepository
-     */
-    protected $postRepository;
+    protected PostRepository $postRepository;
 
-    /**
-     * @var AnonymousUserRepository
-     */
-    protected $anonymousUserRepository;
+    protected AnonymousUserRepository $anonymousUserRepository;
 
-    /**
-     * @var FrontendUserRepository
-     */
-    protected $frontendUserRepository;
+    protected FrontendUserRepository $frontendUserRepository;
 
-    /**
-     * @var PersistenceManager
-     */
-    protected $persistenceManager;
+    protected PersistenceManager $persistenceManager;
 
     public function injectExtConf(ExtConf $extConf): void
     {
