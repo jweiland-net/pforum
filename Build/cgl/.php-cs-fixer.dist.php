@@ -6,7 +6,7 @@ use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
 /*
- * This file is part of the package jweiland/telephonedirectory.
+ * This file is part of the package jweiland/pforum.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -17,7 +17,7 @@ if (PHP_SAPI !== 'cli') {
 }
 
 $headerComment = <<<COMMENT
-This file is part of the package jweiland/telephonedirectory.
+This file is part of the package jweiland/pforum.
 
 For the full copyright and license information, please read the
 LICENSE file that was distributed with this source code.

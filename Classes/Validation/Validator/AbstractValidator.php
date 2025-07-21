@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/telephonedirectory.
+ * This file is part of the package jweiland/pforum.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -30,6 +30,8 @@ abstract class AbstractValidator extends \TYPO3\CMS\Extbase\Validation\Validator
 
     /**
      * Contains the settings of the current extension.
+     *
+     * @var array<string, mixed>
      */
     protected array $settings = [];
 

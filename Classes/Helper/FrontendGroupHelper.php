@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/telephonedirectory.
+ * This file is part of the package jweiland/pforum.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -27,6 +27,9 @@ class FrontendGroupHelper
         return in_array($groupUid, $this->getGroupUidsOfCurrentUser(), true);
     }
 
+    /**
+     * @return int[] List of group UIDs as integers
+     */
     protected function getGroupUidsOfCurrentUser(): array
     {
         $groupUids = $this->getTypoScriptFrontendController()->fe_user->groupData['uid'];

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/telephonedirectory.
+ * This file is part of the package jweiland/pforum.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -56,7 +56,7 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
     /**
      * Do not inject this property, as EXT:checkfaluploads may not be loaded
      */
-    protected FalUploadService $falUploadService;
+    protected $falUploadService;
 
     public function __construct(EventDispatcher $eventDispatcher)
     {
