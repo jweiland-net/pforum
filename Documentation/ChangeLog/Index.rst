@@ -7,6 +7,14 @@
 ChangeLog
 =========
 
+Version 5.0.0
+=============
+
+*   [TASK] Add support for TYPO3 v12 LTS
+*   [TASK] Removed old version support
+*   [TASK] Updated Testing framework
+*   [TASK] Replaced deprecated functions
+
 Version 4.0.3
 =============
 
