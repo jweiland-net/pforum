@@ -12,10 +12,7 @@ declare(strict_types=1);
 namespace JWeiland\Pforum\Controller;
 
 use JWeiland\Pforum\Domain\Model\Forum;
-use JWeiland\Pforum\Helper\FrontendGroupHelper;
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\Arguments;
 
 /**
  * Main controller to list and show forum entries

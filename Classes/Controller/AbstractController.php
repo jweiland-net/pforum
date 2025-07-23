@@ -43,9 +43,8 @@ class AbstractController extends ActionController
         protected readonly FrontendUserRepository $frontendUserRepository,
         protected readonly PersistenceManager $persistenceManager,
         protected readonly FrontendGroupHelper $frontendGroupHelper,
-
     ) {
-        if ($this->arguments === NULL) {
+        if ($this->arguments === null) {
             $this->arguments = GeneralUtility::makeInstance(Arguments::class);
         }
     }
