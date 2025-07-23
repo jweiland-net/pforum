@@ -25,16 +25,16 @@ class Post extends AbstractEntity
 
     protected \DateTime $crdate;
 
-    protected Topic $topic;
+    protected ?Topic $topic = null;
 
     protected string $title = '';
 
     #[Extbase\Validate(['validator' => 'NotEmpty'])]
     protected string $description = '';
 
-    protected AnonymousUser $anonymousUser;
+    protected ?AnonymousUser $anonymousUser = null;
 
-    protected FrontendUser $frontendUser;
+    protected ?FrontendUser $frontendUser = null;
 
     /**
      * @var ObjectStorage<FileReference>

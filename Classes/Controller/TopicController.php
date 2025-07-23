@@ -13,7 +13,6 @@ namespace JWeiland\Pforum\Controller;
 
 use JWeiland\Pforum\Domain\Model\Forum;
 use JWeiland\Pforum\Domain\Model\Topic;
-use JWeiland\Pforum\Helper\FrontendGroupHelper;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Mail\FluidEmail;
@@ -28,13 +27,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class TopicController extends AbstractController
 {
-    protected FrontendGroupHelper $frontendGroupHelper;
-
-    public function injectFrontendGroupHelper(FrontendGroupHelper $frontendGroupHelper): void
-    {
-        $this->frontendGroupHelper = $frontendGroupHelper;
-    }
-
     public function showAction(Topic $topic): ResponseInterface
     {
         $posts = $this->postRepository->findByTopic($topic);
@@ -60,6 +52,7 @@ class TopicController extends AbstractController
             'forum' => $forum,
             'topic' => GeneralUtility::makeInstance(Topic::class),
         ]);
+
         return $this->htmlResponse();
     }
 
@@ -71,7 +64,7 @@ class TopicController extends AbstractController
         $this->preProcessControllerAction();
     }
 
-    public function createAction(Forum $forum, Topic $topic): void
+    public function createAction(Forum $forum, Topic $topic): ResponseInterface
     {
         // if auth = frontend user
         if ((int)$this->settings['auth'] === 2) {
@@ -105,7 +98,8 @@ class TopicController extends AbstractController
         }
 
         $this->addFlashMessageForCreation();
-        $this->redirect('show', 'Forum', 'Pforum', ['forum' => $forum]);
+
+        return $this->redirect('show', 'Forum', 'Pforum', ['forum' => $forum]);
     }
 
     /**

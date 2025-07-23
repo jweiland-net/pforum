@@ -27,7 +27,7 @@ class Topic extends AbstractEntity
 
     protected \DateTime $crdate;
 
-    protected Forum $forum;
+    protected ?Forum $forum = null;
 
     #[Extbase\Validate(['validator' => 'NotEmpty'])]
     protected string $title = '';
@@ -43,9 +43,9 @@ class Topic extends AbstractEntity
     protected ObjectStorage $posts;
 
     #[Cascade(['value' => 'remove'])]
-    protected AnonymousUser $anonymousUser;
+    protected ?AnonymousUser $anonymousUser = null;
 
-    protected FrontendUser $frontendUser;
+    protected ?FrontendUser $frontendUser = null;
 
     /**
      * @var ObjectStorage<FileReference>

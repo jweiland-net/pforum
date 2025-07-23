@@ -20,8 +20,11 @@ use JWeiland\Pforum\Domain\Repository\PostRepository;
 use JWeiland\Pforum\Domain\Repository\TopicRepository;
 use JWeiland\Pforum\Event\PostProcessFluidVariablesEvent;
 use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
+use JWeiland\Pforum\Helper\FrontendGroupHelper;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\Controller\Arguments;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\Session;
 
@@ -30,60 +33,21 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Session;
  */
 class AbstractController extends ActionController
 {
-    protected ExtConf $extConf;
+    public function __construct(
+        protected readonly ExtConf $extConf,
+        protected readonly Session $session,
+        protected readonly ForumRepository $forumRepository,
+        protected readonly TopicRepository $topicRepository,
+        protected readonly PostRepository $postRepository,
+        protected readonly AnonymousUserRepository $anonymousUserRepository,
+        protected readonly FrontendUserRepository $frontendUserRepository,
+        protected readonly PersistenceManager $persistenceManager,
+        protected readonly FrontendGroupHelper $frontendGroupHelper,
 
-    protected Session $session;
-
-    protected ForumRepository $forumRepository;
-
-    protected TopicRepository $topicRepository;
-
-    protected PostRepository $postRepository;
-
-    protected AnonymousUserRepository $anonymousUserRepository;
-
-    protected FrontendUserRepository $frontendUserRepository;
-
-    protected PersistenceManager $persistenceManager;
-
-    public function injectExtConf(ExtConf $extConf): void
-    {
-        $this->extConf = $extConf;
-    }
-
-    public function injectSession(Session $session): void
-    {
-        $this->session = $session;
-    }
-
-    public function injectForumRepository(ForumRepository $forumRepository): void
-    {
-        $this->forumRepository = $forumRepository;
-    }
-
-    public function injectTopicRepository(TopicRepository $topicRepository): void
-    {
-        $this->topicRepository = $topicRepository;
-    }
-
-    public function injectPostRepository(PostRepository $postRepository): void
-    {
-        $this->postRepository = $postRepository;
-    }
-
-    public function injectAnonymousUserRepository(AnonymousUserRepository $anonymousUserRepository): void
-    {
-        $this->anonymousUserRepository = $anonymousUserRepository;
-    }
-
-    public function injectFrontendUserRepository(FrontendUserRepository $frontendUserRepository): void
-    {
-        $this->frontendUserRepository = $frontendUserRepository;
-    }
-
-    public function injectPersistenceManager(PersistenceManager $persistenceManager): void
-    {
-        $this->persistenceManager = $persistenceManager;
+    ) {
+        if ($this->arguments === NULL) {
+            $this->arguments = GeneralUtility::makeInstance(Arguments::class);
+        }
     }
 
     public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
@@ -114,6 +78,7 @@ class AbstractController extends ActionController
         if (empty($this->settings['pidOfDetailPage'])) {
             $this->settings['pidOfDetailPage'] = null;
         }
+
         $this->checkForMisconfiguration();
     }
 
