@@ -11,21 +11,15 @@ namespace JWeiland\Pforum\Tests\Unit\Domain\Model;
 
 use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test case
  */
 class TopicTest extends UnitTestCase
 {
-    use ProphecyTrait;
-
-    /**
-     * @var Topic
-     */
-    protected $subject;
+    protected Topic $subject;
 
     protected function setUp(): void
     {
@@ -44,7 +38,7 @@ class TopicTest extends UnitTestCase
     {
         self::assertSame(
             '',
-            $this->subject->getTitle()
+            $this->subject->getTitle(),
         );
     }
 
@@ -57,7 +51,7 @@ class TopicTest extends UnitTestCase
 
         self::assertSame(
             'foo bar',
-            $this->subject->getTitle()
+            $this->subject->getTitle(),
         );
     }
 
@@ -86,7 +80,7 @@ class TopicTest extends UnitTestCase
     {
         self::assertSame(
             '',
-            $this->subject->getDescription()
+            $this->subject->getDescription(),
         );
     }
 
@@ -99,7 +93,7 @@ class TopicTest extends UnitTestCase
 
         self::assertSame(
             'foo bar',
-            $this->subject->getDescription()
+            $this->subject->getDescription(),
         );
     }
 
@@ -128,7 +122,7 @@ class TopicTest extends UnitTestCase
     {
         self::assertEquals(
             new ObjectStorage(),
-            $this->subject->getPosts()
+            $this->subject->getPosts(),
         );
     }
 
@@ -144,7 +138,7 @@ class TopicTest extends UnitTestCase
 
         self::assertSame(
             $objectStorage,
-            $this->subject->getPosts()
+            $this->subject->getPosts(),
         );
     }
 
@@ -163,7 +157,7 @@ class TopicTest extends UnitTestCase
 
         self::assertSame(
             $objectStorage,
-            $this->subject->getPosts()
+            $this->subject->getPosts(),
         );
     }
 
@@ -182,7 +176,7 @@ class TopicTest extends UnitTestCase
 
         self::assertSame(
             $objectStorage,
-            $this->subject->getPosts()
+            $this->subject->getPosts(),
         );
     }
 }

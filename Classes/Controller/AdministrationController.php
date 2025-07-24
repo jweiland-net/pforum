@@ -15,54 +15,38 @@ use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\Repository\PostRepository;
 use JWeiland\Pforum\Domain\Repository\TopicRepository;
+use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
-use TYPO3\CMS\Backend\View\BackendTemplateView;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Imaging\Icon;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use TYPO3Fluid\Fluid\View\TemplateAwareViewInterface;
 
 /**
  * Main controller to list and show postings/questions
  */
 class AdministrationController extends ActionController
 {
-    /**
-     * @var BackendTemplateView
-     */
-    protected $view;
+    private ModuleTemplate $moduleTemplate;
 
-    /**
-     * @var BackendTemplateView
-     */
-    protected $defaultViewObjectName = BackendTemplateView::class;
-
-    /**
-     * @var TopicRepository
-     */
-    protected $topicRepository;
-
-    /**
-     * @var PostRepository
-     */
-    protected $postRepository;
-
-    public function __construct(TopicRepository $topicRepository, PostRepository $postRepository)
-    {
-        $this->topicRepository = $topicRepository;
-        $this->postRepository = $postRepository;
-    }
+    public function __construct(
+        private readonly TopicRepository $topicRepository,
+        private readonly PostRepository $postRepository,
+        private readonly ModuleTemplateFactory $moduleTemplateFactory,
+        private readonly IconFactory $iconFactory,
+    ) {}
 
     /**
      * Set up the doc header properly here
      */
-    protected function initializeView(ViewInterface $view): void
+    protected function initializeView($view): void
     {
-        if ($view instanceof BackendTemplateView) {
-            parent::initializeView($view);
+        if ($view instanceof TemplateAwareViewInterface) {
             //$view->getModuleTemplate()->getDocHeaderComponent()->setMetaInformation([]);
-
             $this->createDocheaderActionButtons();
             $this->createShortcutButton();
         }
@@ -73,71 +57,82 @@ class AdministrationController extends ActionController
         if (!in_array($this->actionMethodName, ['indexAction', 'listHiddenTopicsAction', 'listHiddenPostsAction'], true)) {
             return;
         }
-
-        $buttonBar = $this->view->getModuleTemplate()->getDocHeaderComponent()->getButtonBar();
-        $uriBuilder = $this->controllerContext->getUriBuilder();
-
+        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
+        $uriBuilder = $this->uriBuilder;
         $button = $buttonBar->makeLinkButton()
             ->setHref($uriBuilder->reset()->uriFor('index', [], 'Administration'))
             ->setTitle('Back')
-            ->setIcon($this->view->getModuleTemplate()->getIconFactory()->getIcon('actions-view-go-back', Icon::SIZE_SMALL));
+            ->setIcon($this->iconFactory->getIcon('actions-view-go-back', Icon::SIZE_SMALL));
         $buttonBar->addButton($button, ButtonBar::BUTTON_POSITION_LEFT);
     }
 
     protected function createShortcutButton(): void
     {
-        $buttonBar = $this->view->getModuleTemplate()->getDocHeaderComponent()->getButtonBar();
+        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
+        $pageId = (int)($this->request->getQueryParams()['id'] ?? 0);
 
         // Shortcut
         $shortcutButton = $buttonBar->makeShortcutButton()
-            ->setModuleName('web_PforumAdministration')
-            ->setGetVariables(['route', 'module', 'id'])
-            ->setDisplayName('Shortcut');
+            ->setRouteIdentifier('pforumBackendModule')
+            ->setDisplayName('Shortcut')
+            ->setArguments([
+                'id' => $pageId,
+            ]);
         $buttonBar->addButton($shortcutButton, ButtonBar::BUTTON_POSITION_RIGHT);
     }
 
-    public function indexAction(): void
+    public function indexAction(): ResponseInterface
     {
+        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $this->moduleTemplate->setContent($this->view->render());
+
+        return $this->htmlResponse($this->moduleTemplate->renderContent());
     }
 
-    public function listHiddenTopicsAction(): void
+    public function listHiddenTopicsAction(): ResponseInterface
     {
         $this->view->assign('topics', $this->topicRepository->findAllHidden()->toArray());
+        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $this->moduleTemplate->setContent($this->view->render());
+
+        return $this->htmlResponse($this->moduleTemplate->renderContent());
     }
 
-    public function listHiddenPostsAction(): void
+    public function listHiddenPostsAction(): ResponseInterface
     {
         $this->view->assign('posts', $this->postRepository->findAllHidden()->toArray());
+        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $this->moduleTemplate->setContent($this->view->render());
+
+        return $this->htmlResponse($this->moduleTemplate->renderContent());
     }
 
-    /**
-     * @param Topic $record
-     */
-    public function activateTopicAction(Topic $record): void
+    public function activateTopicAction(Topic $record): ResponseInterface
     {
         $record->setHidden(false);
         $this->topicRepository->update($record);
         $this->addFlashMessage(
             'Topic "' . $record->getTitle() . '" was activated.',
             'Topic activated',
-            AbstractMessage::INFO
+            ContextualFeedbackSeverity::INFO,
         );
-        $this->redirect('listHiddenTopics');
+
+        return $this->redirect('listHiddenTopics');
     }
 
-    /**
-     * @param Post $record
-     */
-    public function activatePostAction(Post $record): void
+    public function activatePostAction(Post $record): ResponseInterface
     {
         $record->setHidden(false);
         $this->postRepository->update($record);
         $this->addFlashMessage(
             'Post "' . $record->getTitle() . '" was activated.',
             'Post activated',
-            AbstractMessage::INFO
+            ContextualFeedbackSeverity::INFO,
         );
-        $this->redirect('listHiddenPosts');
+
+        return $this->redirect('listHiddenPosts');
     }
 
     protected function getBackendUser(): BackendUserAuthentication

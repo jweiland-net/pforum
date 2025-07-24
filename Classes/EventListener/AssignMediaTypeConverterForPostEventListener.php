@@ -21,26 +21,20 @@ use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
 
 class AssignMediaTypeConverterForPostEventListener extends AbstractControllerEventListener
 {
-    /**
-     * @var PostRepository
-     */
-    protected $postRepository;
+    protected PostRepository $postRepository;
 
-    /**
-     * @var UploadMultipleFilesConverter
-     */
-    protected $uploadMultipleFilesConverter;
+    protected UploadMultipleFilesConverter $uploadMultipleFilesConverter;
 
     protected $allowedControllerActions = [
         'Post' => [
             'create',
-            'update'
-        ]
+            'update',
+        ],
     ];
 
     public function __construct(
         PostRepository $postRepository,
-        UploadMultipleFilesConverter $uploadMultipleFilesConverter
+        UploadMultipleFilesConverter $uploadMultipleFilesConverter,
     ) {
         $this->postRepository = $postRepository;
         $this->uploadMultipleFilesConverter = $uploadMultipleFilesConverter;
@@ -66,14 +60,14 @@ class AssignMediaTypeConverterForPostEventListener extends AbstractControllerEve
     {
         // Needed to get the previously stored images
         $persistedPost = $this->postRepository->findHiddenObject(
-            (int)$controllerActionEvent->getRequest()->getArgument('post')['__identity']
+            (int)$controllerActionEvent->getRequest()->getArgument('post')['__identity'],
         );
 
         if ($persistedPost instanceof Post) {
             $this->setTypeConverterForProperty(
                 'images',
                 $persistedPost->getOriginalImages(),
-                $controllerActionEvent
+                $controllerActionEvent,
             );
         }
     }
@@ -81,7 +75,7 @@ class AssignMediaTypeConverterForPostEventListener extends AbstractControllerEve
     protected function setTypeConverterForProperty(
         string $property,
         ?ObjectStorage $persistedFiles,
-        PreProcessControllerActionEvent $controllerActionEvent
+        PreProcessControllerActionEvent $controllerActionEvent,
     ): void {
         $propertyMappingConfiguration = $this->getPropertyMappingConfigurationForEvent($controllerActionEvent)
             ->forProperty($property)
@@ -91,20 +85,20 @@ class AssignMediaTypeConverterForPostEventListener extends AbstractControllerEve
         $this->addOptionToUploadFilesConverter(
             $propertyMappingConfiguration,
             'settings',
-            $controllerActionEvent->getSettings()
+            $controllerActionEvent->getSettings(),
         );
 
         if ($persistedFiles !== null) {
             $this->addOptionToUploadFilesConverter(
                 $propertyMappingConfiguration,
                 'IMAGES',
-                $persistedFiles
+                $persistedFiles,
             );
         }
     }
 
     protected function getPropertyMappingConfigurationForEvent(
-        PreProcessControllerActionEvent $controllerActionEvent
+        PreProcessControllerActionEvent $controllerActionEvent,
     ): MvcPropertyMappingConfiguration {
         return $controllerActionEvent->getArguments()
             ->getArgument('post')
@@ -114,12 +108,12 @@ class AssignMediaTypeConverterForPostEventListener extends AbstractControllerEve
     protected function addOptionToUploadFilesConverter(
         PropertyMappingConfiguration $propertyMappingConfiguration,
         string $optionKey,
-        $optionValue
+        $optionValue,
     ): void {
         $propertyMappingConfiguration->setTypeConverterOption(
             UploadMultipleFilesConverter::class,
             $optionKey,
-            $optionValue
+            $optionValue,
         );
     }
 }

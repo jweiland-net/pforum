@@ -26,17 +26,14 @@ abstract class AbstractValidator extends \TYPO3\CMS\Extbase\Validation\Validator
      */
     protected $acceptsEmptyValues = false;
 
-    /**
-     * @var ConfigurationManagerInterface
-     */
-    protected $configurationManager;
+    protected ConfigurationManagerInterface $configurationManager;
 
     /**
      * Contains the settings of the current extension.
      *
-     * @var array
+     * @var array<string, mixed>
      */
-    protected $settings = [];
+    protected array $settings = [];
 
     public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
     {
@@ -44,7 +41,7 @@ abstract class AbstractValidator extends \TYPO3\CMS\Extbase\Validation\Validator
         $this->settings = $this->configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
             'pforum',
-            'forum'
+            'forum',
         );
     }
 }

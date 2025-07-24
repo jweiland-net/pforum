@@ -16,6 +16,4 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repo to handle anonymous users
  */
-class AnonymousUserRepository extends Repository
-{
-}
+class AnonymousUserRepository extends Repository {}

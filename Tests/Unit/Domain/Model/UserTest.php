@@ -10,20 +10,14 @@
 namespace JWeiland\Pforum\Tests\Unit\Domain\Model;
 
 use JWeiland\Pforum\Domain\Model\User;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test case
  */
 class UserTest extends UnitTestCase
 {
-    use ProphecyTrait;
-
-    /**
-     * @var User
-     */
-    protected $subject;
+    protected User $subject;
 
     protected function setUp(): void
     {
@@ -42,7 +36,7 @@ class UserTest extends UnitTestCase
     {
         self::assertSame(
             '',
-            $this->subject->getName()
+            $this->subject->getName(),
         );
     }
 
@@ -55,7 +49,7 @@ class UserTest extends UnitTestCase
 
         self::assertSame(
             'foo bar',
-            $this->subject->getName()
+            $this->subject->getName(),
         );
     }
 
@@ -84,7 +78,7 @@ class UserTest extends UnitTestCase
     {
         self::assertSame(
             '',
-            $this->subject->getUsername()
+            $this->subject->getUsername(),
         );
     }
 
@@ -97,7 +91,7 @@ class UserTest extends UnitTestCase
 
         self::assertSame(
             'foo bar',
-            $this->subject->getUsername()
+            $this->subject->getUsername(),
         );
     }
 
@@ -126,7 +120,7 @@ class UserTest extends UnitTestCase
     {
         self::assertSame(
             '',
-            $this->subject->getEmail()
+            $this->subject->getEmail(),
         );
     }
 
@@ -139,7 +133,7 @@ class UserTest extends UnitTestCase
 
         self::assertSame(
             'foo bar',
-            $this->subject->getEmail()
+            $this->subject->getEmail(),
         );
     }
 

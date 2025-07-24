@@ -10,20 +10,14 @@
 namespace JWeiland\Pforum\Tests\Unit\Domain\Model;
 
 use JWeiland\Pforum\Domain\Model\Post;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test case
  */
 class PostTest extends UnitTestCase
 {
-    use ProphecyTrait;
-
-    /**
-     * @var Post
-     */
-    protected $subject;
+    protected Post $subject;
 
     protected function setUp(): void
     {
@@ -42,7 +36,7 @@ class PostTest extends UnitTestCase
     {
         self::assertSame(
             '',
-            $this->subject->getTitle()
+            $this->subject->getTitle(),
         );
     }
 
@@ -55,7 +49,7 @@ class PostTest extends UnitTestCase
 
         self::assertSame(
             'foo bar',
-            $this->subject->getTitle()
+            $this->subject->getTitle(),
         );
     }
 
@@ -84,7 +78,7 @@ class PostTest extends UnitTestCase
     {
         self::assertSame(
             '',
-            $this->subject->getDescription()
+            $this->subject->getDescription(),
         );
     }
 
@@ -97,7 +91,7 @@ class PostTest extends UnitTestCase
 
         self::assertSame(
             'foo bar',
-            $this->subject->getDescription()
+            $this->subject->getDescription(),
         );
     }
 

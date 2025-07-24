@@ -34,12 +34,12 @@ class EmailValidator extends AbstractValidator
             if ($value === '') {
                 $this->addError(
                     LocalizationUtility::translate('validator.anonymousUser.email', 'pforum'),
-                    1378288238
+                    1378288238,
                 );
             } elseif (!GeneralUtility::validEmail($value)) {
                 $this->addError(
                     LocalizationUtility::translate('validator.anonymousUser.validEmail', 'pforum'),
-                    1457431804
+                    1457431804,
                 );
             }
         }

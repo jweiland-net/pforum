@@ -47,25 +47,14 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
      */
     protected $priority = 2;
 
-    /**
-     * @var Folder
-     */
-    protected $uploadFolder;
+    protected Folder $uploadFolder;
 
-    /**
-     * @var PropertyMappingConfigurationInterface
-     */
-    protected $converterConfiguration;
+    protected PropertyMappingConfigurationInterface $converterConfiguration;
 
-    /**
-     * @var EventDispatcher
-     */
-    protected $eventDispatcher;
+    protected EventDispatcher $eventDispatcher;
 
     /**
      * Do not inject this property, as EXT:checkfaluploads may not be loaded
-     *
-     * @var FalUploadService
      */
     protected $falUploadService;
 
@@ -83,7 +72,7 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
                 $uploadedFile['name'],
                 $uploadedFile['size'],
                 $uploadedFile['tmp_name'],
-                $uploadedFile['type']
+                $uploadedFile['type'],
             )) {
                 return false;
             }
@@ -93,20 +82,20 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Error\Error|mixed|\TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     * @return Error|mixed|ObjectStorage
      */
     public function convertFrom(
         $source,
         string $targetType,
         array $convertedChildProperties = [],
-        PropertyMappingConfigurationInterface $configuration = null
+        PropertyMappingConfigurationInterface $configuration = null,
     ) {
         $this->initialize($configuration);
         $originalSource = $source;
         foreach ($originalSource as $key => $uploadedFile) {
             $alreadyPersistedImage = $this->getAlreadyPersistedFileReferenceByPosition(
                 $this->getAlreadyPersistedImages(),
-                $key
+                $key,
             );
 
             // If no file was uploaded use the already persisted one
@@ -126,7 +115,7 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
             if (!$uploadedFile['error'] === 0) {
                 return new Error(
                     LocalizationUtility::translate('error.upload', 'pforum') . $uploadedFile['error'],
-                    1396957314
+                    1396957314,
                 );
             }
 
@@ -138,10 +127,10 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
                         'error.fileExtension',
                         'pforum',
                         [
-                            $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-                        ]
+                            $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+                        ],
                     ),
-                    1402981282
+                    1402981282,
                 );
             }
 
@@ -153,7 +142,7 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
             }
 
             $this->eventDispatcher->dispatch(
-                new PostCheckFileReferenceEvent($source, $key, $alreadyPersistedImage, $uploadedFile)
+                new PostCheckFileReferenceEvent($source, $key, $alreadyPersistedImage, $uploadedFile),
             );
         }
 
@@ -175,7 +164,7 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
         if ($configuration === null) {
             throw new \Exception(
                 'Missing PropertyMapper configuration in UploadMultipleFilesConverter',
-                1666698966
+                1666698966,
             );
         }
 
@@ -188,7 +177,7 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
     {
         $alreadyPersistedImages = $this->converterConfiguration->getConfigurationValue(
             self::class,
-            'IMAGES'
+            'IMAGES',
         );
 
         return $alreadyPersistedImages instanceof ObjectStorage ? $alreadyPersistedImages : new ObjectStorage();
@@ -196,7 +185,7 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
 
     protected function getAlreadyPersistedFileReferenceByPosition(
         ObjectStorage $alreadyPersistedFileReferences,
-        int $position
+        int $position,
     ): ?FileReference {
         return $alreadyPersistedFileReferences->toArray()[$position] ?? null;
     }
@@ -205,7 +194,7 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
     {
         $settings = $this->converterConfiguration->getConfigurationValue(
             self::class,
-            'settings'
+            'settings',
         );
 
         return $settings ?? [];
@@ -217,7 +206,7 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
         if ($combinedUploadFolderIdentifier === '') {
             throw new \Exception(
                 'You have forgotten to set an Upload Folder in TypoScript for pforum',
-                1666698952
+                1666698952,
             );
         }
 
@@ -248,7 +237,7 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
             $uploadedFile['name'],
             $uploadedFile['size'],
             $uploadedFile['tmp_name'],
-            $uploadedFile['type']
+            $uploadedFile['type'],
         );
     }
 
@@ -295,7 +284,7 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
                 'uid_local' => $uploadedFile->getUid(),
                 'uid_foreign' => uniqid('NEW_', true),
                 'uid' => uniqid('NEW_', true),
-            ]
+            ],
         );
     }
 

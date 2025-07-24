@@ -7,10 +7,6 @@
  * LICENSE file that was distributed with this source code.
  */
 
-use JWeiland\Pforum\Domain\Model\FrontendUser;
-
-return [
-    FrontendUser::class => [
-        'tableName' => 'fe_users',
-    ],
-];
+defined('LF') ?: define('LF', chr(10));
+defined('CR') ?: define('CR', chr(13));
+defined('CRLF') ?: define('CRLF', CR . LF);

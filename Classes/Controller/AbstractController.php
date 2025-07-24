@@ -20,8 +20,11 @@ use JWeiland\Pforum\Domain\Repository\PostRepository;
 use JWeiland\Pforum\Domain\Repository\TopicRepository;
 use JWeiland\Pforum\Event\PostProcessFluidVariablesEvent;
 use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
+use JWeiland\Pforum\Helper\FrontendGroupHelper;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\Controller\Arguments;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\Session;
 
@@ -30,84 +33,20 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Session;
  */
 class AbstractController extends ActionController
 {
-    /**
-     * @var ExtConf
-     */
-    protected $extConf;
-
-    /**
-     * @var Session
-     */
-    protected $session;
-
-    /**
-     * @var ForumRepository
-     */
-    protected $forumRepository;
-
-    /**
-     * @var TopicRepository
-     */
-    protected $topicRepository;
-
-    /**
-     * @var PostRepository
-     */
-    protected $postRepository;
-
-    /**
-     * @var AnonymousUserRepository
-     */
-    protected $anonymousUserRepository;
-
-    /**
-     * @var FrontendUserRepository
-     */
-    protected $frontendUserRepository;
-
-    /**
-     * @var PersistenceManager
-     */
-    protected $persistenceManager;
-
-    public function injectExtConf(ExtConf $extConf): void
-    {
-        $this->extConf = $extConf;
-    }
-
-    public function injectSession(Session $session): void
-    {
-        $this->session = $session;
-    }
-
-    public function injectForumRepository(ForumRepository $forumRepository): void
-    {
-        $this->forumRepository = $forumRepository;
-    }
-
-    public function injectTopicRepository(TopicRepository $topicRepository): void
-    {
-        $this->topicRepository = $topicRepository;
-    }
-
-    public function injectPostRepository(PostRepository $postRepository): void
-    {
-        $this->postRepository = $postRepository;
-    }
-
-    public function injectAnonymousUserRepository(AnonymousUserRepository $anonymousUserRepository): void
-    {
-        $this->anonymousUserRepository = $anonymousUserRepository;
-    }
-
-    public function injectFrontendUserRepository(FrontendUserRepository $frontendUserRepository): void
-    {
-        $this->frontendUserRepository = $frontendUserRepository;
-    }
-
-    public function injectPersistenceManager(PersistenceManager $persistenceManager): void
-    {
-        $this->persistenceManager = $persistenceManager;
+    public function __construct(
+        protected readonly ExtConf $extConf,
+        protected readonly Session $session,
+        protected readonly ForumRepository $forumRepository,
+        protected readonly TopicRepository $topicRepository,
+        protected readonly PostRepository $postRepository,
+        protected readonly AnonymousUserRepository $anonymousUserRepository,
+        protected readonly FrontendUserRepository $frontendUserRepository,
+        protected readonly PersistenceManager $persistenceManager,
+        protected readonly FrontendGroupHelper $frontendGroupHelper,
+    ) {
+        if ($this->arguments === null) {
+            $this->arguments = GeneralUtility::makeInstance(Arguments::class);
+        }
     }
 
     public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
@@ -116,10 +55,10 @@ class AbstractController extends ActionController
         $tsSettings = $this->configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
             'pforum',
-            'doNotLoadFlexFormSettings'
+            'doNotLoadFlexFormSettings',
         );
         $mergedSettings = $this->configurationManager->getConfiguration(
-            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
         );
 
         foreach ($mergedSettings as $key => $value) {
@@ -138,6 +77,7 @@ class AbstractController extends ActionController
         if (empty($this->settings['pidOfDetailPage'])) {
             $this->settings['pidOfDetailPage'] = null;
         }
+
         $this->checkForMisconfiguration();
     }
 
@@ -154,7 +94,7 @@ class AbstractController extends ActionController
             throw new \RuntimeException(
                 'You can\'t hide topics at creation, deactivate admin activation and mark email as NOT mandatory.' .
                 'This would produce hidden records which will never be visible',
-                1378371532
+                1378371532,
             );
         }
         if (
@@ -165,7 +105,7 @@ class AbstractController extends ActionController
             throw new \RuntimeException(
                 'You can\'t hide posts at creation, deactivate admin activation and mark email ' .
                 'as NOT mandatory. This would produce hidden records which will never be visible',
-                1378371541
+                1378371541,
             );
         }
     }
@@ -176,9 +116,9 @@ class AbstractController extends ActionController
      */
     protected function deleteUploadedFilesOnValidationErrors(string $argument): void
     {
-        if ($this->getControllerContext()->getRequest()->hasArgument($argument)) {
+        if ($this->request->hasArgument($argument)) {
             /** @var Topic $topic */
-            $topic = $this->getControllerContext()->getRequest()->getArgument($argument);
+            $topic = $this->request->getArgument($argument);
             $images = $topic->getImages();
             foreach ($images as $image) {
                 $image->getOriginalResource()->getOriginalFile()->delete();
@@ -193,8 +133,8 @@ class AbstractController extends ActionController
             new PostProcessFluidVariablesEvent(
                 $this->request,
                 $this->settings,
-                $variables
-            )
+                $variables,
+            ),
         );
 
         $this->view->assignMultiple($event->getFluidVariables());
@@ -206,8 +146,8 @@ class AbstractController extends ActionController
             new PreProcessControllerActionEvent(
                 $this->request,
                 $this->arguments,
-                $this->settings
-            )
+                $this->settings,
+            ),
         );
     }
 }

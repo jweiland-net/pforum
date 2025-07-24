@@ -14,6 +14,7 @@ namespace JWeiland\Pforum\Controller;
 use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\Model\User;
+use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\Mailer;
@@ -26,15 +27,12 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class PostController extends AbstractController
 {
-    /**
-     * @param Topic $topic
-     * @param Post|null $post
-     * @Extbase\IgnoreValidation("post")
-     */
-    public function newAction(Topic $topic, Post $post = null): void
+    #[Extbase\IgnoreValidation(['value' => 'post'])]
+    public function newAction(Topic $topic, Post $post = null): ResponseInterface
     {
         $this->view->assign('topic', $topic);
         $this->view->assign('post', $post);
+        return $this->htmlResponse();
     }
 
     /**
@@ -56,14 +54,14 @@ class PostController extends AbstractController
         $this->topicRepository->update($topic);
 
         // if a preview was requested direct to preview action
-        if ($this->controllerContext->getRequest()->hasArgument('preview')) {
+        if ($this->request->hasArgument('preview')) {
             $post->setHidden(true); // post should not be visible while previewing
             $this->persistenceManager->persistAll(); // we need an uid before redirecting
             $this->redirect(
                 'edit',
                 'Post',
                 'Pforum',
-                ['post' => $post, 'isPreview' => true, 'isNew' => true]
+                ['post' => $post, 'isPreview' => true, 'isNew' => true],
             );
         }
 
@@ -110,13 +108,14 @@ class PostController extends AbstractController
      * @param bool $isPreview
      * @param bool $isNew We need the information if updateAction was called from createAction.
      *                    If so we have to passthrough this information
-     * @Extbase\IgnoreValidation("post")
      */
-    public function editAction(Post $post = null, bool $isPreview = false, bool $isNew = false): void
+    #[Extbase\IgnoreValidation(['value' => 'post'])]
+    public function editAction(Post $post = null, bool $isPreview = false, bool $isNew = false): ResponseInterface
     {
         $this->view->assign('post', $post);
         $this->view->assign('isPreview', $isPreview);
         $this->view->assign('isNew', $isNew);
+        return $this->htmlResponse();
     }
 
     /**
@@ -140,13 +139,13 @@ class PostController extends AbstractController
         $this->postRepository->update($post);
 
         // if a preview was requested direct to preview action
-        if ($this->controllerContext->getRequest()->hasArgument('preview')) {
+        if ($this->request->hasArgument('preview')) {
             $post->setHidden(true);
             $this->redirect(
                 'edit',
                 'Post',
                 'Pforum',
-                ['post' => $post, 'isPreview' => true, 'isNew' => $isNew]
+                ['post' => $post, 'isPreview' => true, 'isNew' => $isNew],
             );
         } else {
             if ($isNew) {
@@ -262,7 +261,7 @@ class PostController extends AbstractController
     {
         if (is_array($GLOBALS['TSFE']->fe_user->user) && $GLOBALS['TSFE']->fe_user->user['uid']) {
             $user = $this->frontendUserRepository->findByUid(
-                (int)$GLOBALS['TSFE']->fe_user->user['uid']
+                (int)$GLOBALS['TSFE']->fe_user->user['uid'],
             );
             $post->setFrontendUser($user);
         } else {
@@ -293,17 +292,17 @@ class PostController extends AbstractController
         if ($this->settings['post']['hideAtCreation']) {
             if ($this->settings['post']['activateByAdmin']) {
                 $this->addFlashMessage(
-                    LocalizationUtility::translate('hiddenPostCreatedAndActivateByAdmin', 'pforum')
+                    LocalizationUtility::translate('hiddenPostCreatedAndActivateByAdmin', 'pforum'),
                 );
             } else {
                 $this->addFlashMessage(
-                    LocalizationUtility::translate('hiddenPostCreatedAndActivateByUser', 'pforum')
+                    LocalizationUtility::translate('hiddenPostCreatedAndActivateByUser', 'pforum'),
                 );
             }
         } else {
             // if topic is not hidden at creation there is no need to activate it by admin
             $this->addFlashMessage(
-                LocalizationUtility::translate('postCreated', 'pforum')
+                LocalizationUtility::translate('postCreated', 'pforum'),
             );
         }
     }

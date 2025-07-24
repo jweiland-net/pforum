@@ -36,7 +36,7 @@ class PostRepository extends Repository implements HiddenRepositoryInterface
         $query = $this->createQuery();
         $query->setOrderings([
             'title' => QueryInterface::ORDER_ASCENDING,
-            'description' => QueryInterface::ORDER_ASCENDING
+            'description' => QueryInterface::ORDER_ASCENDING,
         ]);
 
         return $query->matching($query->equals('hidden', 1))->execute();

@@ -14,6 +14,4 @@ namespace JWeiland\Pforum\Domain\Model;
 /**
  * Model to manage fe_users
  */
-class FrontendUser extends User
-{
-}
+class FrontendUser extends User {}

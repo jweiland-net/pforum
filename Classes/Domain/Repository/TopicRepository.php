@@ -36,7 +36,7 @@ class TopicRepository extends Repository implements HiddenRepositoryInterface
         $query = $this->createQuery();
         $query->setOrderings([
             'title' => QueryInterface::ORDER_ASCENDING,
-            'description' => QueryInterface::ORDER_ASCENDING
+            'description' => QueryInterface::ORDER_ASCENDING,
         ]);
 
         return $query->matching($query->equals('hidden', 1))->execute();
@@ -44,6 +44,7 @@ class TopicRepository extends Repository implements HiddenRepositoryInterface
 
     /**
      * @param mixed $value
+     * @param string $property
      * @return Topic|null
      */
     public function findHiddenObject($value, string $property = 'uid'): ?Topic

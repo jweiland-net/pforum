@@ -1,45 +1,35 @@
 <?php
-if (!defined('TYPO3_MODE')) {
+
+/*
+ * This file is part of the package jweiland/pforum.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE file that was distributed with this source code.
+ */
+
+if (!defined('TYPO3')) {
     die('Access denied.');
 }
 
-call_user_func(static function (): void {
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-        'pforum',
-        'Forum',
-        [
-            \JWeiland\Pforum\Controller\ForumController::class => 'list, show',
-            \JWeiland\Pforum\Controller\TopicController::class => 'show, new, create, edit, update, delete, activate',
-            \JWeiland\Pforum\Controller\PostController::class => 'new, create, edit, update, delete, activate',
-        ],
-        // non-cacheable actions
-        [
-            \JWeiland\Pforum\Controller\TopicController::class => 'create, update, delete, activate',
-            \JWeiland\Pforum\Controller\PostController::class => 'create, update, delete, activate',
-        ]
-    );
+use JWeiland\Pforum\Controller\ForumController;
+use JWeiland\Pforum\Controller\PostController;
+use JWeiland\Pforum\Controller\TopicController;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
-    // Add pforum plugin to new element wizard
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-        '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:pforum/Configuration/TSconfig/ContentElementWizard.tsconfig">'
-    );
+ExtensionUtility::configurePlugin(
+    'pforum',
+    'Forum',
+    [
+        ForumController::class => 'list, show',
+        TopicController::class => 'show, new, create, edit, update, delete, activate',
+        PostController::class => 'new, create, edit, update, delete, activate',
+    ],
+    // non-cacheable actions
+    [
+        ForumController::class => 'list, show',
+        TopicController::class => 'create, update, delete, activate',
+        PostController::class => 'create, update, delete, activate',
+    ],
+);
 
-    $GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][1666352112] = 'EXT:pforum/Resources/Private/Templates/Mail';
-
-    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-        \TYPO3\CMS\Core\Imaging\IconRegistry::class
-    );
-    $svgIcons = [
-        'ext-pforum-wizard-icon' => 'module.svg',
-        'ext-pforum-table-forum' => 'tx_pforum_domain_model_forum.svg',
-        'ext-pforum-table-topic' => 'tx_pforum_domain_model_topic.svg',
-        'ext-pforum-table-post' => 'tx_pforum_domain_model_post.svg',
-    ];
-    foreach ($svgIcons as $identifier => $fileName) {
-        $iconRegistry->registerIcon(
-            $identifier,
-            \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-            ['source' => 'EXT:pforum/Resources/Public/Icons/' . $fileName]
-        );
-    }
-});
+$GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][1666352112] = 'EXT:pforum/Resources/Private/Templates/Mail';

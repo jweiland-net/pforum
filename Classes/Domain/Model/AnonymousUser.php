@@ -14,6 +14,4 @@ namespace JWeiland\Pforum\Domain\Model;
 /**
  * Model for anonymous users
  */
-class AnonymousUser extends User
-{
-}
+class AnonymousUser extends User {}

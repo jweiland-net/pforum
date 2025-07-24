@@ -33,9 +33,9 @@ class UsernameValidator extends AbstractValidator
             $this->addError(
                 LocalizationUtility::translate(
                     'validator.anonymousUser.username',
-                    'pforum'
+                    'pforum',
                 ),
-                1378304890
+                1378304890,
             );
         }
     }

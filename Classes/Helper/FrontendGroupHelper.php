@@ -27,6 +27,9 @@ class FrontendGroupHelper
         return in_array($groupUid, $this->getGroupUidsOfCurrentUser(), true);
     }
 
+    /**
+     * @return int[] List of group UIDs as integers
+     */
     protected function getGroupUidsOfCurrentUser(): array
     {
         $groupUids = $this->getTypoScriptFrontendController()->fe_user->groupData['uid'];

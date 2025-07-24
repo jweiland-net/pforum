@@ -10,45 +10,31 @@
 namespace JWeiland\Pforum\Tests\Functional\Validation\Validator;
 
 use JWeiland\Pforum\Validation\Validator\UsernameValidator;
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Error\Result;
 use TYPO3\CMS\Extbase\Validation\Error;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
  * Test case
  */
 class UsernameValidatorTest extends FunctionalTestCase
 {
-    use ProphecyTrait;
+    protected UsernameValidator $subject;
 
-    /**
-     * @var UsernameValidator
-     */
-    protected $subject;
+    protected ConfigurationManagerInterface $configurationManagerMock;
 
-    /**
-     * @var ConfigurationManagerInterface|ObjectProphecy
-     */
-    protected $configurationManagerProphecy;
-
-    /**
-     * @var array
-     */
-    protected $testExtensionsToLoad = [
-        'typo3conf/ext/pforum'
+    protected array $testExtensionsToLoad = [
+        'jweiland/pforum',
     ];
 
     protected function setUp(): void
     {
         parent::setUp();
-        $GLOBALS['LANG'] = GeneralUtility::makeInstance(LanguageService::class);
-        $this->configurationManagerProphecy = $this->prophesize(ConfigurationManager::class);
+        $GLOBALS['LANG'] = $this->createMock(LanguageService::class);
+        $this->configurationManagerMock = $this->createMock(ConfigurationManager::class);
 
         $this->subject = new UsernameValidator();
     }
@@ -68,7 +54,7 @@ class UsernameValidatorTest extends FunctionalTestCase
 
         self::assertEquals(
             new Result(),
-            $this->subject->validate('')
+            $this->subject->validate(''),
         );
     }
 
@@ -81,7 +67,7 @@ class UsernameValidatorTest extends FunctionalTestCase
 
         self::assertEquals(
             new Result(),
-            $this->subject->validate(123)
+            $this->subject->validate(123),
         );
     }
 
@@ -94,7 +80,7 @@ class UsernameValidatorTest extends FunctionalTestCase
 
         self::assertEquals(
             new Result(),
-            $this->subject->validate('stefan')
+            $this->subject->validate('stefan'),
         );
     }
 
@@ -109,28 +95,29 @@ class UsernameValidatorTest extends FunctionalTestCase
         $expectedResult->addError(
             new Error(
                 'The username of user object is mandatory',
-                1378304890
-            )
+                1378304890,
+            ),
         );
 
         self::assertEquals(
             $expectedResult,
-            $this->subject->validate('')
+            $this->subject->validate(''),
         );
     }
 
     protected function setUsernameIsMandatory(bool $isMandatory)
     {
-        $this->configurationManagerProphecy
-            ->getConfiguration(
+        $this->configurationManagerMock
+            ->expects(self::once())
+            ->method('getConfiguration')
+            ->with(
                 ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
                 'pforum',
-                'forum'
+                'forum',
             )
-            ->shouldBeCalled()
             ->willReturn([
-                'usernameIsMandatory' => $isMandatory ? '1' : '0'
+                'usernameIsMandatory' => $isMandatory ? '1' : '0',
             ]);
-        $this->subject->injectConfigurationManager($this->configurationManagerProphecy->reveal());
+        $this->subject->injectConfigurationManager($this->configurationManagerMock);
     }
 }

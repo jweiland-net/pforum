@@ -10,26 +10,17 @@
 namespace JWeiland\Pforum\Tests\Functional\Configuration;
 
 use JWeiland\Pforum\Configuration\ExtConf;
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
  * Test case
  */
 class ExtConfTest extends FunctionalTestCase
 {
-    use ProphecyTrait;
+    protected ExtConf $subject;
 
-    /**
-     * @var ExtConf
-     */
-    protected $subject;
-
-    /**
-     * @var array
-     */
-    protected $testExtensionsToLoad = [
-        'typo3conf/ext/pforum'
+    protected array $testExtensionsToLoad = [
+        'jweiland/pforum',
     ];
 
     protected function setUp(): void
@@ -65,7 +56,7 @@ class ExtConfTest extends FunctionalTestCase
         $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'] = $email;
         self::assertSame(
             $email,
-            $this->subject->getEmailFromAddress()
+            $this->subject->getEmailFromAddress(),
         );
     }
 
@@ -79,7 +70,7 @@ class ExtConfTest extends FunctionalTestCase
 
         self::assertSame(
             $email,
-            $this->subject->getEmailFromAddress()
+            $this->subject->getEmailFromAddress(),
         );
     }
 
@@ -101,7 +92,7 @@ class ExtConfTest extends FunctionalTestCase
         $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'] = $name;
         self::assertSame(
             $name,
-            $this->subject->getEmailFromName()
+            $this->subject->getEmailFromName(),
         );
     }
 
@@ -115,7 +106,7 @@ class ExtConfTest extends FunctionalTestCase
 
         self::assertSame(
             $name,
-            $this->subject->getEmailFromName()
+            $this->subject->getEmailFromName(),
         );
     }
 }

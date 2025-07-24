@@ -18,17 +18,14 @@ use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 
 class AddPaginatorEventListener extends AbstractControllerEventListener
 {
-    /**
-     * @var int
-     */
-    protected $itemsPerPage = 15;
+    protected int $itemsPerPage = 15;
 
     protected $allowedControllerActions = [
         'Forum' => [
-            'show'
+            'show',
         ],
         'Topic' => [
-            'show'
+            'show',
         ],
     ];
 
@@ -43,7 +40,7 @@ class AddPaginatorEventListener extends AbstractControllerEventListener
             $paginator = new QueryResultPaginator(
                 $event->getFluidVariables()[$typeOfPaginatedItems],
                 $this->getCurrentPage($event),
-                $this->getItemsPerPage($event)
+                $this->getItemsPerPage($event),
             );
 
             $event->addFluidVariable('actionName', $event->getActionName());
@@ -61,7 +58,7 @@ class AddPaginatorEventListener extends AbstractControllerEventListener
             // See: AbstractPaginator::setCurrentPageNumber()
             $currentPage = MathUtility::forceIntegerInRange(
                 (int)$event->getRequest()->getArgument('currentPage'),
-                1
+                1,
             );
         }
 

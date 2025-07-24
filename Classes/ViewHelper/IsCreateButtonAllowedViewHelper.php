@@ -15,17 +15,13 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use TYPO3\CMS\Core\Context\UserAspect;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithContentArgumentAndRenderStatic;
 
 /**
  * ViewHelper to simplify the condition to show create button for topics and posts
  */
 class IsCreateButtonAllowedViewHelper extends AbstractViewHelper
 {
-    use CompileWithContentArgumentAndRenderStatic;
-
     public function initializeArguments(): void
     {
         parent::initializeArguments();
@@ -34,9 +30,9 @@ class IsCreateButtonAllowedViewHelper extends AbstractViewHelper
         $this->registerArgument('userGroupUid', 'int', 'The usergroup UID.');
     }
 
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    public function render(): bool
     {
-        $authenticationType = (int)$arguments['authType'];
+        $authenticationType = (int)$this->arguments['authType'];
 
         // Everyone can create new topics/posts
         if ($authenticationType === 1) {
@@ -49,7 +45,7 @@ class IsCreateButtonAllowedViewHelper extends AbstractViewHelper
         }
 
         // Following is a reduced version of f:security.isHasRole()
-        $userGroupUid = (int)$arguments['userGroupUid'];
+        $userGroupUid = (int)$this->arguments['userGroupUid'];
 
         $userAspect = self::getUserAspect();
         if ($userAspect === null) {

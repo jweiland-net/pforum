@@ -13,7 +13,6 @@ namespace JWeiland\Pforum\EventListener;
 
 use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
 use TYPO3\CMS\Extbase\Mvc\Request;
-use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator;
 use TYPO3\CMS\Extbase\Validation\Validator\EmailAddressValidator;
 use TYPO3\CMS\Extbase\Validation\Validator\GenericObjectValidator;
@@ -25,36 +24,29 @@ use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
  */
 class ApplyEmailAsMandatoryIfNeededEventListener extends AbstractControllerEventListener
 {
-    /**
-     * @var ObjectManagerInterface
-     */
-    protected $objectManager;
-
     protected $allowedControllerActions = [
         'Topic' => [
             'create',
-            'update'
+            'update',
         ],
         'Post' => [
             'create',
-            'update'
-        ]
+            'update',
+        ],
     ];
 
-    public function __construct(ObjectManagerInterface $objectManager)
-    {
-        $this->objectManager = $objectManager;
-    }
+    public function __construct(
+        protected readonly ValidatorResolver $validatorResolver,
+    ) {}
 
     public function __invoke(PreProcessControllerActionEvent $controllerActionEvent): void
     {
         if (
             $this->isValidRequest($controllerActionEvent)
             && ($controllerActionEvent->getSettings()['emailIsMandatory'] ?? false)
-            && ($validatorResolver = $this->objectManager->get(ValidatorResolver::class))
-            && ($notEmptyValidator = $validatorResolver->createValidator(NotEmptyValidator::class))
+            && ($notEmptyValidator = $this->validatorResolver->createValidator(NotEmptyValidator::class))
             && $notEmptyValidator instanceof NotEmptyValidator
-            && ($emailValidator = $validatorResolver->createValidator(EmailAddressValidator::class))
+            && ($emailValidator = $this->validatorResolver->createValidator(EmailAddressValidator::class))
             && $emailValidator instanceof EmailAddressValidator
             && ($argumentName = $this->getArgumentName($controllerActionEvent))
         ) {
@@ -66,11 +58,11 @@ class ApplyEmailAsMandatoryIfNeededEventListener extends AbstractControllerEvent
             $genericEventValidator = $conjunctionValidator->getValidators()->current();
             $genericEventValidator->addPropertyValidator(
                 $this->getUsersPropertyName($controllerActionEvent->getRequest(), $argumentName),
-                $notEmptyValidator
+                $notEmptyValidator,
             );
             $genericEventValidator->addPropertyValidator(
                 $this->getUsersPropertyName($controllerActionEvent->getRequest(), $argumentName),
-                $emailValidator
+                $emailValidator,
             );
         }
     }

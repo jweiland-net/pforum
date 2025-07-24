@@ -12,6 +12,8 @@ declare(strict_types=1);
 namespace JWeiland\Pforum\Domain\Model;
 
 use TYPO3\CMS\Extbase\Annotation as Extbase;
+use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
@@ -21,56 +23,35 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
  */
 class Topic extends AbstractEntity
 {
-    /**
-     * @var bool
-     */
-    protected $hidden = false;
+    protected bool $hidden = false;
+
+    protected \DateTime $crdate;
+
+    protected ?Forum $forum = null;
+
+    #[Extbase\Validate(['validator' => 'NotEmpty'])]
+    protected string $title = '';
+
+    #[Extbase\Validate(['validator' => 'NotEmpty'])]
+    protected string $description = '';
 
     /**
-     * @var \DateTime
+     * @var ObjectStorage<Post>
      */
-    protected $crdate;
+    #[Cascade(['value' => 'remove'])]
+    #[Lazy]
+    protected ObjectStorage $posts;
+
+    #[Cascade(['value' => 'remove'])]
+    protected ?AnonymousUser $anonymousUser = null;
+
+    protected ?FrontendUser $frontendUser = null;
 
     /**
-     * @var \JWeiland\Pforum\Domain\Model\Forum
+     * @var ObjectStorage<FileReference>
      */
-    protected $forum;
-
-    /**
-     * @var string
-     * @Extbase\Validate("NotEmpty")
-     */
-    protected $title = '';
-
-    /**
-     * @var string
-     * @Extbase\Validate("NotEmpty")
-     */
-    protected $description = '';
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\JWeiland\Pforum\Domain\Model\Post>
-     * @Extbase\ORM\Cascade("remove")
-     * @Extbase\ORM\Lazy
-     */
-    protected $posts;
-
-    /**
-     * @var \JWeiland\Pforum\Domain\Model\AnonymousUser
-     * @Extbase\ORM\Cascade("remove")
-     */
-    protected $anonymousUser;
-
-    /**
-     * @var \JWeiland\Pforum\Domain\Model\FrontendUser
-     */
-    protected $frontendUser;
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
-     * @Extbase\ORM\Lazy
-     */
-    protected $images;
+    #[Lazy]
+    protected ObjectStorage $images;
 
     public function __construct()
     {

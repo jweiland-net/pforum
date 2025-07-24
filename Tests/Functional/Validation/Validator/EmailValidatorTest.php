@@ -10,46 +10,35 @@
 namespace JWeiland\Pforum\Tests\Functional\Validation\Validator;
 
 use JWeiland\Pforum\Validation\Validator\EmailValidator;
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
+use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Error\Result;
 use TYPO3\CMS\Extbase\Validation\Error;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
  * Test case
  */
 class EmailValidatorTest extends FunctionalTestCase
 {
-    use ProphecyTrait;
+    protected EmailValidator $subject;
 
     /**
-     * @var EmailValidator
+     * @var ConfigurationManager|MockObject
      */
-    protected $subject;
+    protected $configurationManagerMock;
 
-    /**
-     * @var ConfigurationManagerInterface|ObjectProphecy
-     */
-    protected $configurationManagerProphecy;
-
-    /**
-     * @var array
-     */
-    protected $testExtensionsToLoad = [
-        'typo3conf/ext/pforum'
+    protected array $testExtensionsToLoad = [
+        'jweiland/pforum',
     ];
 
     protected function setUp(): void
     {
         parent::setUp();
-        $GLOBALS['LANG'] = GeneralUtility::makeInstance(LanguageService::class);
-        $this->configurationManagerProphecy = $this->prophesize(ConfigurationManager::class);
 
+        $GLOBALS['LANG'] = $this->createMock(LanguageService::class);
         $this->subject = new EmailValidator();
     }
 
@@ -62,46 +51,46 @@ class EmailValidatorTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function validateWillNotAddAnyErrorIfEmailIsNotMandatory()
+    public function validateWillNotAddAnyErrorIfEmailIsNotMandatory(): void
     {
         $this->setEmailIsMandatory(false);
 
         self::assertEquals(
             new Result(),
-            $this->subject->validate('hello')
+            $this->subject->validate('hello'),
         );
     }
 
     /**
      * @test
      */
-    public function validateWillNotAddAnyErrorIfEmailIsNotString()
+    public function validateWillNotAddAnyErrorIfEmailIsNotString(): void
     {
         $this->setEmailIsMandatory(true);
 
         self::assertEquals(
             new Result(),
-            $this->subject->validate(123)
+            $this->subject->validate(123),
         );
     }
 
     /**
      * @test
      */
-    public function validateWillNotAddAnyErrorIfEmailIsValidAndIsString()
+    public function validateWillNotAddAnyErrorIfEmailIsValidAndIsString(): void
     {
         $this->setEmailIsMandatory(true);
 
         self::assertEquals(
             new Result(),
-            $this->subject->validate('info@example.com')
+            $this->subject->validate('info@example.com'),
         );
     }
 
     /**
      * @test
      */
-    public function validateWillAddErrorIfEmailIsStringAndEmpty()
+    public function validateWillAddErrorIfEmailIsStringAndEmpty(): void
     {
         $this->setEmailIsMandatory(true);
 
@@ -109,20 +98,20 @@ class EmailValidatorTest extends FunctionalTestCase
         $expectedResult->addError(
             new Error(
                 'The email of user object is mandatory',
-                1378288238
-            )
+                1378288238,
+            ),
         );
 
         self::assertEquals(
             $expectedResult,
-            $this->subject->validate('')
+            $this->subject->validate(''),
         );
     }
 
     /**
      * @test
      */
-    public function validateWillAddErrorIfEmailIsStringAndNotValid()
+    public function validateWillAddErrorIfEmailIsStringAndNotValid(): void
     {
         $this->setEmailIsMandatory(true);
 
@@ -130,28 +119,31 @@ class EmailValidatorTest extends FunctionalTestCase
         $expectedResult->addError(
             new Error(
                 'The email of user object is not a valid email',
-                1457431804
-            )
+                1457431804,
+            ),
         );
 
         self::assertEquals(
             $expectedResult,
-            $this->subject->validate('hello')
+            $this->subject->validate('hello'),
         );
     }
 
-    protected function setEmailIsMandatory(bool $isMandatory)
+    protected function setEmailIsMandatory(bool $isMandatory): void
     {
-        $this->configurationManagerProphecy
-            ->getConfiguration(
+        $this->configurationManagerMock = $this->createMock(ConfigurationManagerInterface::class);
+        $this->configurationManagerMock
+            ->expects(self::once())
+            ->method('getConfiguration')
+            ->with(
                 ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
                 'pforum',
-                'forum'
+                'forum',
             )
-            ->shouldBeCalled()
             ->willReturn([
-                'emailIsMandatory' => $isMandatory ? '1' : '0'
+                'emailIsMandatory' => $isMandatory ? '1' : '0',
             ]);
-        $this->subject->injectConfigurationManager($this->configurationManagerProphecy->reveal());
+
+        $this->subject->injectConfigurationManager($this->configurationManagerMock);
     }
 }
