@@ -11,32 +11,47 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Configuration;
 
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class ExtConf
  */
-class ExtConf implements SingletonInterface
+#[Autoconfigure(constructor: 'create')]
+readonly class ExtConf implements SingletonInterface
 {
-    protected string $emailFromAddress;
+    private const EXT_KEY = 'pforum';
 
-    protected string $emailFromName;
+    private const DEFAULT_SETTINGS = [
+        'emailFromAddress' => '',
+        'emailFromName' => '',
+    ];
 
-    public function __construct()
+    public function __construct(
+        private string $emailFromAddress = self::DEFAULT_SETTINGS['emailFromAddress'],
+        private string $emailFromName = self::DEFAULT_SETTINGS['emailFromName'],
+    ) {}
+
+    public static function create(ExtensionConfiguration $extensionConfiguration): self
     {
-        // Get global configuration
-        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('pforum');
-        if (is_array($extConf)) {
-            // Call setter method foreach configuration entry
-            foreach ($extConf as $key => $value) {
-                $methodName = 'set' . ucfirst($key);
-                if (method_exists($this, $methodName)) {
-                    $this->$methodName($value);
-                }
-            }
+        $extensionSettings = self::DEFAULT_SETTINGS;
+
+        // Overwrite default extension settings with values from EXT_CONF
+        try {
+            $extensionSettings = array_merge(
+                $extensionSettings,
+                $extensionConfiguration->get(self::EXT_KEY),
+            );
+        } catch (ExtensionConfigurationExtensionNotConfiguredException|ExtensionConfigurationPathDoesNotExistException) {
         }
+
+        return new self(
+            emailFromAddress: (string)$extensionSettings['emailFromAddress'],
+            emailFromName: (string)$extensionSettings['emailFromName'],
+        );
     }
 
     /**
@@ -56,11 +71,6 @@ class ExtConf implements SingletonInterface
         return $this->emailFromAddress;
     }
 
-    public function setEmailFromAddress(string $emailFromAddress): void
-    {
-        $this->emailFromAddress = $emailFromAddress;
-    }
-
     /**
      * @throws \InvalidArgumentException
      */
@@ -76,10 +86,5 @@ class ExtConf implements SingletonInterface
         }
 
         return $this->emailFromName;
-    }
-
-    public function setEmailFromName(string $emailFromName): void
-    {
-        $this->emailFromName = $emailFromName;
     }
 }

@@ -33,6 +33,8 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Session;
  */
 class AbstractController extends ActionController
 {
+    protected Arguments $arguments;
+
     public function __construct(
         protected readonly ExtConf $extConf,
         protected readonly Session $session,
@@ -44,9 +46,7 @@ class AbstractController extends ActionController
         protected readonly PersistenceManager $persistenceManager,
         protected readonly FrontendGroupHelper $frontendGroupHelper,
     ) {
-        if ($this->arguments === null) {
-            $this->arguments = GeneralUtility::makeInstance(Arguments::class);
-        }
+        $this->arguments = GeneralUtility::makeInstance(Arguments::class);
     }
 
     public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
