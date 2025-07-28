@@ -18,11 +18,20 @@ ExtensionUtility::registerPlugin(
     'Pforum',
     'Forum',
     'LLL:EXT:pforum/Resources/Private/Language/locallang_db.xlf:plugin.pforum.title',
+    'ext-pforum-wizard-icon',
+    'Pforum',
+    'LLL:EXT:pforum/Resources/Private/Language/locallang_db.xlf:plugin.pforum.description',
 );
 
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['pforum_forum'] = 'pi_flexform';
+ExtensionManagementUtility::addToAllTCAtypes(
+    'tt_content',
+    '--div--;Configuration,pi_flexform,',
+    'pforum_forum',
+    'after:subheader',
+);
 
 ExtensionManagementUtility::addPiFlexFormValue(
-    'pforum_forum',
+    '*',
     'FILE:EXT:pforum/Configuration/FlexForms/Forum.xml',
+    'pforum_forum',
 );
