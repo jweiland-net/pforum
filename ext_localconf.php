@@ -30,6 +30,7 @@ ExtensionUtility::configurePlugin(
         TopicController::class => 'create, update, delete, activate',
         PostController::class => 'create, update, delete, activate',
     ],
+    ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
 );
 
 $GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][1666352112] = 'EXT:pforum/Resources/Private/Templates/Mail';
