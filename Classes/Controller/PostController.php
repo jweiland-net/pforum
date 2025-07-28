@@ -105,7 +105,6 @@ class PostController extends AbstractController
 
     /**
      * @param Post|null $post
-     * @param bool $isPreview
      * @param bool $isNew We need the information if updateAction was called from createAction.
      *                    If so we have to passthrough this information
      */

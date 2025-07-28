@@ -1,0 +1,132 @@
+categories:
+  pforum:
+    label: 'pforum'
+  pforum.templates:
+    label: 'Templates'
+    parent: pforum
+  pforum.pages:
+    label: 'Pages'
+    parent: pforum
+  pforum.settings:
+    label: 'Settings'
+    parent: pforum
+settings:
+  pforum.templateRootPath:
+    label: 'Templates'
+    category: pforum.templates
+    description: 'Path to template root'
+    type: string
+    default: 'EXT:pforum/Resources/Private/Templates/'
+  pforum.partialRootPath:
+    label: 'Partials'
+    category: pforum.templates
+    description: 'Path to partial root'
+    type: string
+    default: 'EXT:pforum/Resources/Private/Partials/'
+  pforum.layoutRootPath:
+    label: 'Layouts'
+    category: pforum.templates
+    description: 'Path to layout root'
+    type: string
+    default: 'EXT:pforum/Resources/Private/Layouts/'
+  pforum.storagePid:
+    label: 'Default storage PID'
+    category: pforum.pages
+    description: 'Folder that stores all POIs'
+    type: int
+    default: 0
+  pforum.auth:
+    label: 'Authentication method'
+    category: pforum.main
+    type: string
+    default: ''
+  pforum.emailIsMandatory:
+    label: 'Email is mandatory'
+    category: pforum.settings
+    type: bool
+    default: true
+  pforum.usernameIsMandatory:
+    label: 'Username is mandatory'
+    category: pforum.settings
+    type: bool
+    default: true
+  pforum.useImages:
+    label: 'Use images'
+    category: pforum.settings
+    type: bool
+    default: true
+  pforum.uidOfAdminGroup:
+    label: 'UID of admin group'
+    category: pforum.settings
+    type: int
+    default: 1
+  pforum.uidOfUserGroup:
+    label: 'UID of user group'
+    category: pforum.settings
+    type: int
+    default: 2
+  pforum.pidOfDetailPage:
+    label: 'Page ID of detail page'
+    category: pforum.settings
+    type: int
+    default: 123
+  pforum.topic.hideAtCreation:
+    label: 'Hide topic at creation'
+    category: pforum.settings
+    type: int
+    default: 0
+  pforum.topic.activateByAdmin:
+    label: 'Topic activation by admin'
+    category: pforum.settings
+    type: int
+    default: 0
+  pforum.post.hideAtCreation:
+    label: 'Hide post at creation'
+    category: pforum.settings
+    type: int
+    default: 0
+  pforum.post.activateByAdmin:
+    label: 'Post activation by admin'
+    category: pforum.settings
+    type: int
+    default: 0
+  pforum.new.uploadFolder:
+    label: 'Upload folder'
+    category: pforum.settings
+    type: string
+    default: '1:user_upload/tx_pforum/'
+  pforum.image.width:
+    label: 'Image width'
+    category: pforum.settings
+    type: string
+    default: '120c'
+  pforum.image.height:
+    label: 'Image height'
+    category: pforum.settings
+    type: string
+    default: '90c'
+  pforum.image.minWidth:
+    label: 'Image min width'
+    category: pforum.settings
+    type: int
+    default: 120
+  pforum.image.maxWidth:
+    label: 'Image max width'
+    category: pforum.settings
+    type: int
+    default: 120
+  pforum.image.minHeight:
+    label: 'Image min height'
+    category: pforum.settings
+    type: int
+    default: 90
+  pforum.image.maxHeight:
+    label: 'Image max height'
+    category: pforum.settings
+    type: int
+    default: 90
+  pforum.pageBrowser.itemsPerPage:
+    label: 'Items per page in pagination'
+    category: pforum.settings
+    type: int
+    default: 10

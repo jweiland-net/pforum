@@ -57,6 +57,7 @@ class AdministrationController extends ActionController
         if (!in_array($this->actionMethodName, ['indexAction', 'listHiddenTopicsAction', 'listHiddenPostsAction'], true)) {
             return;
         }
+
         $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
         $uriBuilder = $this->uriBuilder;

@@ -134,6 +134,7 @@ class ForumTest extends UnitTestCase
         $object = new Topic();
         $objectStorage = new ObjectStorage();
         $objectStorage->attach($object);
+
         $this->subject->setTopics($objectStorage);
 
         self::assertSame(
@@ -169,9 +170,11 @@ class ForumTest extends UnitTestCase
         $object = new Topic();
         $objectStorage = new ObjectStorage();
         $objectStorage->attach($object);
+
         $this->subject->setTopics($objectStorage);
 
         $this->subject->removeTopic($object);
+
         $objectStorage->detach($object);
 
         self::assertSame(

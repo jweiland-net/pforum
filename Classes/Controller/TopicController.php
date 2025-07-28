@@ -228,8 +228,6 @@ class TopicController extends AbstractController
 
     /**
      * This is a workaround to help controller actions to find (hidden) topics.
-     *
-     * @param string $argumentName
      */
     protected function registerTopicFromRequest(string $argumentName): void
     {

@@ -7,6 +7,13 @@
 ChangeLog
 =========
 
+Version 6.0.0
+=============
+
+*   [TASK] Add support for TYPO3 v13 LTS
+*   [TASK] Removed old version support
+*   [TASK] Replaced deprecated functions
+
 Version 5.0.0
 =============
 

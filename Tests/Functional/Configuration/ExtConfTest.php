@@ -65,11 +65,13 @@ class ExtConfTest extends FunctionalTestCase
      */
     public function setEmailFromAddressSetsEmailAddress()
     {
-        $email = 'abc@example.com';
-        $this->subject->setEmailFromAddress($email);
+        $config = [
+            'emailFromAddress' => 'abc@example.com',
+        ];
+        $this->subject = new ExtConf(...$config);
 
         self::assertSame(
-            $email,
+            'abc@example.com',
             $this->subject->getEmailFromAddress(),
         );
     }
@@ -102,7 +104,10 @@ class ExtConfTest extends FunctionalTestCase
     public function setEmailFromNameSetsEmailName()
     {
         $name = 'stefan';
-        $this->subject->setEmailFromName($name);
+        $config = [
+            'emailFromName' => $name,
+        ];
+        $this->subject = new ExtConf(...$config);
 
         self::assertSame(
             $name,

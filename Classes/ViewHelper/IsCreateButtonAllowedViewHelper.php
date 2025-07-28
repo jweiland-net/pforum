@@ -24,8 +24,6 @@ class IsCreateButtonAllowedViewHelper extends AbstractViewHelper
 {
     public function initializeArguments(): void
     {
-        parent::initializeArguments();
-
         $this->registerArgument('authType', 'int', 'The authentication type. 1 = None, 2 = Needs authentication.');
         $this->registerArgument('userGroupUid', 'int', 'The usergroup UID.');
     }
@@ -48,7 +46,7 @@ class IsCreateButtonAllowedViewHelper extends AbstractViewHelper
         $userGroupUid = (int)$this->arguments['userGroupUid'];
 
         $userAspect = self::getUserAspect();
-        if ($userAspect === null) {
+        if (!$userAspect instanceof UserAspect) {
             return false;
         }
 
