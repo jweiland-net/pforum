@@ -92,18 +92,19 @@ class AbstractController extends ActionController
             empty($this->settings['emailIsMandatory'])
         ) {
             throw new \RuntimeException(
-                'You can\'t hide topics at creation, deactivate admin activation and mark email as NOT mandatory.' .
+                "You can't hide topics at creation, deactivate admin activation and mark email as NOT mandatory." .
                 'This would produce hidden records which will never be visible',
                 1378371532,
             );
         }
+
         if (
             $this->settings['post']['hideAtCreation'] &&
             empty($this->settings['post']['activateByAdmin']) &&
             empty($this->settings['emailIsMandatory'])
         ) {
             throw new \RuntimeException(
-                'You can\'t hide posts at creation, deactivate admin activation and mark email ' .
+                "You can't hide posts at creation, deactivate admin activation and mark email " .
                 'as NOT mandatory. This would produce hidden records which will never be visible',
                 1378371541,
             );

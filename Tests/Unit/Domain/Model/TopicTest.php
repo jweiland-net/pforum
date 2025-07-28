@@ -134,6 +134,7 @@ class TopicTest extends UnitTestCase
         $object = new Post();
         $objectStorage = new ObjectStorage();
         $objectStorage->attach($object);
+
         $this->subject->setPosts($objectStorage);
 
         self::assertSame(
@@ -169,9 +170,11 @@ class TopicTest extends UnitTestCase
         $object = new Post();
         $objectStorage = new ObjectStorage();
         $objectStorage->attach($object);
+
         $this->subject->setPosts($objectStorage);
 
         $this->subject->removePost($object);
+
         $objectStorage->detach($object);
 
         self::assertSame(

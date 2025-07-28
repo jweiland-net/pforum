@@ -1,22 +1,22 @@
 plugin.tx_pforum {
   view {
-    templateRootPaths.100 = {$plugin.tx_pforum.view.templateRootPath}
-    partialRootPaths.100 = {$plugin.tx_pforum.view.partialRootPath}
-    layoutRootPaths.100 = {$plugin.tx_pforum.view.layoutRootPath}
+    templateRootPaths.100 = {$pforum.templateRootPath}
+    partialRootPaths.100 = {$pforum.partialRootPath}
+    layoutRootPaths.100 = {$pforum.layoutRootPath}
   }
 
   persistence {
-    storagePid = {$plugin.tx_pforum.persistence.storagePid}
+    storagePid = {$pforum.storagePid}
   }
 
   settings {
-    auth = {$plugin.tx_pforum.settings.auth}
-    emailIsMandatory = {$plugin.tx_pforum.settings.emailIsMandatory}
-    usernameIsMandatory = {$plugin.tx_pforum.settings.usernameIsMandatory}
-    useImages = {$plugin.tx_pforum.settings.useImages}
-    uidOfAdminGroup = {$plugin.tx_pforum.settings.uidOfAdminGroup}
-    uidOfUserGroup = {$plugin.tx_pforum.settings.uidOfUserGroup}
-    pidOfDetailPage = {$plugin.tx_pforum.settings.pidOfDetailPage}
+    auth = {$pforum.auth}
+    emailIsMandatory = {$pforum.emailIsMandatory}
+    usernameIsMandatory = {$pforum.usernameIsMandatory}
+    useImages = {$pforum.useImages}
+    uidOfAdminGroup = {$pforum.uidOfAdminGroup}
+    uidOfUserGroup = {$pforum.uidOfUserGroup}
+    pidOfDetailPage = {$pforum.pidOfDetailPage}
     topic {
       hideAtCreation = 0
       activateByAdmin = 0
@@ -41,7 +41,7 @@ plugin.tx_pforum {
     }
 
     pageBrowser {
-      itemsPerPage = {$plugin.tx_pforum.settings.pageBrowser.itemsPerPage}
+      itemsPerPage = {$pforum.pageBrowser.itemsPerPage}
     }
   }
 }

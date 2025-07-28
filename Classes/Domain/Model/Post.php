@@ -123,9 +123,9 @@ class Post extends AbstractEntity
      */
     public function getUser(): User
     {
-        if (!empty($this->anonymousUser)) {
+        if ($this->anonymousUser instanceof AnonymousUser) {
             $user = $this->getAnonymousUser();
-        } elseif (!empty($this->frontendUser)) {
+        } elseif ($this->frontendUser instanceof FrontendUser) {
             $user = $this->getFrontendUser();
         } else {
             $user = null;

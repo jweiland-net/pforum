@@ -111,6 +111,7 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
 
                 continue;
             }
+
             // Check if uploaded file returns an error
             if (!$uploadedFile['error'] === 0) {
                 return new Error(
@@ -161,7 +162,7 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
 
     protected function initialize(?PropertyMappingConfigurationInterface $configuration): void
     {
-        if ($configuration === null) {
+        if (!$configuration instanceof PropertyMappingConfigurationInterface) {
             throw new \Exception(
                 'Missing PropertyMapper configuration in UploadMultipleFilesConverter',
                 1666698966,
@@ -246,7 +247,7 @@ class UploadMultipleFilesConverter extends AbstractTypeConverter
      */
     protected function deleteFile(?FileReference $fileReference): void
     {
-        if ($fileReference !== null) {
+        if ($fileReference instanceof FileReference) {
             $fileReference = $fileReference->getOriginalResource();
 
             if ($fileReference->getStorage()->isWithinFolder($this->uploadFolder, $fileReference)) {
