@@ -10,6 +10,7 @@
 namespace JWeiland\Pforum\Tests\Functional\Validation\Validator;
 
 use JWeiland\Pforum\Validation\Validator\UsernameValidator;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
@@ -45,9 +46,7 @@ class UsernameValidatorTest extends FunctionalTestCase
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function validateWillNotAddAnyErrorIfUsernameIsNotMandatory()
     {
         $this->setUsernameIsMandatory(false);
@@ -58,9 +57,7 @@ class UsernameValidatorTest extends FunctionalTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function validateWillNotAddAnyErrorIfUsernameIsNotString()
     {
         $this->setUsernameIsMandatory(true);
@@ -71,9 +68,7 @@ class UsernameValidatorTest extends FunctionalTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function validateWillNotAddAnyErrorIfUsernameIsNotEmpty()
     {
         $this->setUsernameIsMandatory(true);
@@ -84,9 +79,7 @@ class UsernameValidatorTest extends FunctionalTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function validateWillAddErrorIfUsernameIsEmpty()
     {
         $this->setUsernameIsMandatory(true);

@@ -10,6 +10,7 @@
 namespace JWeiland\Pforum\Tests\Unit\Domain\Model;
 
 use JWeiland\Pforum\Domain\Model\User;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -29,9 +30,7 @@ class UserTest extends UnitTestCase
         unset($this->subject);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getNameInitiallyReturnsEmptyString()
     {
         self::assertSame(
@@ -40,9 +39,7 @@ class UserTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setNameSetsName()
     {
         $this->subject->setName('foo bar');
@@ -53,27 +50,21 @@ class UserTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setNameWithIntegerResultsInString()
     {
         $this->subject->setName(123);
         self::assertSame('123', $this->subject->getName());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setNameWithBooleanResultsInString()
     {
         $this->subject->setName(true);
         self::assertSame('1', $this->subject->getName());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getUsernameInitiallyReturnsEmptyString()
     {
         self::assertSame(
@@ -82,9 +73,7 @@ class UserTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setUsernameSetsUsername()
     {
         $this->subject->setUsername('foo bar');
@@ -95,27 +84,21 @@ class UserTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setUsernameWithIntegerResultsInString()
     {
         $this->subject->setUsername(123);
         self::assertSame('123', $this->subject->getUsername());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setUsernameWithBooleanResultsInString()
     {
         $this->subject->setUsername(true);
         self::assertSame('1', $this->subject->getUsername());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getEmailInitiallyReturnsEmptyString()
     {
         self::assertSame(
@@ -124,9 +107,7 @@ class UserTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setEmailSetsEmail()
     {
         $this->subject->setEmail('foo bar');
@@ -137,18 +118,14 @@ class UserTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setEmailWithIntegerResultsInString()
     {
         $this->subject->setEmail(123);
         self::assertSame('123', $this->subject->getEmail());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setEmailWithBooleanResultsInString()
     {
         $this->subject->setEmail(true);
