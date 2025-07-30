@@ -10,6 +10,7 @@
 namespace JWeiland\Pforum\Tests\Functional\Configuration;
 
 use JWeiland\Pforum\Configuration\ExtConf;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
@@ -38,18 +39,14 @@ class ExtConfTest extends FunctionalTestCase
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getEmailFromAddressInitiallyThrowsException()
     {
         self::expectExceptionCode(1604694223);
         $this->subject->getEmailFromAddress();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getEmailFromAddressInitiallyReturnsEmailFromInstallTool()
     {
         $email = 'info@example.com';
@@ -60,9 +57,7 @@ class ExtConfTest extends FunctionalTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setEmailFromAddressSetsEmailAddress()
     {
         $config = [
@@ -76,18 +71,14 @@ class ExtConfTest extends FunctionalTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getEmailFromNameInitiallyThrowsException()
     {
         self::expectExceptionCode(1604694279);
         $this->subject->getEmailFromName();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getEmailFromNameInitiallyReturnsEmailNameFromInstallTool()
     {
         $name = 'stefan';
@@ -98,9 +89,7 @@ class ExtConfTest extends FunctionalTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setEmailFromNameSetsEmailName()
     {
         $name = 'stefan';
