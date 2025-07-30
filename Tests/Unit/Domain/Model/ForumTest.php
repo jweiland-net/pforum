@@ -11,6 +11,7 @@ namespace JWeiland\Pforum\Tests\Unit\Domain\Model;
 
 use JWeiland\Pforum\Domain\Model\Forum;
 use JWeiland\Pforum\Domain\Model\Topic;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -31,9 +32,7 @@ class ForumTest extends UnitTestCase
         unset($this->subject);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getTitleInitiallyReturnsEmptyString()
     {
         self::assertSame(
@@ -42,9 +41,7 @@ class ForumTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setTitleSetsTitle()
     {
         $this->subject->setTitle('foo bar');
@@ -55,27 +52,21 @@ class ForumTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setTitleWithIntegerResultsInString()
     {
         $this->subject->setTitle(123);
         self::assertSame('123', $this->subject->getTitle());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setTitleWithBooleanResultsInString()
     {
         $this->subject->setTitle(true);
         self::assertSame('1', $this->subject->getTitle());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getTeaserInitiallyReturnsEmptyString()
     {
         self::assertSame(
@@ -84,9 +75,7 @@ class ForumTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setTeaserSetsTeaser()
     {
         $this->subject->setTeaser('foo bar');
@@ -97,27 +86,21 @@ class ForumTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setTeaserWithIntegerResultsInString()
     {
         $this->subject->setTeaser(123);
         self::assertSame('123', $this->subject->getTeaser());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setTeaserWithBooleanResultsInString()
     {
         $this->subject->setTeaser(true);
         self::assertSame('1', $this->subject->getTeaser());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getTopicsInitiallyReturnsObjectStorage()
     {
         self::assertEquals(
@@ -126,9 +109,7 @@ class ForumTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setTopicsSetsTopics()
     {
         $object = new Topic();
@@ -143,9 +124,7 @@ class ForumTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function addTopicAddsOneTopic()
     {
         $objectStorage = new ObjectStorage();
@@ -162,9 +141,7 @@ class ForumTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function removeTopicRemovesOneTopic()
     {
         $object = new Topic();
