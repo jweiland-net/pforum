@@ -46,10 +46,6 @@ plugin.tx_pforum {
   }
 }
 
-module.tx_pforum.persistence < plugin.tx_pforum.persistence
-module.tx_pforum.features < plugin.tx_pforum.features
-module.tx_pforum.features.ignoreAllEnableFieldsInBe = 1
-
 plugin.tx_pforum._CSS_DEFAULT_STYLE (
 	textarea.f3-form-error {
 		background-color:#FF9F9F;

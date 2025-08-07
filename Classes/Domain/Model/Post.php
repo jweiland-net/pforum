@@ -119,9 +119,9 @@ class Post extends AbstractEntity
     /**
      * Helper method to get user.
      *
-     * @return User $user
+     * @return User|null $user
      */
-    public function getUser(): User
+    public function getUser(): ?User
     {
         if ($this->anonymousUser instanceof AnonymousUser) {
             $user = $this->getAnonymousUser();

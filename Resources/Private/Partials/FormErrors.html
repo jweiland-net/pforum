@@ -1,19 +1,19 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
 <f:form.validationResults for="{object}">
-	<f:if condition="{validationResults.flattenedErrors}">
-		<dl class="row">
-			<f:for each="{validationResults.flattenedErrors}" key="propertyPath" as="errors">
-				<dt class="col-sm-3">{propertyPath}:</dt>
-				<f:if condition="{errors}">
-					<f:for each="{errors}" as="error">
-						<dd class="col-sm-9 text-danger">{error}</dd>
-					</f:for>
-				</f:if>
-			</f:for>
-		</dl>
-	</f:if>
+    <f:if condition="{validationResults.flattenedErrors}">
+        <dl class="row">
+            <f:for each="{validationResults.flattenedErrors}" key="propertyPath" as="errors">
+                <dt class="col-sm-3">{propertyPath}:</dt>
+                <f:if condition="{errors}">
+                    <f:for each="{errors}" as="error">
+                        <dd class="col-sm-9 text-danger">{error}</dd>
+                    </f:for>
+                </f:if>
+            </f:for>
+        </dl>
+    </f:if>
 </f:form.validationResults>
 </html>

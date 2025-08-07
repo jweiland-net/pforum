@@ -1,19 +1,19 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
 <f:layout name="Default"/>
 
 <f:section name="main">
-	<f:flashMessages/>
+    <f:flashMessages/>
 
-	<h1>New User</h1>
+    <h1>New User</h1>
 
-	<f:render partial="FormErrors" arguments="{object:User}"/>
+    <f:render partial="FormErrors" arguments="{object:User}"/>
 
-	<f:form action="create" name="newUser" object="{newUser}">
-		<f:render partial="User/FormFields"/>
-		<f:form.submit value="Create new"/>
-	</f:form>
+    <f:form action="create" name="newUser" object="{newUser}">
+        <f:render partial="User/FormFields"/>
+        <f:form.submit value="Create new"/>
+    </f:form>
 </f:section>
 </html>
