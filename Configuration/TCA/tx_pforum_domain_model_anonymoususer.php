@@ -35,7 +35,7 @@ return [
         ],
     ],
     'palettes' => [
-        'languageHidden' => ['showitem' => 'sys_language_uid, l10n_parent, hidden'],
+        'languageHidden' => ['showitem' => 'hidden, sys_language_uid, l10n_parent'],
         'access' => [
             'showitem' => 'starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:starttime_formlabel,endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:endtime_formlabel',
         ],
@@ -79,11 +79,7 @@ return [
             'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
             'config' => [
                 'type' => 'check',
-                'items' => [
-                    '1' => [
-                        'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:hidden.I.0',
-                    ],
-                ],
+                'default' => 0,
             ],
         ],
         'starttime' => [
