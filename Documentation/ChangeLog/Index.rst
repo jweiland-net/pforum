@@ -7,6 +7,13 @@
 ChangeLog
 =========
 
+Version 6.0.1
+=============
+
+*   [BUGFIX] Fixed Backend Module issues
+*   [BUGFIX] Fixed Fluid Formatting Issues
+*   [BUGFIX] Fixed TCA type bugs
+
 Version 6.0.0
 =============
 
