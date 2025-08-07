@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Controller;
 
-use JWeiland\Pforum\Domain\Model\Post;
-use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\Repository\PostRepository;
 use JWeiland\Pforum\Domain\Repository\TopicRepository;
 use Psr\Http\Message\ResponseInterface;
@@ -20,8 +18,8 @@ use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3Fluid\Fluid\View\TemplateAwareViewInterface;
@@ -46,89 +44,77 @@ class AdministrationController extends ActionController
     protected function initializeView($view): void
     {
         if ($view instanceof TemplateAwareViewInterface) {
-            //$view->getModuleTemplate()->getDocHeaderComponent()->setMetaInformation([]);
-            $this->createDocheaderActionButtons();
+            $this->createDocHeaderActionButtons();
             $this->createShortcutButton();
         }
     }
 
-    protected function createDocheaderActionButtons(): void
+    protected function createDocHeaderActionButtons(): void
     {
-        if (!in_array($this->actionMethodName, ['indexAction', 'listHiddenTopicsAction', 'listHiddenPostsAction'], true)) {
-            return;
-        }
-
+        // Initializind Backend Module Template
         $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+
         $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
+
+        // Back Button Rendering for the Backend Module
         $uriBuilder = $this->uriBuilder;
         $button = $buttonBar->makeLinkButton()
             ->setHref($uriBuilder->reset()->uriFor('index', [], 'Administration'))
             ->setTitle('Back')
-            ->setIcon($this->iconFactory->getIcon('actions-view-go-back', Icon::SIZE_SMALL));
+            ->setIcon($this->iconFactory->getIcon('actions-view-go-back', IconSize::SMALL));
         $buttonBar->addButton($button, ButtonBar::BUTTON_POSITION_LEFT);
     }
 
     protected function createShortcutButton(): void
     {
-        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
-        $pageId = (int)($this->request->getQueryParams()['id'] ?? 0);
-
-        // Shortcut
         $shortcutButton = $buttonBar->makeShortcutButton()
-            ->setRouteIdentifier('pforumBackendModule')
-            ->setDisplayName('Shortcut')
-            ->setArguments([
-                'id' => $pageId,
-            ]);
+            ->setRouteIdentifier($this->request->getAttribute('module')->getIdentifier())
+            ->setDisplayName('Shortcut Button');
         $buttonBar->addButton($shortcutButton, ButtonBar::BUTTON_POSITION_RIGHT);
     }
 
     public function indexAction(): ResponseInterface
     {
-        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-        $this->moduleTemplate->setContent($this->view->render());
-
-        return $this->htmlResponse($this->moduleTemplate->renderContent());
+        return $this->moduleTemplate->renderResponse('Backend/Administration/Index');
     }
 
     public function listHiddenTopicsAction(): ResponseInterface
     {
-        $this->view->assign('topics', $this->topicRepository->findAllHidden()->toArray());
-        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-        $this->moduleTemplate->setContent($this->view->render());
+        $this->moduleTemplate->assign('topics', $this->topicRepository->findAllHidden()->toArray());
 
-        return $this->htmlResponse($this->moduleTemplate->renderContent());
+        return $this->moduleTemplate->renderResponse('Backend/Administration/ListHiddenTopics');
     }
 
     public function listHiddenPostsAction(): ResponseInterface
     {
-        $this->view->assign('posts', $this->postRepository->findAllHidden()->toArray());
-        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-        $this->moduleTemplate->setContent($this->view->render());
+        $this->moduleTemplate->assign('posts', $this->postRepository->findAllHidden()->toArray());
 
-        return $this->htmlResponse($this->moduleTemplate->renderContent());
+        return $this->moduleTemplate->renderResponse('Backend/Administration/ListHiddenPosts');
     }
 
-    public function activateTopicAction(Topic $record): ResponseInterface
+    public function activateTopicAction(): ResponseInterface
     {
-        $record->setHidden(false);
-        $this->topicRepository->update($record);
+        $topicRecord = $this->topicRepository->findHiddenObject($this->request->getArgument('record'));
+        $topicRecord->setHidden(false);
+        $this->topicRepository->update($topicRecord);
         $this->addFlashMessage(
-            'Topic "' . $record->getTitle() . '" was activated.',
+            'Topic "' . $topicRecord->getTitle() . '" was activated.',
             'Topic activated',
             ContextualFeedbackSeverity::INFO,
+            true,
         );
 
         return $this->redirect('listHiddenTopics');
     }
 
-    public function activatePostAction(Post $record): ResponseInterface
+    public function activatePostAction(): ResponseInterface
     {
-        $record->setHidden(false);
-        $this->postRepository->update($record);
+        $postRecord = $this->postRepository->findHiddenObject($this->request->getArgument('record'));
+        $postRecord->setHidden(false);
+        $this->postRepository->update($postRecord);
         $this->addFlashMessage(
-            'Post "' . $record->getTitle() . '" was activated.',
+            'Post "' . $postRecord->getTitle() . '" was activated.',
             'Post activated',
             ContextualFeedbackSeverity::INFO,
         );

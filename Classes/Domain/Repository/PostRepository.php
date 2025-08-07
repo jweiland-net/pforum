@@ -34,6 +34,9 @@ class PostRepository extends Repository implements HiddenRepositoryInterface
     public function findAllHidden(): QueryResultInterface
     {
         $query = $this->createQuery();
+        $querySettings = $query->getQuerySettings();
+        $querySettings->setIgnoreEnableFields(true);
+        $querySettings->setRespectStoragePage(false);
         $query->setOrderings([
             'title' => QueryInterface::ORDER_ASCENDING,
             'description' => QueryInterface::ORDER_ASCENDING,
@@ -48,9 +51,9 @@ class PostRepository extends Repository implements HiddenRepositoryInterface
     public function findHiddenObject($value, string $property = 'uid'): ?Post
     {
         $query = $this->createQuery();
-        $query->getQuerySettings()->setIgnoreEnableFields(true);
-        $query->getQuerySettings()->setEnableFieldsToBeIgnored(['disabled']);
-        $query->getQuerySettings()->setRespectStoragePage(false);
+        $querySettings = $query->getQuerySettings();
+        $querySettings->setIgnoreEnableFields(true);
+        $querySettings->setRespectStoragePage(false);
 
         $firstObject = $query->matching($query->equals($property, $value))->execute()->getFirst();
         if ($firstObject instanceof Post) {

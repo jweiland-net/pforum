@@ -34,6 +34,7 @@ class TopicRepository extends Repository implements HiddenRepositoryInterface
     public function findAllHidden(): QueryResultInterface
     {
         $query = $this->createQuery();
+        $query->getQuerySettings()->setIgnoreEnableFields(true)->setRespectStoragePage(false);
         $query->setOrderings([
             'title' => QueryInterface::ORDER_ASCENDING,
             'description' => QueryInterface::ORDER_ASCENDING,
@@ -44,14 +45,13 @@ class TopicRepository extends Repository implements HiddenRepositoryInterface
 
     /**
      * @param mixed $value
+     * @param string $property
      * @return Topic|null
      */
     public function findHiddenObject($value, string $property = 'uid'): ?Topic
     {
         $query = $this->createQuery();
-        $query->getQuerySettings()->setIgnoreEnableFields(true);
-        $query->getQuerySettings()->setEnableFieldsToBeIgnored(['disabled']);
-        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->getQuerySettings()->setIgnoreEnableFields(true)->setRespectStoragePage(false);
 
         $firstObject = $query->matching($query->equals($property, $value))->execute()->getFirst();
         if ($firstObject instanceof Topic) {
