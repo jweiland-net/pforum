@@ -1,41 +1,41 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="main">
-	<f:flashMessages />
+    <f:flashMessages/>
 
-	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item">
-				<f:link.action action="list" controller="Forum">{f:translate(key: 'tx_pforum_domain_model_forum')}</f:link.action>
-			</li>
-			<li class="breadcrumb-item">
-				<f:link.action action="show" controller="Forum" arguments="{forum: forum.forum}">
-					{forum.title}
-				</f:link.action>
-			</li>
-			<li class="breadcrumb-item active" aria-current="page">
-				{f:translate(key: 'topic')}
-			</li>
-		</ol>
-	</nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <f:link.action action="list" controller="Forum">{f:translate(key: 'tx_pforum_domain_model_forum')}</f:link.action>
+            </li>
+            <li class="breadcrumb-item">
+                <f:link.action action="show" controller="Forum" arguments="{forum: forum.forum}">
+                    {forum.title}
+                </f:link.action>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                {f:translate(key: 'topic')}
+            </li>
+        </ol>
+    </nav>
 
-	<f:form action="create" name="topic" object="{topic}" arguments="{forum: forum}" enctype="multipart/form-data">
-		<f:render partial="FormErrors" arguments="{object: 'topic'}" />
+    <f:form action="create" name="topic" object="{topic}" arguments="{forum: forum}" enctype="multipart/form-data">
+        <f:render partial="FormErrors" arguments="{object: 'topic'}"/>
 
-		<f:if condition="{settings.auth} == 1">
-			<f:render partial="User/FormFields" arguments="{object: 'topic'}" />
-		</f:if>
+        <f:if condition="{settings.auth} == 1">
+            <f:render partial="User/FormFields" arguments="{object: 'topic'}"/>
+        </f:if>
 
-		<f:render partial="Topic/FormFields" arguments="{object: 'topic'}" />
+        <f:render partial="Topic/FormFields" arguments="{object: 'topic'}"/>
 
-		<div class="mb-3">
-			<f:form.submit class="btn btn-primary" value="{f:translate(key: 'newTopic')}" />
-			<f:form.submit class="btn btn-secondary" name="preview" value="{f:translate(key: 'preview')}" />
-		</div>
-	</f:form>
+        <div class="mb-3">
+            <f:form.submit class="btn btn-primary" value="{f:translate(key: 'newTopic')}"/>
+            <f:form.submit class="btn btn-secondary" name="preview" value="{f:translate(key: 'preview')}"/>
+        </div>
+    </f:form>
 </f:section>
 </html>
