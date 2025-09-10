@@ -41,6 +41,12 @@ Download and install `pforum` with the extension manager module.
 2) Create forum records on a sysfolder.
 3) Create a plugin on a page and select at least the sysfolder as startingpoint.
 
+## 3 Support
+
+Free Support is available via [GitHub Issue Tracker](https://github.com/jweiland-net/pforum/issues).
+
+For commercial support, please contact us at [support@jweiland.net](support@jweiland.net).
+
 <!-- MARKDOWN LINKS & IMAGES -->
 
 [extension-build-shield]: https://poser.pugx.org/jweiland/pforum/v/stable.svg?style=for-the-badge
