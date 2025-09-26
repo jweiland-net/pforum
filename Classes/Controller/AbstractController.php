@@ -21,6 +21,7 @@ use JWeiland\Pforum\Domain\Repository\TopicRepository;
 use JWeiland\Pforum\Event\PostProcessFluidVariablesEvent;
 use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
 use JWeiland\Pforum\Helper\FrontendGroupHelper;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -45,6 +46,7 @@ class AbstractController extends ActionController
         protected readonly FrontendUserRepository $frontendUserRepository,
         protected readonly PersistenceManager $persistenceManager,
         protected readonly FrontendGroupHelper $frontendGroupHelper,
+        protected readonly Context $context,
     ) {
         $this->arguments = GeneralUtility::makeInstance(Arguments::class);
     }

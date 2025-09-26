@@ -247,10 +247,8 @@ class TopicController extends AbstractController
 
     protected function addFeUserToTopic(Forum $forum, Topic $topic): void
     {
-        if (is_array($GLOBALS['TSFE']->fe_user->user) && $GLOBALS['TSFE']->fe_user->user['uid']) {
-            $user = $this->frontendUserRepository->findByUid(
-                (int)$GLOBALS['TSFE']->fe_user->user['uid'],
-            );
+        if ($feUserId = $this->context->getPropertyFromAspect('frontend.user', 'id')) {
+            $user = $this->frontendUserRepository->findByUid($feUserId);
             $topic->setFrontendUser($user);
         } else {
             /* normally this should never be called, because the link to create a new entry was not displayed if user was not authenticated */

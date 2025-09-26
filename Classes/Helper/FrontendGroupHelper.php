@@ -11,37 +11,23 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Helper;
 
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use TYPO3\CMS\Core\Context\Context;
 
 /**
  * Helper to check FE groups for existing UID
  */
 class FrontendGroupHelper
 {
+    public function __construct(
+        private readonly Context $context,
+    ) {}
+
     public function uidExistsInGroupData(int $groupUid): bool
     {
         if ($groupUid === 0) {
             return false;
         }
 
-        return in_array($groupUid, $this->getGroupUidsOfCurrentUser(), true);
-    }
-
-    /**
-     * @return int[] List of group UIDs as integers
-     */
-    protected function getGroupUidsOfCurrentUser(): array
-    {
-        $groupUids = $this->getTypoScriptFrontendController()->fe_user->groupData['uid'];
-        if (!is_array($groupUids)) {
-            return [];
-        }
-
-        return array_map('intval', $groupUids);
-    }
-
-    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
-    {
-        return $GLOBALS['TSFE'];
+        return in_array($groupUid, $this->context->getPropertyFromAspect('frontend.user', 'groupIds'), true);
     }
 }
