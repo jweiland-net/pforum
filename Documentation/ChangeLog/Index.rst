@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 6.0.2
+=============
+
+*  [BUGFIX] SiteSet identifier renamed by removing default
+
 Version 6.0.1
 =============
 
