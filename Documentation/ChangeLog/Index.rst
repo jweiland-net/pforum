@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 6.1.0
+=============
+
+*  [TASK] Implemented Upgrade wizard for migrating list_type to custom CType
+
 Version 6.0.2
 =============
 
