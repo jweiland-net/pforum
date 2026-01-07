@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 6.1.1
+=============
+
+*  [TASK] Updated wizard title with [extension] name format
+
 Version 6.1.0
 =============
 
