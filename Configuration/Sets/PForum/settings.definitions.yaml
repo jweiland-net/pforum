@@ -37,39 +37,43 @@ settings:
     default: 0
   pforum.auth:
     label: 'Authentication method'
-    category: pforum.main
+    category: pforum.settings
     type: string
-    default: ''
+    default: '1'
+    enum:
+      1: 'None'
+      2: 'Auth'
   pforum.emailIsMandatory:
     label: 'Email is mandatory'
     category: pforum.settings
     type: bool
-    default: true
+    default: false
   pforum.usernameIsMandatory:
     label: 'Username is mandatory'
     category: pforum.settings
     type: bool
-    default: true
+    default: false
   pforum.useImages:
     label: 'Use images'
     category: pforum.settings
     type: bool
-    default: true
+    default: false
   pforum.uidOfAdminGroup:
     label: 'UID of admin group'
     category: pforum.settings
     type: int
-    default: 1
+    default: 0
   pforum.uidOfUserGroup:
     label: 'UID of user group'
     category: pforum.settings
     type: int
-    default: 2
+    default: 0
   pforum.pidOfDetailPage:
     label: 'Page ID of detail page'
     category: pforum.settings
     type: int
-    default: 123
+    default: 0
+
   pforum.topic.hideAtCreation:
     label: 'Hide topic at creation'
     category: pforum.settings
@@ -80,6 +84,7 @@ settings:
     category: pforum.settings
     type: int
     default: 0
+
   pforum.post.hideAtCreation:
     label: 'Hide post at creation'
     category: pforum.settings
@@ -90,11 +95,13 @@ settings:
     category: pforum.settings
     type: int
     default: 0
+
   pforum.new.uploadFolder:
     label: 'Upload folder'
     category: pforum.settings
     type: string
     default: '1:user_upload/tx_pforum/'
+
   pforum.image.width:
     label: 'Image width'
     category: pforum.settings
@@ -125,8 +132,9 @@ settings:
     category: pforum.settings
     type: int
     default: 90
+
   pforum.pageBrowser.itemsPerPage:
     label: 'Items per page in pagination'
     category: pforum.settings
     type: int
-    default: 10
+    default: 15
