@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 6.1.2
+=============
+
+*  [BUGFIX] Fixed default values inside extension otherwise throws errors in dev.
+
 Version 6.1.1
 =============
 
