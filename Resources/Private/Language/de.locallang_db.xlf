@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2013-08-32T14:44:32Z" product-name="pforum" target-language="de">
+    <header/>
+    <body>
+      <trans-unit id="plugin.pforum.title" approved="yes">
+        <source>Forum</source>
+        <target state="final">Forum</target>
+      </trans-unit>
+      <trans-unit id="plugin.pforum.description" approved="yes">
+        <source>Shows a list of forum entries.</source>
+        <target state="final">Zeigt eine Liste von Foreneinträgen an.</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum" approved="yes">
+        <source>Forum</source>
+        <target state="final">Forum</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.title" approved="yes">
+        <source>Title</source>
+        <target state="final">Titel</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.teaser" approved="yes">
+        <source>Teaser</source>
+        <target state="final">Kurzbeschreibung</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.topics" approved="yes">
+        <source>Topics</source>
+        <target state="final">Themen</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic" approved="yes">
+        <source>Topic</source>
+        <target state="final">Thema</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.crdate" approved="yes">
+        <source>Creation date</source>
+        <target state="final">Erstelldatum</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.title" approved="yes">
+        <source>Title</source>
+        <target state="final">Titel</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.description" approved="yes">
+        <source>Description</source>
+        <target state="final">Beschreibung</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.posts" approved="yes">
+        <source>Posts</source>
+        <target state="final">Beiträge</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.user" approved="yes">
+        <source>User</source>
+        <target state="final">Benutzer</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.images" approved="yes">
+        <source>Images</source>
+        <target state="final">Bilder</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post" approved="yes">
+        <source>Post</source>
+        <target state="final">Beitrag</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.crdate" approved="yes">
+        <source>Creation date</source>
+        <target state="final">Erstelldatum</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.title" approved="yes">
+        <source>Title</source>
+        <target state="final">Titel</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.description" approved="yes">
+        <source>Description</source>
+        <target state="final">Beschreibung</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.user" approved="yes">
+        <source>User</source>
+        <target state="final">Benutzer</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.images" approved="yes">
+        <source>Images</source>
+        <target state="final">Bilder</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer" approved="yes">
+        <source>User</source>
+        <target state="final">Benutzer</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.name" approved="yes">
+        <source>Name</source>
+        <target state="final">Name</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.username" approved="yes">
+        <source>Username</source>
+        <target state="final">Benutzername</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.email" approved="yes">
+        <source>Email</source>
+        <target state="final">E-Mail</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
