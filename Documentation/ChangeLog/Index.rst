@@ -7,6 +7,12 @@
 ChangeLog
 =========
 
+Version 6.2.0
+=============
+
+*  [BUGFIX] Frontend FileUpload handling fix
+*  [BUGFIX] PSR Refactoring for controller actions with major fixes
+
 Version 6.1.2
 =============
 
