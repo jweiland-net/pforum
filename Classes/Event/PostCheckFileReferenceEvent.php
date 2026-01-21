@@ -11,46 +11,35 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Event;
 
+use TYPO3\CMS\Core\Http\UploadedFile;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
+use TYPO3\CMS\Extbase\Error\Error;
 
 /*
  * Use this event, if you want to add further checks for uploaded images of pforum frontend form
  */
 class PostCheckFileReferenceEvent
 {
-    /**
-     * Array containing the original source (all files of $_FILES) of the request
-     * just before PropertyMapping (UploadMultipleFilesConverter) will start
-     */
-    protected array $source;
+    protected array $source = [];
 
-    /**
-     * Array key of the currently looped file
-     */
     protected int $key = 0;
 
-    /**
-     * We check, if for current looped uploaded file a file record in DB
-     * exists. If not, this value is null.
-     */
-    protected ?FileReference $alreadyPersistedImage;
+    protected ?UploadedFile $uploadedFile = null;
 
-    /**
-     * This is the value of the currently looped uploaded file.
-     * It contains one file out of $_FILES
-     */
-    protected array $uploadedFile = [];
+    protected ?FileReference $alreadyPersistedImage = null;
+
+    protected ?Error $error;
 
     public function __construct(
         array $source,
         int $key,
-        ?FileReference $alreadyPersistedImage,
-        array $uploadedFile,
+        ?UploadedFile $uploadedFile = null,
+        ?FileReference $alreadyPersistedImage = null,
     ) {
         $this->source = $source;
         $this->key = $key;
-        $this->alreadyPersistedImage = $alreadyPersistedImage;
         $this->uploadedFile = $uploadedFile;
+        $this->alreadyPersistedImage = $alreadyPersistedImage;
     }
 
     public function getSource(): array
@@ -63,13 +52,23 @@ class PostCheckFileReferenceEvent
         return $this->key;
     }
 
+    public function getUploadedFile(): UploadedFile
+    {
+        return $this->uploadedFile;
+    }
+
     public function getAlreadyPersistedImage(): ?FileReference
     {
         return $this->alreadyPersistedImage;
     }
 
-    public function getUploadedFile(): array
+    public function getError(): ?Error
     {
-        return $this->uploadedFile;
+        return $this->error;
+    }
+
+    public function setError(Error $error): void
+    {
+        $this->error = $error;
     }
 }
