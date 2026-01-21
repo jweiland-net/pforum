@@ -78,7 +78,8 @@ class TopicController extends AbstractController
         if ($this->request->hasArgument('preview')) {
             $topic->setHidden(true); // topic should not be visible while previewing
             $this->persistenceManager->persistAll(); // we need an uid before redirecting
-            $this->redirect(
+
+            return $this->redirect(
                 'edit',
                 'Topic',
                 'Pforum',
@@ -147,14 +148,15 @@ class TopicController extends AbstractController
      * @param bool $isNew We need the information if updateAction was called from createAction.
      *                    If so we have to add different messages
      */
-    public function updateAction(Topic $topic, bool $isNew = false): void
+    public function updateAction(Topic $topic, bool $isNew = false): ResponseInterface
     {
         $this->topicRepository->update($topic);
 
         // if a preview was requested direct to preview action
         if ($this->request->hasArgument('preview')) {
             $topic->setHidden(true);
-            $this->redirect(
+
+            return $this->redirect(
                 'edit',
                 'Topic',
                 'Pforum',
@@ -182,7 +184,7 @@ class TopicController extends AbstractController
                 $this->addFlashMessage(LocalizationUtility::translate('topicUpdated', 'pforum'));
             }
 
-            $this->redirect('show', 'Forum', 'Pforum', ['forum' => $topic->getForum()]);
+            return $this->redirect('show', 'Forum', 'Pforum', ['forum' => $topic->getForum()]);
         }
     }
 
@@ -197,11 +199,12 @@ class TopicController extends AbstractController
         $this->registerTopicFromRequest('topic');
     }
 
-    public function deleteAction(Topic $topic): void
+    public function deleteAction(Topic $topic): ResponseInterface
     {
         $this->topicRepository->remove($topic);
         $this->addFlashMessage(LocalizationUtility::translate('topicDeleted', 'pforum'));
-        $this->redirect('list', 'Forum', 'Pforum');
+
+        return $this->redirect('list', 'Forum', 'Pforum');
     }
 
     /**
@@ -218,12 +221,13 @@ class TopicController extends AbstractController
     /**
      * We need this extra action, because hidden entries can't be found in FE mode.
      */
-    public function activateAction(Topic $topic): void
+    public function activateAction(Topic $topic): ResponseInterface
     {
         $topic->setHidden(false);
         $this->topicRepository->update($topic);
         $this->addFlashMessage(LocalizationUtility::translate('topicActivated', 'pforum'));
-        $this->redirect('list', 'Forum', 'Pforum');
+
+        return $this->redirect('list', 'Forum', 'Pforum');
     }
 
     /**
@@ -245,7 +249,7 @@ class TopicController extends AbstractController
         }
     }
 
-    protected function addFeUserToTopic(Forum $forum, Topic $topic): void
+    protected function addFeUserToTopic(Forum $forum, Topic $topic): ResponseInterface
     {
         if (is_array($GLOBALS['TSFE']->fe_user->user) && $GLOBALS['TSFE']->fe_user->user['uid']) {
             $user = $this->frontendUserRepository->findByUid(
@@ -259,7 +263,8 @@ class TopicController extends AbstractController
                 '',
                 ContextualFeedbackSeverity::WARNING,
             );
-            $this->redirect('show', 'Forum', 'Pforum', ['forum' => $forum]);
+
+            return $this->redirect('show', 'Forum', 'Pforum', ['forum' => $forum]);
         }
     }
 
