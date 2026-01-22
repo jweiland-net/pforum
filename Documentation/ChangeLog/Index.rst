@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 6.2.1
+=============
+
+*  [BUGFIX] Initialize error property in PostCheckFileReferenceEvent
+
 Version 6.2.0
 =============
 
