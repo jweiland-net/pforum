@@ -15,7 +15,7 @@ return [
     'pforumBackendModule' => [
         'parent' => 'tools',
         'position' => ['after' => 'tools_maintenance'],
-        'access' => 'user,group',
+        'access' => 'user',
         'workspaces' => 'live',
         'path' => '/module/web/pforum',
         'labels' => 'LLL:EXT:pforum/Resources/Private/Language/locallang_mod_administration.xlf',

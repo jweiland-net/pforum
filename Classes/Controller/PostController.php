@@ -20,6 +20,7 @@ use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\Mailer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -43,7 +44,7 @@ class PostController extends AbstractController
         $this->preProcessControllerAction();
     }
 
-    public function createAction(Topic $topic, Post $post): void
+    public function createAction(Topic $topic, Post $post): ResponseInterface
     {
         // if auth = frontend user
         if ((int)$this->settings['auth'] === 2) {
@@ -57,7 +58,8 @@ class PostController extends AbstractController
         if ($this->request->hasArgument('preview')) {
             $post->setHidden(true); // post should not be visible while previewing
             $this->persistenceManager->persistAll(); // we need an uid before redirecting
-            $this->redirect(
+
+            return $this->redirect(
                 'edit',
                 'Post',
                 'Pforum',
@@ -89,7 +91,8 @@ class PostController extends AbstractController
         }
 
         $this->addFlashMessageForCreation();
-        $this->redirect('show', 'Topic', 'Pforum', ['topic' => $topic]);
+
+        return $this->redirect('show', 'Topic', 'Pforum', ['topic' => $topic]);
     }
 
     /**
@@ -133,14 +136,15 @@ class PostController extends AbstractController
      * @param bool $isNew We need the information if updateAction was
      *                    called from createAction. If so we have to add different messages
      */
-    public function updateAction(Post $post, bool $isNew = false): void
+    public function updateAction(Post $post, bool $isNew = false): ResponseInterface
     {
         $this->postRepository->update($post);
 
         // if a preview was requested direct to preview action
         if ($this->request->hasArgument('preview')) {
             $post->setHidden(true);
-            $this->redirect(
+
+            return $this->redirect(
                 'edit',
                 'Post',
                 'Pforum',
@@ -168,7 +172,7 @@ class PostController extends AbstractController
                 $this->addFlashMessage(LocalizationUtility::translate('postUpdated', 'pforum'));
             }
 
-            $this->redirect('show', 'Topic', 'Pforum', ['topic' => $post->getTopic()]);
+            return $this->redirect('show', 'Topic', 'Pforum', ['topic' => $post->getTopic()]);
         }
     }
 
@@ -185,12 +189,15 @@ class PostController extends AbstractController
 
     /**
      * @param Post $post
+     * @return ResponseInterface
+     * @throws IllegalObjectTypeException
      */
-    public function deleteAction(Post $post): void
+    public function deleteAction(Post $post): ResponseInterface
     {
         $this->postRepository->remove($post);
         $this->addFlashMessage(LocalizationUtility::translate('postDeleted', 'pforum'));
-        $this->redirect('list', 'Forum', 'Pforum');
+
+        return $this->redirect('list', 'Forum', 'Pforum');
     }
 
     protected function mailToTopicCreator(Topic $topic, Post $post): void
@@ -225,7 +232,7 @@ class PostController extends AbstractController
      *
      * @param Post $post
      */
-    public function activateAction(Post $post): void
+    public function activateAction(Post $post): ResponseInterface
     {
         $post->setHidden(false);
         $this->postRepository->update($post);
@@ -234,7 +241,8 @@ class PostController extends AbstractController
         $this->mailToTopicCreator($post->getTopic(), $post);
 
         $this->addFlashMessage(LocalizationUtility::translate('postActivated', 'pforum'));
-        $this->redirect('list', 'Forum', 'Pforum');
+
+        return $this->redirect('list', 'Forum', 'Pforum');
     }
 
     /**
@@ -256,7 +264,7 @@ class PostController extends AbstractController
         }
     }
 
-    protected function addFeUserToPost(Topic $topic, Post $post): void
+    protected function addFeUserToPost(Topic $topic, Post $post): ResponseInterface
     {
         if (is_array($GLOBALS['TSFE']->fe_user->user) && $GLOBALS['TSFE']->fe_user->user['uid']) {
             $user = $this->frontendUserRepository->findByUid(
@@ -266,7 +274,8 @@ class PostController extends AbstractController
         } else {
             /* normally this should never be called, because the link to create a new entry was not displayed if user was not authenticated */
             $this->addFlashMessage('You must be logged in before creating a post');
-            $this->redirect('show', 'Forum', 'Pforum', ['forum' => $topic->getForum()]);
+
+            return $this->redirect('show', 'Forum', 'Pforum', ['forum' => $topic->getForum()]);
         }
     }
 
