@@ -260,7 +260,7 @@ class PostController extends AbstractController
         }
 
         if ($post instanceof Post) {
-            $this->session->registerObject($post, $post->getUid());
+            $this->session->registerObject($post, (string)$post->getUid());
         }
     }
 
@@ -287,6 +287,7 @@ class PostController extends AbstractController
             ->from(new Address($this->extConf->getEmailFromAddress(), $this->extConf->getEmailFromName()))
             ->subject(LocalizationUtility::translate('email.post.subject', 'pforum'))
             ->format('html')
+            ->setRequest($this->request)
             ->setTemplate('ConfigurePost')
             ->assignMultiple([
                 'settings' => $this->settings,
