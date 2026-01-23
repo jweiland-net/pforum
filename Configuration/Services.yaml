@@ -7,6 +7,10 @@ services:
   JWeiland\Pforum\:
     resource: '../Classes/*'
 
+  # Called by makeInstance in TYPO3's PluginPreview
+  JWeiland\Pforum\Backend\Preview\PluginPreview:
+    public: true
+
   JWeiland\Pforum\EventListener\AddPaginatorEventListener:
     tags:
     - name: event.listener

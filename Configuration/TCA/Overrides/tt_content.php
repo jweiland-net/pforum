@@ -11,6 +11,7 @@ if (!defined('TYPO3')) {
     die('Access denied.');
 }
 
+use JWeiland\Pforum\Backend\Preview\PluginPreview;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
@@ -35,3 +36,5 @@ ExtensionManagementUtility::addPiFlexFormValue(
     'FILE:EXT:pforum/Configuration/FlexForms/Forum.xml',
     'pforum_forum',
 );
+
+$GLOBALS['TCA']['tt_content']['types']['pforum_forum']['previewRenderer'] = PluginPreview::class;

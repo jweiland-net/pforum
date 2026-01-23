@@ -7,6 +7,13 @@
 ChangeLog
 =========
 
+Version 6.2.2
+=============
+
+*  [BUGFIX] PSR Refactoring for controller actions with major fixes
+*  [BUGFIX] Fix FluidEmail request context and session type safety in PostController
+*  [BUGFIX] Backend Page Module Previews: Migrated the custom backend preview for the pforum plugin to the modern TYPO3 v12/v13 API.
+
 Version 6.2.1
 =============
 
