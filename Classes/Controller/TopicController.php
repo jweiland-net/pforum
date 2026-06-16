@@ -256,13 +256,14 @@ class TopicController extends AbstractController
         }
     }
 
-    protected function addFeUserToTopic(Forum $forum, Topic $topic): ResponseInterface
+    protected function addFeUserToTopic(Forum $forum, Topic $topic): ?ResponseInterface
     {
-        if (is_array($GLOBALS['TSFE']->fe_user->user) && $GLOBALS['TSFE']->fe_user->user['uid']) {
+        if (is_array($this->request->getAttribute('frontend.user')->user) && $this->request->getAttribute('frontend.user')->user['uid']) {
             $user = $this->frontendUserRepository->findByUid(
-                (int)$GLOBALS['TSFE']->fe_user->user['uid'],
+                (int)$this->request->getAttribute('frontend.user')->user['uid'],
             );
             $topic->setFrontendUser($user);
+            return null;
         } else {
             /* normally this should never be called, because the link to create a new entry was not displayed if user was not authenticated */
             $this->addFlashMessage(
