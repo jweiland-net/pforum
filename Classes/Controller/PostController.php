@@ -264,13 +264,14 @@ class PostController extends AbstractController
         }
     }
 
-    protected function addFeUserToPost(Topic $topic, Post $post): ResponseInterface
+    protected function addFeUserToPost(Topic $topic, Post $post): ?ResponseInterface
     {
-        if (is_array($GLOBALS['TSFE']->fe_user->user) && $GLOBALS['TSFE']->fe_user->user['uid']) {
+        if (is_array($this->request->getAttribute('frontend.user')->user) && $this->request->getAttribute('frontend.user')->user['uid']) {
             $user = $this->frontendUserRepository->findByUid(
-                (int)$GLOBALS['TSFE']->fe_user->user['uid'],
+                (int)$this->request->getAttribute('frontend.user')->user['uid'],
             );
             $post->setFrontendUser($user);
+            return null;
         } else {
             /* normally this should never be called, because the link to create a new entry was not displayed if user was not authenticated */
             $this->addFlashMessage('You must be logged in before creating a post');

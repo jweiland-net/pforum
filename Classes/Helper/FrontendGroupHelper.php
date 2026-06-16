@@ -11,13 +11,18 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Helper;
 
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 
 /**
  * Helper to check FE groups for existing UID
  */
 class FrontendGroupHelper
 {
+    public function __construct(
+        private readonly Context $context,
+    ) {}
+
     public function uidExistsInGroupData(int $groupUid): bool
     {
         if ($groupUid === 0) {
@@ -32,16 +37,16 @@ class FrontendGroupHelper
      */
     protected function getGroupUidsOfCurrentUser(): array
     {
-        $groupUids = $this->getTypoScriptFrontendController()->fe_user->groupData['uid'];
+        try {
+            $groupUids = $this->context->getPropertyFromAspect('frontend.user', 'groupIds');
+        } catch (AspectNotFoundException) {
+            return [];
+        }
+
         if (!is_array($groupUids)) {
             return [];
         }
 
         return array_map('intval', $groupUids);
-    }
-
-    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
-    {
-        return $GLOBALS['TSFE'];
     }
 }
