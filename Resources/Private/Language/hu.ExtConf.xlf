@@ -5,10 +5,10 @@
     <body>
       <trans-unit id="emailFromAddress" xml:space="preserve">
 				<source>FROM email address: The senders email address. If not given the extension tries to get one from installtool.</source>
-			<target state="needs-translation">FROM email address: The senders email address. If not given the extension tries to get one from installtool.</target></trans-unit>
+			<target state="translated">FROM e-mail cím: A feladó e-mail címe. Ha nincs megadva, a bővítmény egyet próbál szerezni az installtoolból.</target></trans-unit>
       <trans-unit id="emailFromName" xml:space="preserve">
 				<source>FROM email name: The senders email name. If not given the extension tries to get one from installtool.</source>
-			<target state="needs-translation">FROM email name: The senders email name. If not given the extension tries to get one from installtool.</target></trans-unit>
+			<target state="translated">FROM e-mail név: A feladó e-mail neve. Ha nincs megadva, a bővítmény egyet próbál szerezni az installtoolból.</target></trans-unit>
     </body>
   </file>
 </xliff>
