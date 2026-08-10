@@ -5,95 +5,95 @@
     <body>
       <trans-unit id="plugin.pforum.title">
         <source>Forum</source>
-        <target state="needs-translation">Forum</target>
+        <target state="translated">Fórum</target>
       </trans-unit>
       <trans-unit id="plugin.pforum.description">
         <source>Shows a list of forum entries.</source>
-        <target state="needs-translation">Shows a list of forum entries.</target>
+        <target state="translated">A fórumbejegyzések listáját jeleníti meg.</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_forum">
         <source>Forum</source>
-        <target state="needs-translation">Forum</target>
+        <target state="translated">Fórum</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_forum.title">
         <source>Title</source>
-        <target state="needs-translation">Title</target>
+        <target state="translated">Cím</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_forum.teaser">
         <source>Teaser</source>
-        <target state="needs-translation">Teaser</target>
+        <target state="translated">Teaser</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_forum.topics">
         <source>Topics</source>
-        <target state="needs-translation">Topics</target>
+        <target state="translated">Témák</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_topic">
         <source>Topic</source>
-        <target state="needs-translation">Topic</target>
+        <target state="translated">Téma</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_topic.crdate">
         <source>Creation date</source>
-        <target state="needs-translation">Creation date</target>
+        <target state="translated">Létrehozás dátuma</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_topic.title">
         <source>Title</source>
-        <target state="needs-translation">Title</target>
+        <target state="translated">Cím</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_topic.description">
         <source>Description</source>
-        <target state="needs-translation">Description</target>
+        <target state="translated">Leírás</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_topic.posts">
         <source>Posts</source>
-        <target state="needs-translation">Posts</target>
+        <target state="translated">Hozzászólások</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_topic.user">
         <source>User</source>
-        <target state="needs-translation">User</target>
+        <target state="translated">Felhasználó</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_topic.images">
         <source>Images</source>
-        <target state="needs-translation">Images</target>
+        <target state="translated">Képek</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_post">
         <source>Post</source>
-        <target state="needs-translation">Post</target>
+        <target state="translated">Hozzászólás</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_post.crdate">
         <source>Creation date</source>
-        <target state="needs-translation">Creation date</target>
+        <target state="translated">Létrehozás dátuma</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_post.title">
         <source>Title</source>
-        <target state="needs-translation">Title</target>
+        <target state="translated">Cím</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_post.description">
         <source>Description</source>
-        <target state="needs-translation">Description</target>
+        <target state="translated">Leírás</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_post.user">
         <source>User</source>
-        <target state="needs-translation">User</target>
+        <target state="translated">Felhasználó</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_post.images">
         <source>Images</source>
-        <target state="needs-translation">Images</target>
+        <target state="translated">Képek</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_anonymoususer">
         <source>User</source>
-        <target state="needs-translation">User</target>
+        <target state="translated">Felhasználó</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_anonymoususer.name">
         <source>Name</source>
-        <target state="needs-translation">Name</target>
+        <target state="translated">Név</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_anonymoususer.username">
         <source>Username</source>
-        <target state="needs-translation">Username</target>
+        <target state="translated">Felhasználónév</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_anonymoususer.email">
         <source>Email</source>
-        <target state="needs-translation">Email</target>
+        <target state="translated">E-mail</target>
       </trans-unit>
     </body>
   </file>
