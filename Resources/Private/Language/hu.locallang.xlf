@@ -5,283 +5,283 @@
     <body>
       <trans-unit id="tx_pforum_domain_model_forum">
         <source>Forum</source>
-        <target state="needs-translation">Forum</target>
+        <target state="translated">Fórum</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_forum.title">
         <source>Title</source>
-        <target state="needs-translation">Title</target>
+        <target state="translated">Cím</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_forum.teaser">
         <source>Teaser</source>
-        <target state="needs-translation">Teaser</target>
+        <target state="translated">Teaser</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_forum.topics">
         <source>Topics</source>
-        <target state="needs-translation">Topics</target>
+        <target state="translated">Témák</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_topic">
         <source>Topic</source>
-        <target state="needs-translation">Topic</target>
+        <target state="translated">Téma</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_topic.crdate">
         <source>Creation date</source>
-        <target state="needs-translation">Creation date</target>
+        <target state="translated">Létrehozás dátuma</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_topic.title">
         <source>Title</source>
-        <target state="needs-translation">Title</target>
+        <target state="translated">Cím</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_topic.description">
         <source>Description</source>
-        <target state="needs-translation">Description</target>
+        <target state="translated">Leírás</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_topic.posts">
         <source>Posts</source>
-        <target state="needs-translation">Posts</target>
+        <target state="translated">Hozzászólások</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_topic.user">
         <source>User</source>
-        <target state="needs-translation">User</target>
+        <target state="translated">Felhasználó</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_topic.images">
         <source>Images</source>
-        <target state="needs-translation">Images</target>
+        <target state="translated">Képek</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_post">
         <source>Post</source>
-        <target state="needs-translation">Post</target>
+        <target state="translated">Hozzászólás</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_post.crdate">
         <source>Creation date</source>
-        <target state="needs-translation">Creation date</target>
+        <target state="translated">Létrehozás dátuma</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_post.title">
         <source>Title</source>
-        <target state="needs-translation">Title</target>
+        <target state="translated">Cím</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_post.description">
         <source>Description</source>
-        <target state="needs-translation">Description</target>
+        <target state="translated">Leírás</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_post.user">
         <source>User</source>
-        <target state="needs-translation">User</target>
+        <target state="translated">Felhasználó</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_post.images">
         <source>Images</source>
-        <target state="needs-translation">Images</target>
+        <target state="translated">Képek</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_anonymoususer">
         <source>User</source>
-        <target state="needs-translation">User</target>
+        <target state="translated">Felhasználó</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_anonymoususer.name">
         <source>Name</source>
-        <target state="needs-translation">Name</target>
+        <target state="translated">Név</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_anonymoususer.username">
         <source>Username</source>
-        <target state="needs-translation">Username</target>
+        <target state="translated">Felhasználónév</target>
       </trans-unit>
       <trans-unit id="tx_pforum_domain_model_anonymoususer.email">
         <source>E-Mail</source>
-        <target state="needs-translation">E-Mail</target>
+        <target state="translated">E-mail</target>
       </trans-unit>
       <trans-unit id="noResults">
         <source>No results found</source>
-        <target state="needs-translation">No results found</target>
+        <target state="translated">Nem található eredmény</target>
       </trans-unit>
       <trans-unit id="noPosts">
         <source>There are no posts to this topic yet.</source>
-        <target state="needs-translation">There are no posts to this topic yet.</target>
+        <target state="translated">Ehhez a témához még nincsenek hozzászólások.</target>
       </trans-unit>
       <trans-unit id="noTopics">
         <source>There are no topics to this forum yet.</source>
-        <target state="needs-translation">There are no topics to this forum yet.</target>
+        <target state="translated">Ehhez a fórumhoz még nincsenek témák.</target>
       </trans-unit>
       <trans-unit id="noHiddenRecords">
         <source>There are currently no activateable records available</source>
-        <target state="needs-translation">There are currently no activateable records available</target>
+        <target state="translated">Jelenleg nincs aktiválható rekord.</target>
       </trans-unit>
       <trans-unit id="newTopic">
         <source>Create new Topic</source>
-        <target state="needs-translation">Create new Topic</target>
+        <target state="translated">Új téma létrehozása</target>
       </trans-unit>
       <trans-unit id="topicCreated">
         <source>Your new Topic was created.</source>
-        <target state="needs-translation">Your new Topic was created.</target>
+        <target state="translated">Az új témája létrehozva.</target>
       </trans-unit>
       <trans-unit id="hiddenTopicCreatedAndActivateByAdmin">
         <source>New Topic was created, but must be reviewed by an administrator.</source>
-        <target state="needs-translation">New Topic was created, but must be reviewed by an administrator.</target>
+        <target state="translated">Az új téma létrehozva, de egy adminisztrátornak át kell néznie.</target>
       </trans-unit>
       <trans-unit id="hiddenTopicCreatedAndActivateByUser">
         <source>New Topic was created. We have send an email to you to activate, edit and delete your topic.</source>
-        <target state="needs-translation">New Topic was created. We have send an email to you to activate, edit and delete your topic.</target>
+        <target state="translated">Az új téma létrehozva. E-mailt küldtünk Önnek a téma aktiválásához, szerkesztéséhez és törléséhez.</target>
       </trans-unit>
       <trans-unit id="topicUpdated">
         <source>Topic was updated.</source>
-        <target state="needs-translation">Topic was updated.</target>
+        <target state="translated">A téma frissítve.</target>
       </trans-unit>
       <trans-unit id="topicDeleted">
         <source>Topic was deleted.</source>
-        <target state="needs-translation">Topic was deleted.</target>
+        <target state="translated">A téma törölve.</target>
       </trans-unit>
       <trans-unit id="newPost">
         <source>Create new Post</source>
-        <target state="needs-translation">Create new Post</target>
+        <target state="translated">Új hozzászólás létrehozása</target>
       </trans-unit>
       <trans-unit id="postCreated">
         <source>Your new Post was created.</source>
-        <target state="needs-translation">Your new Post was created.</target>
+        <target state="translated">Az új hozzászólása létrehozva.</target>
       </trans-unit>
       <trans-unit id="hiddenPostCreatedAndActivateByAdmin">
         <source>New Topic was created, but must be reviewed by an administrator.</source>
-        <target state="needs-translation">New Topic was created, but must be reviewed by an administrator.</target>
+        <target state="translated">Az új téma létrehozva, de egy adminisztrátornak át kell néznie.</target>
       </trans-unit>
       <trans-unit id="hiddenPostCreatedAndActivateByUser">
         <source>New Post was created. We have send an email to you to activate, edit and delete your post.</source>
-        <target state="needs-translation">New Post was created. We have send an email to you to activate, edit and delete your post.</target>
+        <target state="translated">Az új hozzászólás létrehozva. E-mailt küldtünk Önnek a hozzászólás aktiválásához, szerkesztéséhez és törléséhez.</target>
       </trans-unit>
       <trans-unit id="postUpdated">
         <source>Post was updated.</source>
-        <target state="needs-translation">Post was updated.</target>
+        <target state="translated">A hozzászólás frissítve.</target>
       </trans-unit>
       <trans-unit id="postDeleted">
         <source>Post was deleted.</source>
-        <target state="needs-translation">Post was deleted.</target>
+        <target state="translated">A hozzászólás törölve.</target>
       </trans-unit>
       <trans-unit id="anonymous">
         <source>Anonymous User</source>
-        <target state="needs-translation">Anonymous User</target>
+        <target state="translated">Anonim felhasználó</target>
       </trans-unit>
       <trans-unit id="activate">
         <source>Activate</source>
-        <target state="needs-translation">Activate</target>
+        <target state="translated">Aktiválás</target>
       </trans-unit>
       <trans-unit id="activateTopic">
         <source>Activate Topic</source>
-        <target state="needs-translation">Activate Topic</target>
+        <target state="translated">Téma aktiválása</target>
       </trans-unit>
       <trans-unit id="activatePost">
         <source>Activate Post</source>
-        <target state="needs-translation">Activate Post</target>
+        <target state="translated">Hozzászólás aktiválása</target>
       </trans-unit>
       <trans-unit id="editTopic">
         <source>Edit Topic</source>
-        <target state="needs-translation">Edit Topic</target>
+        <target state="translated">Téma szerkesztése</target>
       </trans-unit>
       <trans-unit id="editPost">
         <source>Edit Post</source>
-        <target state="needs-translation">Edit Post</target>
+        <target state="translated">Hozzászólás szerkesztése</target>
       </trans-unit>
       <trans-unit id="deleteTopic">
         <source>Delete Topic</source>
-        <target state="needs-translation">Delete Topic</target>
+        <target state="translated">Téma törlése</target>
       </trans-unit>
       <trans-unit id="deletePost">
         <source>Delete Post</source>
-        <target state="needs-translation">Delete Post</target>
+        <target state="translated">Hozzászólás törlése</target>
       </trans-unit>
       <trans-unit id="topicActivated">
         <source>Topic was successfully activated</source>
-        <target state="needs-translation">Topic was successfully activated</target>
+        <target state="translated">A téma sikeresen aktiválva</target>
       </trans-unit>
       <trans-unit id="postActivated">
         <source>Post was successfully activated</source>
-        <target state="needs-translation">Post was successfully activated</target>
+        <target state="translated">A hozzászólás sikeresen aktiválva</target>
       </trans-unit>
       <trans-unit id="preview">
         <source>Preview</source>
-        <target state="needs-translation">Preview</target>
+        <target state="translated">Előnézet</target>
       </trans-unit>
       <trans-unit id="validator.anonymousUser.email">
         <source>The email of user object is mandatory</source>
-        <target state="needs-translation">The email of user object is mandatory</target>
+        <target state="translated">A felhasználói objektum e-mail címe kötelező</target>
       </trans-unit>
       <trans-unit id="validator.anonymousUser.validEmail">
         <source>The email of user object is not a valid email</source>
-        <target state="needs-translation">The email of user object is not a valid email</target>
+        <target state="translated">A felhasználói objektum e-mail címe nem érvényes e-mail cím</target>
       </trans-unit>
       <trans-unit id="validator.anonymousUser.username">
         <source>The username of user object is mandatory</source>
-        <target state="needs-translation">The username of user object is mandatory</target>
+        <target state="translated">A felhasználói objektum felhasználóneve kötelező</target>
       </trans-unit>
       <trans-unit id="email.topic.subject">
         <source>Manage your newly created topic</source>
-        <target state="needs-translation">Manage your newly created topic</target>
+        <target state="translated">Az újonnan létrehozott téma kezelése</target>
       </trans-unit>
       <trans-unit id="email.post.subject">
         <source>Manage your newly created post</source>
-        <target state="needs-translation">Manage your newly created post</target>
+        <target state="translated">Az újonnan létrehozott hozzászólás kezelése</target>
       </trans-unit>
       <trans-unit id="email.topic.text">
         <source>You have created a new topic. Now you have following options</source>
-        <target state="needs-translation">You have created a new topic. Now you have following options</target>
+        <target state="translated">Új témát hozott létre. A következő lehetőségei vannak</target>
       </trans-unit>
       <trans-unit id="email.post.text">
         <source>You have created a new posting. Now you have following options</source>
-        <target state="needs-translation">You have created a new posting. Now you have following options</target>
+        <target state="translated">Új hozzászólást hozott létre. A következő lehetőségei vannak</target>
       </trans-unit>
       <trans-unit id="error.activateFirst">
         <source>Sorry. This entry can't be edited or deleted as long as this record was not activated first.</source>
-        <target state="needs-translation">Sorry. This entry can't be edited or deleted as long as this record was not activated first.</target>
+        <target state="translated">Sajnáljuk. Ez a bejegyzés addig nem szerkeszthető vagy törölhető, amíg a rekordot először nem aktiválták.</target>
       </trans-unit>
       <trans-unit id="from">
         <source>from</source>
-        <target state="needs-translation">from</target>
+        <target state="translated">Feladó</target>
       </trans-unit>
       <trans-unit id="save">
         <source>save</source>
-        <target state="needs-translation">save</target>
+        <target state="translated">Mentés</target>
       </trans-unit>
       <trans-unit id="reset">
         <source>Reset</source>
-        <target state="needs-translation">Reset</target>
+        <target state="translated">Visszaállítás</target>
       </trans-unit>
       <trans-unit id="error.upload">
         <source>Something went wrong with your uploaded files. Please try again. Error: </source>
-        <target state="needs-translation">Something went wrong with your uploaded files. Please try again. Error: </target>
+        <target state="translated">Hiba történt a feltöltött fájljaival. Kérjük, próbálja újra. Hiba: </target>
       </trans-unit>
       <trans-unit id="error.fileExtension">
         <source>You only can upload files with following file extensions: %1$s</source>
-        <target state="needs-translation">You only can upload files with following file extensions: %1$s</target>
+        <target state="translated">Csak a következő fájlkiterjesztésű fájlokat tölthet fel: %1$s</target>
       </trans-unit>
       <trans-unit id="mandatory">
         <source>mandatory</source>
-        <target state="needs-translation">mandatory</target>
+        <target state="translated">kötelező</target>
       </trans-unit>
       <trans-unit id="be.administrateForumRecords">
         <source>Manage records of pforum</source>
-        <target state="needs-translation">Manage records of pforum</target>
+        <target state="translated">A pforum rekordjainak kezelése</target>
       </trans-unit>
       <trans-unit id="be.administrateHiddenRecords">
         <source>Hidden records</source>
-        <target state="needs-translation">Hidden records</target>
+        <target state="translated">Rejtett rekordok</target>
       </trans-unit>
       <trans-unit id="be.administrateTopicRecords">
         <source>Manage hidden topics</source>
-        <target state="needs-translation">Manage hidden topics</target>
+        <target state="translated">Rejtett témák kezelése</target>
       </trans-unit>
       <trans-unit id="be.administratePostRecords">
         <source>Manage hidden posts</source>
-        <target state="needs-translation">Manage hidden posts</target>
+        <target state="translated">Rejtett hozzászólások kezelése</target>
       </trans-unit>
       <trans-unit id="be.administrateRecords">
         <source>Manage</source>
-        <target state="needs-translation">Manage</target>
+        <target state="translated">Kezelés</target>
       </trans-unit>
       <trans-unit id="be.administrateTopicRecords.description">
         <source>If activated in TypoScript of pforum, new topics are hidden on creation. Within this BE module you can activate such records.</source>
-        <target state="needs-translation">If activated in TypoScript of pforum, new topics are hidden on creation. Within this BE module you can activate such records.</target>
+        <target state="translated">Ha aktiválva van a pforum TypoScriptjében, az új témák létrehozáskor rejtve lesznek. Ebben a BE modulban aktiválhatja az ilyen rekordokat.</target>
       </trans-unit>
       <trans-unit id="be.administratePostRecords.description">
         <source>If activated in TypoScript of pforum, new postings are hidden on creation. Within this BE module you can activate such records.</source>
-        <target state="needs-translation">If activated in TypoScript of pforum, new postings are hidden on creation. Within this BE module you can activate such records.</target>
+        <target state="translated">Ha aktiválva van a pforum TypoScriptjében, az új hozzászólások létrehozáskor rejtve lesznek. Ebben a BE modulban aktiválhatja az ilyen rekordokat.</target>
       </trans-unit>
       <trans-unit id="be.noRecordsInStorage">
         <source>Currently, there are no hidden records for selected record type.</source>
-        <target state="needs-translation">Currently, there are no hidden records for selected record type.</target>
+        <target state="translated">Jelenleg nincs rejtett rekord a kiválasztott rekordtípushoz.</target>
       </trans-unit>
     </body>
   </file>
