@@ -5,10 +5,10 @@
     <body>
       <trans-unit id="sheetGeneral" xml:space="preserve">
 				<source>General</source>
-			<target state="needs-translation">General</target></trans-unit>
+			<target state="translated">Általános</target></trans-unit>
       <trans-unit id="pidOfDetailPage" xml:space="preserve">
 				<source>PID of detail page</source>
-			<target state="needs-translation">PID of detail page</target></trans-unit>
+			<target state="translated">A részletoldal PID-je</target></trans-unit>
     </body>
   </file>
 </xliff>
