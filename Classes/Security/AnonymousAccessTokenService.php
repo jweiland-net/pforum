@@ -11,8 +11,9 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Security;
 
-use TYPO3\CMS\Core\Crypto\HashService;
-use TYPO3\CMS\Core\Exception\Crypto\InvalidHashStringException;
+use TYPO3\CMS\Extbase\Security\Cryptography\HashService;
+use TYPO3\CMS\Extbase\Security\Exception\InvalidArgumentForHashGenerationException;
+use TYPO3\CMS\Extbase\Security\Exception\InvalidHashException;
 
 class AnonymousAccessTokenService
 {
@@ -24,7 +25,7 @@ class AnonymousAccessTokenService
 
     public function generateToken(string $type, int $uid): string
     {
-        return $this->hashService->appendHmac($this->buildPayload($type, $uid), self::ADDITIONAL_SECRET);
+        return $this->hashService->appendHmac($this->buildPayload($type, $uid));
     }
 
     public function isTokenValid(string $type, int $uid, string $token): bool
@@ -34,8 +35,8 @@ class AnonymousAccessTokenService
         }
 
         try {
-            $payload = $this->hashService->validateAndStripHmac($token, self::ADDITIONAL_SECRET);
-        } catch (InvalidHashStringException) {
+            $payload = $this->hashService->validateAndStripHmac($token);
+        } catch (InvalidArgumentForHashGenerationException | InvalidHashException) {
             return false;
         }
 
@@ -44,6 +45,6 @@ class AnonymousAccessTokenService
 
     private function buildPayload(string $type, int $uid): string
     {
-        return $type . ':' . $uid;
+        return self::ADDITIONAL_SECRET . ':' . $type . ':' . $uid;
     }
 }
