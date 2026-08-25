@@ -21,6 +21,7 @@ use JWeiland\Pforum\Domain\Repository\TopicRepository;
 use JWeiland\Pforum\Event\PostProcessFluidVariablesEvent;
 use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
 use JWeiland\Pforum\Helper\FrontendGroupHelper;
+use JWeiland\Pforum\Security\AnonymousAccessTokenService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -45,6 +46,7 @@ class AbstractController extends ActionController
         protected readonly FrontendUserRepository $frontendUserRepository,
         protected readonly PersistenceManager $persistenceManager,
         protected readonly FrontendGroupHelper $frontendGroupHelper,
+        protected readonly AnonymousAccessTokenService $anonymousAccessTokenService,
     ) {
         $this->arguments = GeneralUtility::makeInstance(Arguments::class);
     }
@@ -143,12 +145,15 @@ class AbstractController extends ActionController
 
     protected function preProcessControllerAction(): void
     {
-        $this->eventDispatcher->dispatch(
-            new PreProcessControllerActionEvent(
-                $this->request,
-                $this->arguments,
-                $this->settings,
-            ),
+        $actionEvent = new PreProcessControllerActionEvent(
+            $this->request,
+            $this->arguments,
+            $this->settings,
         );
+        $this->eventDispatcher->dispatch($actionEvent);
+
+        $this->request = $actionEvent->getRequest();
+        $this->arguments = $actionEvent->getArguments();
+        $this->actionMethodName = $this->resolveActionMethodName();
     }
 }
