@@ -11,6 +11,10 @@ Version 5.0.1
 =============
 
 *   [SECURITY] Restrict edit/update/delete/activate actions on Topics and Posts to their owning frontend user
+*   [BUGFIX] Use Extbase HashService, TYPO3\CMS\Core\Crypto\HashService doesn't exist in v12
+*   [TASK] Migrate starttime/endtime TCA fields from inputDateTime to type=datetime
+*   [TASK] Migrate test cases from @test annotation to #[Test] attribute
+*   [TASK] Allow composer install against currently advisory-flagged TYPO3 12.4 core
 
 Version 5.0.0
 =============

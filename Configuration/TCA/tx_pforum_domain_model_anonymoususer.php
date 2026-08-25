@@ -91,11 +91,8 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
             'config' => [
-                'type' => 'input',
-                'size' => '13',
-                'eval' => 'datetime',
+                'type' => 'datetime',
                 'default' => 0,
-                'renderType' => 'inputDateTime',
             ],
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
@@ -104,14 +101,11 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
             'config' => [
-                'type' => 'input',
-                'size' => '13',
-                'eval' => 'datetime',
+                'type' => 'datetime',
                 'default' => 0,
                 'range' => [
                     'upper' => mktime(0, 0, 0, 1, 1, 2038),
                 ],
-                'renderType' => 'inputDateTime',
             ],
             'l10n_mode' => 'exclude',
             'l10n_display' => 'defaultAsReadonly',
