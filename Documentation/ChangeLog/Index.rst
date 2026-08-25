@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 6.2.4
+=============
+
+*   [SECURITY] Restrict edit/update/delete/activate actions on Topics and Posts to their owning frontend user
+
 Version 6.2.3
 =============
 
