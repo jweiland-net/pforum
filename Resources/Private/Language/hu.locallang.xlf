@@ -283,6 +283,10 @@
         <source>Currently, there are no hidden records for selected record type.</source>
         <target state="translated">Jelenleg nincs rejtett rekord a kiválasztott rekordtípushoz.</target>
       </trans-unit>
+      <trans-unit id="unauthorizedUser">
+        <source>You are not allowed to edit records that are not assigned to you.</source>
+        <target state="needs-translation">You are not allowed to edit records that are not assigned to you.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
