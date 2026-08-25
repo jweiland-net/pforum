@@ -10,6 +10,7 @@
 namespace JWeiland\Pforum\Tests\Functional\Validation\Validator;
 
 use JWeiland\Pforum\Validation\Validator\EmailValidator;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
@@ -48,9 +49,7 @@ class EmailValidatorTest extends FunctionalTestCase
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function validateWillNotAddAnyErrorIfEmailIsNotMandatory(): void
     {
         $this->setEmailIsMandatory(false);
@@ -61,9 +60,7 @@ class EmailValidatorTest extends FunctionalTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function validateWillNotAddAnyErrorIfEmailIsNotString(): void
     {
         $this->setEmailIsMandatory(true);
@@ -74,9 +71,7 @@ class EmailValidatorTest extends FunctionalTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function validateWillNotAddAnyErrorIfEmailIsValidAndIsString(): void
     {
         $this->setEmailIsMandatory(true);
@@ -87,9 +82,7 @@ class EmailValidatorTest extends FunctionalTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function validateWillAddErrorIfEmailIsStringAndEmpty(): void
     {
         $this->setEmailIsMandatory(true);
@@ -108,9 +101,7 @@ class EmailValidatorTest extends FunctionalTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function validateWillAddErrorIfEmailIsStringAndNotValid(): void
     {
         $this->setEmailIsMandatory(true);

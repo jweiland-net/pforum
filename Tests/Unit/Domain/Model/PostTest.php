@@ -10,6 +10,7 @@
 namespace JWeiland\Pforum\Tests\Unit\Domain\Model;
 
 use JWeiland\Pforum\Domain\Model\Post;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -29,9 +30,7 @@ class PostTest extends UnitTestCase
         unset($this->subject);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getTitleInitiallyReturnsEmptyString()
     {
         self::assertSame(
@@ -40,9 +39,7 @@ class PostTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setTitleSetsTitle()
     {
         $this->subject->setTitle('foo bar');
@@ -53,27 +50,21 @@ class PostTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setTitleWithIntegerResultsInString()
     {
         $this->subject->setTitle(123);
         self::assertSame('123', $this->subject->getTitle());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setTitleWithBooleanResultsInString()
     {
         $this->subject->setTitle(true);
         self::assertSame('1', $this->subject->getTitle());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getDescriptionInitiallyReturnsEmptyString()
     {
         self::assertSame(
@@ -82,9 +73,7 @@ class PostTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setDescriptionSetsDescription()
     {
         $this->subject->setDescription('foo bar');
@@ -95,18 +84,14 @@ class PostTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setDescriptionWithIntegerResultsInString()
     {
         $this->subject->setDescription(123);
         self::assertSame('123', $this->subject->getDescription());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setDescriptionWithBooleanResultsInString()
     {
         $this->subject->setDescription(true);
