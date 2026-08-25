@@ -224,6 +224,9 @@
 			<trans-unit id="be.noRecordsInStorage">
 				<source>Currently, there are no hidden records for selected record type.</source>
 			</trans-unit>
+			<trans-unit id="unauthorizedUser">
+				<source>You are not allowed to edit records that are not assigned to you.</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

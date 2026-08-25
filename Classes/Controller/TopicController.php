@@ -89,7 +89,12 @@ class TopicController extends AbstractController
                 'edit',
                 'Topic',
                 'Pforum',
-                ['topic' => $topic, 'isPreview' => true, 'isNew' => true]
+                [
+                    'topic' => $topic,
+                    'isPreview' => true,
+                    'isNew' => true,
+                    'token' => $this->anonymousAccessTokenService->generateToken('Topic', $topic->getUid()),
+                ]
             );
         }
 
@@ -128,12 +133,14 @@ class TopicController extends AbstractController
     public function editAction(
         Topic $topic = null,
         bool $isPreview = false,
-        bool $isNew = false
+        bool $isNew = false,
+        string $token = ''
     ): void {
         $this->postProcessAndAssignFluidVariables([
             'topic' => $topic,
             'isPreview' => $isPreview,
             'isNew' => $isNew,
+            'token' => $token,
         ]);
     }
 
@@ -152,7 +159,7 @@ class TopicController extends AbstractController
      * @param bool $isNew We need the information if updateAction was called from createAction.
      *                    If so we have to add different messages
      */
-    public function updateAction(Topic $topic, bool $isNew = false): void
+    public function updateAction(Topic $topic, bool $isNew = false, string $token = ''): void
     {
         $this->topicRepository->update($topic);
 
@@ -163,7 +170,7 @@ class TopicController extends AbstractController
                 'edit',
                 'Topic',
                 'Pforum',
-                ['topic' => $topic, 'isPreview' => true, 'isNew' => $isNew]
+                ['topic' => $topic, 'isPreview' => true, 'isNew' => $isNew, 'token' => $token]
             );
         } else {
             if ($isNew) {
@@ -282,6 +289,7 @@ class TopicController extends AbstractController
             ->assignMultiple([
                 'settings' => $this->settings,
                 'topic' => $topic,
+                'token' => $this->anonymousAccessTokenService->generateToken('Topic', $topic->getUid()),
             ]);
         GeneralUtility::makeInstance(Mailer::class)->send($email);
     }
