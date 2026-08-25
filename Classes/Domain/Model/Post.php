@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Domain\Model;
 
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
@@ -135,6 +137,18 @@ class Post extends AbstractEntity
     public function setFrontendUser(FrontendUser $frontendUser): void
     {
         $this->frontendUser = $frontendUser;
+    }
+
+    public function getHasValidUser(): bool
+    {
+        $frontendUserId = GeneralUtility::makeInstance(Context::class)
+            ->getAspect('frontend.user')
+            ->get('id');
+        if ($frontendUserId > 0 && $this->frontendUser instanceof FrontendUser && $this->frontendUser->getUid() > 0) {
+            return (int)$frontendUserId === $this->frontendUser->getUid();
+        }
+
+        return false;
     }
 
     /**

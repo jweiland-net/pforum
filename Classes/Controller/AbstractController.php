@@ -20,6 +20,7 @@ use JWeiland\Pforum\Domain\Repository\PostRepository;
 use JWeiland\Pforum\Domain\Repository\TopicRepository;
 use JWeiland\Pforum\Event\PostProcessFluidVariablesEvent;
 use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
+use JWeiland\Pforum\Security\AnonymousAccessTokenService;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
@@ -69,6 +70,16 @@ class AbstractController extends ActionController
      * @var PersistenceManager
      */
     protected $persistenceManager;
+
+    /**
+     * @var AnonymousAccessTokenService
+     */
+    protected $anonymousAccessTokenService;
+
+    public function injectAnonymousAccessTokenService(AnonymousAccessTokenService $anonymousAccessTokenService): void
+    {
+        $this->anonymousAccessTokenService = $anonymousAccessTokenService;
+    }
 
     public function injectExtConf(ExtConf $extConf): void
     {
@@ -202,12 +213,17 @@ class AbstractController extends ActionController
 
     protected function preProcessControllerAction(): void
     {
-        $this->eventDispatcher->dispatch(
-            new PreProcessControllerActionEvent(
-                $this->request,
-                $this->arguments,
-                $this->settings
-            )
+        $actionEvent = new PreProcessControllerActionEvent(
+            $this->request,
+            $this->arguments,
+            $this->settings
         );
+        $this->eventDispatcher->dispatch($actionEvent);
+
+        // The request itself is mutable in this TYPO3 version, an EventListener may have changed
+        // its controller action name directly. Re-resolve actionMethodName so ActionController
+        // calls the (possibly changed) action instead of the one resolved before this method ran.
+        $this->arguments = $actionEvent->getArguments();
+        $this->actionMethodName = $this->resolveActionMethodName();
     }
 }

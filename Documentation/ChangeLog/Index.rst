@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 4.0.4
+=============
+
+*   [SECURITY] Restrict edit/update/delete/activate actions on Topics and Posts to their owning frontend user
+
 Version 4.0.3
 =============
 
