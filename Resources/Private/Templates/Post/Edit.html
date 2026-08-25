@@ -58,6 +58,7 @@
 		</f:if>
 
 		<f:if condition="{settings.auth} == 1">
+			<f:form.hidden name="token" value="{token}" />
 			<f:render partial="User/FormFields" arguments="{object: 'post', post: post}" />
 		</f:if>
 

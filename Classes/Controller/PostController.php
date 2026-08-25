@@ -61,7 +61,12 @@ class PostController extends AbstractController
                 'edit',
                 'Post',
                 'Pforum',
-                ['post' => $post, 'isPreview' => true, 'isNew' => true],
+                [
+                    'post' => $post,
+                    'isPreview' => true,
+                    'isNew' => true,
+                    'token' => $this->anonymousAccessTokenService->generateToken('Post', $post->getUid()),
+                ],
             );
         }
 
@@ -110,11 +115,16 @@ class PostController extends AbstractController
      *                    If so we have to passthrough this information
      */
     #[Extbase\IgnoreValidation(['value' => 'post'])]
-    public function editAction(Post $post = null, bool $isPreview = false, bool $isNew = false): ResponseInterface
-    {
+    public function editAction(
+        Post $post = null,
+        bool $isPreview = false,
+        bool $isNew = false,
+        string $token = '',
+    ): ResponseInterface {
         $this->view->assign('post', $post);
         $this->view->assign('isPreview', $isPreview);
         $this->view->assign('isNew', $isNew);
+        $this->view->assign('token', $token);
         return $this->htmlResponse();
     }
 
@@ -134,7 +144,7 @@ class PostController extends AbstractController
      * @param bool $isNew We need the information if updateAction was
      *                    called from createAction. If so we have to add different messages
      */
-    public function updateAction(Post $post, bool $isNew = false): void
+    public function updateAction(Post $post, bool $isNew = false, string $token = ''): void
     {
         $this->postRepository->update($post);
 
@@ -145,7 +155,7 @@ class PostController extends AbstractController
                 'edit',
                 'Post',
                 'Pforum',
-                ['post' => $post, 'isPreview' => true, 'isNew' => $isNew],
+                ['post' => $post, 'isPreview' => true, 'isNew' => $isNew, 'token' => $token],
             );
         } else {
             if ($isNew) {
@@ -283,6 +293,7 @@ class PostController extends AbstractController
             ->assignMultiple([
                 'settings' => $this->settings,
                 'post' => $post,
+                'token' => $this->anonymousAccessTokenService->generateToken('Post', $post->getUid()),
             ]);
         GeneralUtility::makeInstance(Mailer::class)->send($email);
     }
