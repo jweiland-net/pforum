@@ -284,6 +284,7 @@ class TopicController extends AbstractController
             ->from(new Address($this->extConf->getEmailFromAddress(), $this->extConf->getEmailFromName()))
             ->subject(LocalizationUtility::translate('email.topic.subject', 'pforum'))
             ->format('html')
+            ->setRequest($this->request)
             ->setTemplate('ConfigureTopic')
             ->assignMultiple([
                 'settings' => $this->settings,
