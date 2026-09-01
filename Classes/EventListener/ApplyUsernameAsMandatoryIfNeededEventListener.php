@@ -12,18 +12,26 @@ declare(strict_types=1);
 namespace JWeiland\Pforum\EventListener;
 
 use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
+use JWeiland\Pforum\Traits\IsValidEventListenerRequestTrait;
+use JWeiland\Pforum\Validation\Validator\UsernameValidator;
+use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator;
 use TYPO3\CMS\Extbase\Validation\Validator\GenericObjectValidator;
-use TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator;
+use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
 use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
 
 /**
- * Add validator for username in topic/post records, if it is was configured in typoscript
+ * Add a validator for a username in topic- / post-records if it is configured in TypoScript
  */
-class ApplyUsernameAsMandatoryIfNeededEventListener extends AbstractControllerEventListener
+#[AsEventListener(
+    identifier: 'pforum/apply-username-as-mandatory-if-needed',
+)]
+final readonly class ApplyUsernameAsMandatoryIfNeededEventListener
 {
-    protected $allowedControllerActions = [
+    use IsValidEventListenerRequestTrait;
+
+    private const ALLOWED_CONTROLLER_ACTIONS = [
         'Topic' => [
             'create',
             'update',
@@ -34,34 +42,47 @@ class ApplyUsernameAsMandatoryIfNeededEventListener extends AbstractControllerEv
         ],
     ];
 
+    private const VALIDATOR = UsernameValidator::class;
+
     public function __construct(
-        protected readonly ValidatorResolver $validatorResolver,
+        private ValidatorResolver $validatorResolver,
     ) {}
 
     public function __invoke(PreProcessControllerActionEvent $controllerActionEvent): void
     {
-        if (
-            $this->isValidRequest($controllerActionEvent)
-            && ($controllerActionEvent->getSettings()['usernameIsMandatory'] ?? false)
-            && ($validatorResolver = $this->objectManager->get(ValidatorResolver::class))
-            && ($notEmptyValidator = $validatorResolver->createValidator(NotEmptyValidator::class))
-            && $notEmptyValidator instanceof NotEmptyValidator
-            && ($argumentName = $this->getArgumentName($controllerActionEvent))
-        ) {
-            /** @var ConjunctionValidator $eventValidator */
-            $eventValidator = $controllerActionEvent->getArguments()->getArgument($argumentName)->getValidator();
-            /** @var ConjunctionValidator $conjunctionValidator */
-            $conjunctionValidator = $eventValidator->getValidators()->current();
-            /** @var GenericObjectValidator $genericEventValidator */
-            $genericEventValidator = $conjunctionValidator->getValidators()->current();
-            $genericEventValidator->addPropertyValidator(
-                $this->getUsersPropertyName($controllerActionEvent->getRequest(), $argumentName),
-                $notEmptyValidator,
-            );
+        if (!$this->isValidRequest($controllerActionEvent)) {
+            return;
         }
+
+        $usernameIsMandatory = (bool)$controllerActionEvent->getSettings()['usernameIsMandatory'] ?? false;
+        if (!$usernameIsMandatory) {
+            return;
+        }
+
+        $argumentName = $this->getArgumentName($controllerActionEvent);
+        if ($argumentName === '') {
+            return;
+        }
+
+        $usernameIsMandatoryValidator = $this->getValidator(
+            self::VALIDATOR,
+            [],
+            $controllerActionEvent->getRequest(),
+        );
+
+        /** @var ConjunctionValidator $eventValidator */
+        $eventValidator = $controllerActionEvent->getArguments()->getArgument($argumentName)->getValidator();
+        /** @var ConjunctionValidator $conjunctionValidator */
+        $conjunctionValidator = $eventValidator->getValidators()->current();
+        /** @var GenericObjectValidator $genericEventValidator */
+        $genericEventValidator = $conjunctionValidator->getValidators()->current();
+        $genericEventValidator->addPropertyValidator(
+            $this->getUsersPropertyName($controllerActionEvent->getRequest(), $argumentName),
+            $usernameIsMandatoryValidator,
+        );
     }
 
-    protected function getUsersPropertyName(Request $request, string $argumentName): string
+    private function getUsersPropertyName(Request $request, string $argumentName): string
     {
         $requestedArgument = $this->getRequestedArgument($request, $argumentName);
         if ($requestedArgument === []) {
@@ -79,7 +100,7 @@ class ApplyUsernameAsMandatoryIfNeededEventListener extends AbstractControllerEv
         return '';
     }
 
-    protected function getRequestedArgument(Request $request, string $argumentName): array
+    private function getRequestedArgument(Request $request, string $argumentName): array
     {
         if ($argumentName === '') {
             return [];
@@ -92,7 +113,7 @@ class ApplyUsernameAsMandatoryIfNeededEventListener extends AbstractControllerEv
         return [];
     }
 
-    protected function getArgumentName(PreProcessControllerActionEvent $event): string
+    private function getArgumentName(PreProcessControllerActionEvent $event): string
     {
         if ($event->getControllerName() === 'Topic') {
             return 'topic';
@@ -103,5 +124,13 @@ class ApplyUsernameAsMandatoryIfNeededEventListener extends AbstractControllerEv
         }
 
         return '';
+    }
+
+    private function getValidator(
+        string $className,
+        array $options,
+        Request $request,
+    ): ValidatorInterface {
+        return $this->validatorResolver->createValidator($className, $options, $request);
     }
 }
