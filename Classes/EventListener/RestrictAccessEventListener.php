@@ -15,10 +15,9 @@ use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\Repository\PostRepository;
 use JWeiland\Pforum\Domain\Repository\TopicRepository;
-use JWeiland\Pforum\Event\ControllerActionEventInterface;
 use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
 use JWeiland\Pforum\Security\AnonymousAccessTokenService;
-use Psr\Http\Message\ServerRequestInterface;
+use JWeiland\Pforum\Traits\IsValidEventListenerRequestTrait;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
@@ -26,16 +25,21 @@ use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\Arguments;
+use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Extbase\Service\ExtensionService;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Restrict access to certain controller actions if logged-in user tries to access other user's records.
  */
-#[AsEventListener('pforum/restrictAccess')]
-final class RestrictAccessEventListener
+#[AsEventListener(
+    identifier: 'pforum/restrictAccess',
+)]
+final readonly class RestrictAccessEventListener
 {
-    protected const ALLOWED_CONTROLLER_ACTIONS = [
+    use IsValidEventListenerRequestTrait;
+
+    private const ALLOWED_CONTROLLER_ACTIONS = [
         'Topic' => [
             'edit',
             'update',
@@ -50,14 +54,12 @@ final class RestrictAccessEventListener
         ],
     ];
 
-    private ?ServerRequestInterface $request = null;
-
     public function __construct(
-        private readonly FlashMessageService $flashMessageService,
-        private readonly TopicRepository $topicRepository,
-        private readonly PostRepository $postRepository,
-        private readonly ExtensionService $extensionService,
-        private readonly AnonymousAccessTokenService $anonymousAccessTokenService,
+        private FlashMessageService $flashMessageService,
+        private TopicRepository $topicRepository,
+        private PostRepository $postRepository,
+        private ExtensionService $extensionService,
+        private AnonymousAccessTokenService $anonymousAccessTokenService,
     ) {}
 
     public function __invoke(PreProcessControllerActionEvent $controllerActionEvent): void
@@ -66,14 +68,12 @@ final class RestrictAccessEventListener
             return;
         }
 
-        $this->request = $controllerActionEvent->getRequest();
-
         if ($this->isAccessAllowed($controllerActionEvent)) {
             return;
         }
 
         $controllerActionEvent->setRequest(
-            $this->request->withControllerActionName('error'),
+            $controllerActionEvent->getRequest()->withControllerActionName('error'),
         );
 
         $controllerActionEvent->setArguments(
@@ -88,17 +88,17 @@ final class RestrictAccessEventListener
         $isAnonymousMode = (int)($controllerActionEvent->getSettings()['auth'] ?? 0) === 1;
 
         if ($controllerName === 'Topic') {
-            return $this->isTopicAccessAllowed($request, $isAnonymousMode);
+            return $this->isTopicAccessAllowed($isAnonymousMode, $request);
         }
 
         if ($controllerName === 'Post') {
-            return $this->isPostAccessAllowed($request, $isAnonymousMode);
+            return $this->isPostAccessAllowed($isAnonymousMode, $request);
         }
 
         return true;
     }
 
-    private function isTopicAccessAllowed(ServerRequestInterface $request, bool $isAnonymousMode): bool
+    private function isTopicAccessAllowed(bool $isAnonymousMode, Request $request): bool
     {
         if (!$request->hasArgument('topic')) {
             return true;
@@ -111,8 +111,11 @@ final class RestrictAccessEventListener
         }
 
         if ($isAnonymousMode) {
-            if (!$this->isAnonymousTokenValid($request, 'Topic', $topicUid)) {
-                $this->addFlashMessage(LocalizationUtility::translate('unauthorizedUser', 'pforum'));
+            if (!$this->isAnonymousTokenValid('Topic', $topicUid, $request)) {
+                $this->addFlashMessage(
+                    LocalizationUtility::translate('unauthorizedUser', 'pforum'),
+                    $request,
+                );
 
                 return false;
             }
@@ -125,7 +128,10 @@ final class RestrictAccessEventListener
             && $topic instanceof Topic
             && $topic->getHasValidUser() === false
         ) {
-            $this->addFlashMessage(LocalizationUtility::translate('unauthorizedUser', 'pforum'));
+            $this->addFlashMessage(
+                LocalizationUtility::translate('unauthorizedUser', 'pforum'),
+                $request,
+            );
 
             return false;
         }
@@ -133,7 +139,7 @@ final class RestrictAccessEventListener
         return true;
     }
 
-    private function isPostAccessAllowed(ServerRequestInterface $request, bool $isAnonymousMode): bool
+    private function isPostAccessAllowed(bool $isAnonymousMode, Request $request): bool
     {
         if (!$request->hasArgument('post')) {
             return true;
@@ -146,8 +152,11 @@ final class RestrictAccessEventListener
         }
 
         if ($isAnonymousMode) {
-            if (!$this->isAnonymousTokenValid($request, 'Post', $postUid)) {
-                $this->addFlashMessage(LocalizationUtility::translate('unauthorizedUser', 'pforum'));
+            if (!$this->isAnonymousTokenValid('Post', $postUid, $request)) {
+                $this->addFlashMessage(
+                    LocalizationUtility::translate('unauthorizedUser', 'pforum'),
+                    $request,
+                );
 
                 return false;
             }
@@ -160,7 +169,10 @@ final class RestrictAccessEventListener
             && $post instanceof Post
             && $post->getHasValidUser() === false
         ) {
-            $this->addFlashMessage(LocalizationUtility::translate('unauthorizedUser', 'pforum'));
+            $this->addFlashMessage(
+                LocalizationUtility::translate('unauthorizedUser', 'pforum'),
+                $request,
+            );
 
             return false;
         }
@@ -168,7 +180,7 @@ final class RestrictAccessEventListener
         return true;
     }
 
-    private function isAnonymousTokenValid(ServerRequestInterface $request, string $type, int $uid): bool
+    private function isAnonymousTokenValid(string $type, int $uid, Request $request): bool
     {
         $token = $request->hasArgument('token') ? (string)$request->getArgument('token') : '';
 
@@ -182,7 +194,7 @@ final class RestrictAccessEventListener
             : (int)$argument;
     }
 
-    private function addFlashMessage(string $messageBody): void
+    private function addFlashMessage(string $messageBody, Request $request): void
     {
         $flashMessage = GeneralUtility::makeInstance(
             FlashMessage::class,
@@ -192,30 +204,19 @@ final class RestrictAccessEventListener
             true,
         );
 
-        $this->getFlashMessageQueue()->enqueue($flashMessage);
+        $this->getFlashMessageQueue($request)->enqueue($flashMessage);
     }
 
-    private function getFlashMessageQueue(?string $identifier = null): FlashMessageQueue
-    {
-        if ($identifier === null) {
-            $pluginNamespace = $this->extensionService->getPluginNamespace(
-                $this->request->getControllerExtensionName(),
-                $this->request->getPluginName(),
-            );
-            $identifier = 'extbase.flashmessages.' . $pluginNamespace;
-        }
+    private function getFlashMessageQueue(
+        Request $request,
+    ): FlashMessageQueue {
+        $pluginNamespace = $this->extensionService->getPluginNamespace(
+            $request->getControllerExtensionName(),
+            $request->getPluginName(),
+        );
+
+        $identifier = 'extbase.flashmessages.' . $pluginNamespace;
 
         return $this->flashMessageService->getMessageQueueByIdentifier($identifier);
-    }
-
-    protected function isValidRequest(ControllerActionEventInterface $event): bool
-    {
-        return
-            array_key_exists($event->getControllerName(), self::ALLOWED_CONTROLLER_ACTIONS)
-            && in_array(
-                $event->getActionName(),
-                self::ALLOWED_CONTROLLER_ACTIONS[$event->getControllerName()],
-                true,
-            );
     }
 }
