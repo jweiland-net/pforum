@@ -14,6 +14,7 @@ namespace JWeiland\Pforum\Domain\Model;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
@@ -41,11 +42,44 @@ class Post extends AbstractEntity
     /**
      * @var ObjectStorage<FileReference>
      */
+    #[Lazy]
+    #[Extbase\FileUpload([
+        'validation' => [
+            'required' => false,
+            'maxFiles' => 2,
+            'fileSize' => [
+                'minimum' => '0K',
+                'maximum' => '4M',
+            ],
+            'mimeType' => [
+                'allowedMimeTypes' => [
+                    'image/jpeg',
+                    'image/png',
+                ],
+            ],
+            'fileExtension' => [
+                'allowedFileExtensions' => [
+                    'jpg',
+                    'jpeg',
+                    'png',
+                ],
+            ],
+        ],
+        'uploadFolder' => '1:/user_upload/tx_pforum/',
+    ])]
     protected ObjectStorage $images;
 
     public function __construct()
     {
         $this->images = new ObjectStorage();
+    }
+
+    /**
+     * Called again with initialize object, as fetching an entity from the DB does not use the constructor
+     */
+    public function initializeObject(): void
+    {
+        $this->images ??= new ObjectStorage();
     }
 
     public function getHidden(): bool
@@ -148,24 +182,12 @@ class Post extends AbstractEntity
         return $user;
     }
 
-    public function getOriginalImages(): ObjectStorage
+    /**
+     * @return ObjectStorage<FileReference>
+     */
+    public function getImages(): ObjectStorage
     {
         return $this->images;
-    }
-
-    /**
-     * @return array|FileReference[]
-     */
-    public function getImages(): array
-    {
-        // ObjectStorage has SplObjectHashes as key which we don't know in Fluid
-        // so we convert ObjectStorage to array to get numbered keys
-        $references = [];
-        foreach ($this->images as $image) {
-            $references[] = $image;
-        }
-
-        return $references;
     }
 
     public function setImages(ObjectStorage $images): void

@@ -37,6 +37,14 @@ class Forum extends AbstractEntity
         $this->topics = new ObjectStorage();
     }
 
+    /**
+     * Called again with initialize object, as fetching an entity from the DB does not use the constructor
+     */
+    public function initializeObject(): void
+    {
+        $this->topics ??= new ObjectStorage();
+    }
+
     public function getTitle(): string
     {
         return $this->title;
