@@ -53,12 +53,45 @@ class Topic extends AbstractEntity
      * @var ObjectStorage<FileReference>
      */
     #[Lazy]
+    #[Extbase\FileUpload([
+        'validation' => [
+            'required' => false,
+            'maxFiles' => 2,
+            'fileSize' => [
+                'minimum' => '0K',
+                'maximum' => '4M',
+            ],
+            'mimeType' => [
+                'allowedMimeTypes' => [
+                    'image/jpeg',
+                    'image/png',
+                ],
+            ],
+            'fileExtension' => [
+                'allowedFileExtensions' => [
+                    'jpg',
+                    'jpeg',
+                    'png',
+                ],
+            ],
+        ],
+        'uploadFolder' => '1:/user_upload/tx_pforum/',
+    ])]
     protected ObjectStorage $images;
 
     public function __construct()
     {
         $this->posts = new ObjectStorage();
         $this->images = new ObjectStorage();
+    }
+
+    /**
+     * Called again with initialize object, as fetching an entity from the DB does not use the constructor
+     */
+    public function initializeObject(): void
+    {
+        $this->posts ??= new ObjectStorage();
+        $this->images ??= new ObjectStorage();
     }
 
     public function getHidden(): bool
@@ -181,24 +214,12 @@ class Topic extends AbstractEntity
         return $user;
     }
 
-    public function getOriginalImages(): ObjectStorage
+    /**
+     * @return ObjectStorage<FileReference>
+     */
+    public function getImages(): ObjectStorage
     {
         return $this->images;
-    }
-
-    /**
-     * @return array|FileReference[]
-     */
-    public function getImages(): array
-    {
-        // ObjectStorage has SplObjectHashes as key which we don't know in Fluid
-        // so we convert ObjectStorage to array to get numbered keys
-        $references = [];
-        foreach ($this->images as $image) {
-            $references[] = $image;
-        }
-
-        return $references;
     }
 
     public function setImages(ObjectStorage $images): void
