@@ -12,24 +12,33 @@ declare(strict_types=1);
 namespace JWeiland\Pforum\Validation\Validator;
 
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 /**
- * Username validator will only be executed, if set in TypoScript
+ * Username validator will only be executed if set in TypoScript
  */
-class UsernameValidator extends AbstractValidator
+final class UsernameValidator extends AbstractValidator
 {
     /**
-     * Checks if the username is given if configured in settings.
-     *
-     * @param mixed $value The value that should be validated
+     * This validator always needs to be executed, even if the given value is empty.
+     * See AbstractValidator::validate().
      */
-    public function isValid($value): void
+    protected $acceptsEmptyValues = false;
+
+    protected $supportedOptions = [
+        'usernameIsMandatory' => [false, 'Whether the email address is mandatory', 'bool'],
+    ];
+
+    /**
+     * Checks if the username is given if configured in settings.
+     */
+    public function isValid(mixed $value): void
     {
-        if (
-            isset($this->settings['usernameIsMandatory'])
-            && $this->settings['usernameIsMandatory'] === '1'
-            && $value === ''
-        ) {
+        if (!$this->options['usernameIsMandatory']) {
+            return;
+        }
+
+        if ((string)$value === '') {
             $this->addError(
                 LocalizationUtility::translate(
                     'validator.anonymousUser.username',

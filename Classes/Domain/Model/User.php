@@ -11,9 +11,6 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Domain\Model;
 
-use JWeiland\Pforum\Validation\Validator\EmailValidator;
-use JWeiland\Pforum\Validation\Validator\UsernameValidator;
-use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
@@ -23,10 +20,8 @@ class User extends AbstractEntity
 {
     protected string $name = '';
 
-    #[Extbase\Validate(['validator' => UsernameValidator::class])]
     protected string $username = '';
 
-    #[Extbase\Validate(['validator' => EmailValidator::class])]
     protected string $email = '';
 
     public function getName(): string

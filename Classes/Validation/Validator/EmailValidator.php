@@ -13,35 +13,42 @@ namespace JWeiland\Pforum\Validation\Validator;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 /**
- * Email validator which will only executed if an fe_user created a topic or posting
+ * Email validator that will only execute if a fe_user created a topic or posting
  */
-class EmailValidator extends AbstractValidator
+final class EmailValidator extends AbstractValidator
 {
     /**
-     * Checks if the email is given if configured in settings.
-     *
-     * @param mixed $value The value that should be validated
+     * This validator always needs to be executed, even if the given value is empty.
+     * See AbstractValidator::validate().
      */
-    public function isValid($value): void
+    protected $acceptsEmptyValues = false;
+
+    protected $supportedOptions = [
+        'emailIsMandatory' => [false, 'Whether the email address is mandatory', 'bool'],
+    ];
+
+    /**
+     * Checks if the email is given if configured in settings.
+     */
+    public function isValid(mixed $value): void
     {
-        if (
-            isset($this->settings['emailIsMandatory'])
-            && $this->settings['emailIsMandatory'] === '1'
-            && is_string($value)
-        ) {
-            if ($value === '') {
-                $this->addError(
-                    LocalizationUtility::translate('validator.anonymousUser.email', 'pforum'),
-                    1378288238,
-                );
-            } elseif (!GeneralUtility::validEmail($value)) {
-                $this->addError(
-                    LocalizationUtility::translate('validator.anonymousUser.validEmail', 'pforum'),
-                    1457431804,
-                );
-            }
+        if (!$this->options['emailIsMandatory']) {
+            return;
+        }
+
+        if ((string)$value === '') {
+            $this->addError(
+                LocalizationUtility::translate('validator.anonymousUser.email', 'pforum'),
+                1378288238,
+            );
+        } elseif (!GeneralUtility::validEmail((string)$value)) {
+            $this->addError(
+                LocalizationUtility::translate('validator.anonymousUser.validEmail', 'pforum'),
+                1457431804,
+            );
         }
     }
 }
