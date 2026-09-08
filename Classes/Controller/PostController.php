@@ -235,7 +235,7 @@ class PostController extends AbstractController
     }
 
     /**
-     * We need this extra action, because hidden entries can't be found in FE mode.
+     * We need this extra action because hidden entries can't be found in FE mode.
      */
     public function activateAction(Post $post): ResponseInterface
     {
