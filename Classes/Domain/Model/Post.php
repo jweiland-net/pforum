@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace JWeiland\Pforum\Domain\Model;
 
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
@@ -40,6 +41,9 @@ class Post extends AbstractEntity
     protected ?FrontendUser $frontendUser = null;
 
     /**
+     * Modifying the FileUpload is described here:
+     * @link https://docs.typo3.org/c/typo3/cms-core/main/en-us/Changelog/13.3/Feature-103511-IntroduceExtbaseFileUploadHandling.html#modifying-existing-configuration
+     *
      * @var ObjectStorage<FileReference>
      */
     #[Lazy]
@@ -66,6 +70,8 @@ class Post extends AbstractEntity
             ],
         ],
         'uploadFolder' => '1:/user_upload/tx_pforum/',
+        'duplicationBehavior' => DuplicationBehavior::RENAME,
+        'createUploadFolderIfNotExist' => true,
     ])]
     protected ObjectStorage $images;
 
