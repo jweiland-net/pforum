@@ -15,13 +15,12 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Core\SingletonInterface;
 
 /**
  * Class ExtConf
  */
 #[Autoconfigure(constructor: 'create')]
-readonly class ExtConf implements SingletonInterface
+readonly class ExtConf
 {
     private const EXT_KEY = 'pforum';
 
