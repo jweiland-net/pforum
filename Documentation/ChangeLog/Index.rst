@@ -7,6 +7,21 @@
 ChangeLog
 =========
 
+Version 7.0.0
+=============
+
+*   [TASK] Migrate Post/Topic image uploads to Extbase's native FileUpload API, including duplicate-file handling
+    and automatic upload folder creation
+*   [BUGFIX] Fix duplicate validation of mandatory email/username fields
+*   [BUGFIX] Fix missing request context in FluidEmail sent from TopicController::mailToUser()
+*   [TASK] Remove Singleton pattern from ExtConf and stop using TSFE in controllers and helpers
+*   [TASK] Remove obsolete TCA columns and database fields already provided by TYPO3 core
+*   [TASK] Make crdate nullable in Topic and Post
+*   [TASK] Configure pforum backend templates via page TSconfig instead of ext_typoscript_setup.typoscript
+*   [TASK] Remove obsolete static template registration left over from the Site Sets migration
+*   [TASK] Suggest installing jweiland/checkfaluploads for mandatory upload consent
+*   [DOCU] Fix typos and improve English wording across the documentation
+
 Version 6.2.4
 =============
 
