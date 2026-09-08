@@ -12,6 +12,8 @@ Version 7.0.0
 
 *   [TASK] Migrate Post/Topic image uploads to Extbase's native FileUpload API, including duplicate-file handling
     and automatic upload folder creation
+*   [BUGFIX] Apply the `settings.new.uploadFolder` TypoScript/FlexForm setting to Post/Topic file uploads again,
+    which had no effect since the migration to the native FileUpload API
 *   [BUGFIX] Fix duplicate validation of mandatory email/username fields
 *   [BUGFIX] Fix missing request context in FluidEmail sent from TopicController::mailToUser()
 *   [TASK] Remove Singleton pattern from ExtConf and stop using TSFE in controllers and helpers
