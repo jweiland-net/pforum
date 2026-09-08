@@ -1,10 +1,15 @@
 {
 	"name": "jweiland/pforum",
-	"type": "typo3-cms-extension",
 	"description": "Lightweight forum extension for TYPO3",
 	"license": "GPL-2.0-or-later",
-	"keywords": ["typo3", "TYPO3 CMS", "forum", "pforum", "lightweight"],
-	"homepage": "https://jweiland.net",
+	"type": "typo3-cms-extension",
+	"keywords": [
+		"typo3",
+		"TYPO3 CMS",
+		"forum",
+		"pforum",
+		"lightweight"
+	],
 	"authors": [
 		{
 			"name": "Stefan Froemken",
@@ -17,6 +22,7 @@
 			"role": "Developer"
 		}
 	],
+	"homepage": "https://jweiland.net",
 	"support": {
 		"email": "support@jweiland.net",
 		"issues": "https://github.com/jweiland-net/pforum/issues",
@@ -57,8 +63,8 @@
 	},
 	"extra": {
 		"typo3/cms": {
-			"extension-key": "pforum",
 			"app-dir": ".Build",
+			"extension-key": "pforum",
 			"web-dir": ".Build/public"
 		}
 	}
