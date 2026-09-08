@@ -29,7 +29,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class PostController extends AbstractController
 {
     #[Extbase\IgnoreValidation(['value' => 'post'])]
-    public function newAction(Topic $topic, Post $post = null): ResponseInterface
+    public function newAction(Topic $topic, ?Post $post = null): ResponseInterface
     {
         $this->view->assign('topic', $topic);
         $this->view->assign('post', $post);
@@ -115,13 +115,12 @@ class PostController extends AbstractController
     }
 
     /**
-     * @param Post|null $post
      * @param bool $isNew We need the information if updateAction was called from createAction.
      *                    If so we have to passthrough this information
      */
     #[Extbase\IgnoreValidation(['value' => 'post'])]
     public function editAction(
-        Post $post = null,
+        ?Post $post = null,
         bool $isPreview = false,
         bool $isNew = false,
         string $token = '',

@@ -55,12 +55,6 @@ class TopicRepository extends Repository implements HiddenRepositoryInterface
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setIgnoreEnableFields(true)->setRespectStoragePage(false);
-
-        $firstObject = $query->matching($query->equals($property, $value))->execute()->getFirst();
-        if ($firstObject instanceof Topic) {
-            return $firstObject;
-        }
-
-        return null;
+        return $query->matching($query->equals($property, $value))->execute()->getFirst();
     }
 }

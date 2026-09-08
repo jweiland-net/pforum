@@ -23,9 +23,7 @@ class PostProcessFluidVariablesEvent implements ControllerActionEventInterface
      * @param array<string, mixed> $settings
      * @param array<string, mixed> $fluidVariables
      */
-    public function __construct(protected RequestInterface $request, protected array $settings, protected array $fluidVariables)
-    {
-    }
+    public function __construct(protected RequestInterface $request, protected array $settings, protected array $fluidVariables) {}
 
     public function getRequest(): RequestInterface
     {

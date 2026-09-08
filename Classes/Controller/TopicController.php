@@ -129,7 +129,7 @@ class TopicController extends AbstractController
      */
     #[Extbase\IgnoreValidation(['value' => 'topic'])]
     public function editAction(
-        Topic $topic = null,
+        ?Topic $topic = null,
         bool $isPreview = false,
         bool $isNew = false,
         string $token = '',

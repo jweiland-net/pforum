@@ -59,12 +59,6 @@ class PostRepository extends Repository implements HiddenRepositoryInterface
         $querySettings = $query->getQuerySettings();
         $querySettings->setIgnoreEnableFields(true);
         $querySettings->setRespectStoragePage(false);
-
-        $firstObject = $query->matching($query->equals($property, $value))->execute()->getFirst();
-        if ($firstObject instanceof Post) {
-            return $firstObject;
-        }
-
-        return null;
+        return $query->matching($query->equals($property, $value))->execute()->getFirst();
     }
 }
