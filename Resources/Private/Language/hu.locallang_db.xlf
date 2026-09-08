@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2013-08-32T14:44:32Z" product-name="pforum" target-language="hu">
+    <header/>
+    <body>
+      <trans-unit id="plugin.pforum.title">
+        <source>Forum</source>
+        <target state="translated">Fórum</target>
+      </trans-unit>
+      <trans-unit id="plugin.pforum.description">
+        <source>Shows a list of forum entries.</source>
+        <target state="translated">A fórumbejegyzések listáját jeleníti meg.</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum">
+        <source>Forum</source>
+        <target state="translated">Fórum</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.title">
+        <source>Title</source>
+        <target state="translated">Cím</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.teaser">
+        <source>Teaser</source>
+        <target state="translated">Teaser</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.topics">
+        <source>Topics</source>
+        <target state="translated">Témák</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic">
+        <source>Topic</source>
+        <target state="translated">Téma</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.crdate">
+        <source>Creation date</source>
+        <target state="translated">Létrehozás dátuma</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.title">
+        <source>Title</source>
+        <target state="translated">Cím</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.description">
+        <source>Description</source>
+        <target state="translated">Leírás</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.posts">
+        <source>Posts</source>
+        <target state="translated">Hozzászólások</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.user">
+        <source>User</source>
+        <target state="translated">Felhasználó</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.images">
+        <source>Images</source>
+        <target state="translated">Képek</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post">
+        <source>Post</source>
+        <target state="translated">Hozzászólás</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.crdate">
+        <source>Creation date</source>
+        <target state="translated">Létrehozás dátuma</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.title">
+        <source>Title</source>
+        <target state="translated">Cím</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.description">
+        <source>Description</source>
+        <target state="translated">Leírás</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.user">
+        <source>User</source>
+        <target state="translated">Felhasználó</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.images">
+        <source>Images</source>
+        <target state="translated">Képek</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer">
+        <source>User</source>
+        <target state="translated">Felhasználó</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.name">
+        <source>Name</source>
+        <target state="translated">Név</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.username">
+        <source>Username</source>
+        <target state="translated">Felhasználónév</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.email">
+        <source>Email</source>
+        <target state="translated">E-mail</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
