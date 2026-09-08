@@ -169,30 +169,28 @@ class TopicController extends AbstractController
                 'Pforum',
                 ['topic' => $topic, 'isPreview' => true, 'isNew' => $isNew, 'token' => $token],
             );
-        } else {
-            if ($isNew) {
-                // if is new and preview was pressed we have to check for visibility again
-                if ($this->settings['topic']['hideAtCreation']) {
-                    $topic->setHidden(true);
-                } else {
-                    $topic->setHidden(false);
-                }
-
-                // if auth = anonymous user
-                // send a mail to the user to activate, edit or delete his entry
-                if (((int)$this->settings['auth'] === 1) && $this->settings['emailIsMandatory']) {
-                    $this->mailToUser($topic);
-                }
-
-                $this->addFlashMessageForCreation();
+        }
+        if ($isNew) {
+            // if is new and preview was pressed we have to check for visibility again
+            if ($this->settings['topic']['hideAtCreation']) {
+                $topic->setHidden(true);
             } else {
-                // edited topics which are not new are visible
                 $topic->setHidden(false);
-                $this->addFlashMessage(LocalizationUtility::translate('topicUpdated', 'pforum'));
             }
 
-            return $this->redirect('show', 'Forum', 'Pforum', ['forum' => $topic->getForum()]);
+            // if auth = anonymous user
+            // send a mail to the user to activate, edit or delete his entry
+            if (((int)$this->settings['auth'] === 1) && $this->settings['emailIsMandatory']) {
+                $this->mailToUser($topic);
+            }
+
+            $this->addFlashMessageForCreation();
+        } else {
+            // edited topics which are not new are visible
+            $topic->setHidden(false);
+            $this->addFlashMessage(LocalizationUtility::translate('topicUpdated', 'pforum'));
         }
+        return $this->redirect('show', 'Forum', 'Pforum', ['forum' => $topic->getForum()]);
     }
 
     /**

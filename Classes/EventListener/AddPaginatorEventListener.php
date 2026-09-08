@@ -59,22 +59,19 @@ final readonly class AddPaginatorEventListener
         $event->addFluidVariable('pagination', new SimplePagination($paginator));
     }
 
-    protected function getCurrentPage(PostProcessFluidVariablesEvent $event): int
+    private function getCurrentPage(PostProcessFluidVariablesEvent $event): int
     {
-        $currentPage = 1;
         if ($event->getRequest()->hasArgument('currentPage')) {
-            // $currentPage have to be positive and greater than 0
-            // See: AbstractPaginator::setCurrentPageNumber()
-            $currentPage = MathUtility::forceIntegerInRange(
+            return MathUtility::forceIntegerInRange(
                 (int)$event->getRequest()->getArgument('currentPage'),
                 1,
             );
         }
 
-        return $currentPage;
+        return 1;
     }
 
-    protected function getItemsPerPage(PostProcessFluidVariablesEvent $event): int
+    private function getItemsPerPage(PostProcessFluidVariablesEvent $event): int
     {
         return (int)($event->getSettings()['pageBrowser']['itemsPerPage'] ?? self::ITEMS_PER_PAGE);
     }

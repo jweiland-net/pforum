@@ -142,7 +142,6 @@ class PostController extends AbstractController
     }
 
     /**
-     * @param Post $post
      * @param bool $isNew We need the information if updateAction was
      *                    called from createAction. If so we have to add different messages
      */
@@ -160,30 +159,28 @@ class PostController extends AbstractController
                 'Pforum',
                 ['post' => $post, 'isPreview' => true, 'isNew' => $isNew, 'token' => $token],
             );
-        } else {
-            if ($isNew) {
-                // if is new and preview was pressed we have to check for visibility again
-                if ($this->settings['post']['hideAtCreation']) {
-                    $post->setHidden(true);
-                } else {
-                    $post->setHidden(false);
-                }
-
-                // if auth = anonymous user
-                // send a mail to the user to activate, edit or delete his entry
-                if (((int)$this->settings['auth'] === 1) && $this->settings['emailIsMandatory']) {
-                    $this->mailToUser($post);
-                }
-
-                $this->addFlashMessageForCreation();
+        }
+        if ($isNew) {
+            // if is new and preview was pressed we have to check for visibility again
+            if ($this->settings['post']['hideAtCreation']) {
+                $post->setHidden(true);
             } else {
-                // edited posts which are not new are visible
                 $post->setHidden(false);
-                $this->addFlashMessage(LocalizationUtility::translate('postUpdated', 'pforum'));
             }
 
-            return $this->redirect('show', 'Topic', 'Pforum', ['topic' => $post->getTopic()]);
+            // if auth = anonymous user
+            // send a mail to the user to activate, edit or delete his entry
+            if (((int)$this->settings['auth'] === 1) && $this->settings['emailIsMandatory']) {
+                $this->mailToUser($post);
+            }
+
+            $this->addFlashMessageForCreation();
+        } else {
+            // edited posts which are not new are visible
+            $post->setHidden(false);
+            $this->addFlashMessage(LocalizationUtility::translate('postUpdated', 'pforum'));
         }
+        return $this->redirect('show', 'Topic', 'Pforum', ['topic' => $post->getTopic()]);
     }
 
     /**
@@ -198,8 +195,6 @@ class PostController extends AbstractController
     }
 
     /**
-     * @param Post $post
-     * @return ResponseInterface
      * @throws IllegalObjectTypeException
      */
     public function deleteAction(Post $post): ResponseInterface
@@ -239,8 +234,6 @@ class PostController extends AbstractController
 
     /**
      * We need this extra action, because hidden entries can't be found in FE mode.
-     *
-     * @param Post $post
      */
     public function activateAction(Post $post): ResponseInterface
     {
