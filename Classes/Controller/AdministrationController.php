@@ -21,10 +21,9 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
-use TYPO3\CMS\Core\View\ViewInterface as CoreViewInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3Fluid\Fluid\View\TemplateAwareViewInterface;
-use TYPO3Fluid\Fluid\View\ViewInterface as FluidStandaloneViewInterface;
+use TYPO3Fluid\Fluid\View\ViewInterface;
 
 /**
  * Main controller to list and show postings/questions
@@ -42,8 +41,9 @@ class AdministrationController extends ActionController
 
     /**
      * Set up the doc header properly here
+     * @param ViewInterface $view
      */
-    protected function initializeView(CoreViewInterface|FluidStandaloneViewInterface $view): void
+    protected function initializeView($view): void
     {
         if ($view instanceof TemplateAwareViewInterface) {
             $this->createDocHeaderActionButtons();

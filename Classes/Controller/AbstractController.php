@@ -89,25 +89,25 @@ class AbstractController extends ActionController
     protected function checkForMisconfiguration(): void
     {
         if (
-            $this->settings['topic']['hideAtCreation'] &&
-            empty($this->settings['topic']['activateByAdmin']) &&
-            empty($this->settings['emailIsMandatory'])
+            $this->settings['topic']['hideAtCreation']
+            && empty($this->settings['topic']['activateByAdmin'])
+            && empty($this->settings['emailIsMandatory'])
         ) {
             throw new \RuntimeException(
-                "You can't hide topics at creation, deactivate admin activation and mark email as NOT mandatory." .
-                'This would produce hidden records which will never be visible',
+                "You can't hide topics at creation, deactivate admin activation and mark email as NOT mandatory."
+                . 'This would produce hidden records which will never be visible',
                 1378371532,
             );
         }
 
         if (
-            $this->settings['post']['hideAtCreation'] &&
-            empty($this->settings['post']['activateByAdmin']) &&
-            empty($this->settings['emailIsMandatory'])
+            $this->settings['post']['hideAtCreation']
+            && empty($this->settings['post']['activateByAdmin'])
+            && empty($this->settings['emailIsMandatory'])
         ) {
             throw new \RuntimeException(
-                "You can't hide posts at creation, deactivate admin activation and mark email " .
-                'as NOT mandatory. This would produce hidden records which will never be visible',
+                "You can't hide posts at creation, deactivate admin activation and mark email "
+                . 'as NOT mandatory. This would produce hidden records which will never be visible',
                 1378371541,
             );
         }

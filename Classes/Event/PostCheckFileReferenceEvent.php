@@ -25,9 +25,7 @@ class PostCheckFileReferenceEvent
     /**
      * @param array<array-key, mixed> $source
      */
-    public function __construct(protected array $source, protected int $key, protected ?UploadedFile $uploadedFile = null, protected ?FileReference $alreadyPersistedImage = null)
-    {
-    }
+    public function __construct(protected array $source, protected int $key, protected ?UploadedFile $uploadedFile = null, protected ?FileReference $alreadyPersistedImage = null) {}
 
     /**
      * @return array<array-key, mixed>
