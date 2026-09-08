@@ -68,7 +68,10 @@ class TopicController extends AbstractController
     {
         // if auth = frontend user
         if ((int)$this->settings['auth'] === 2) {
-            $this->addFeUserToTopic($forum, $topic);
+            $response = $this->addFeUserToTopic($forum, $topic);
+            if ($response instanceof ResponseInterface) {
+                return $response;
+            }
         }
 
         $forum->addTopic($topic);
@@ -250,7 +253,7 @@ class TopicController extends AbstractController
         }
 
         if ($topic instanceof Topic) {
-            $this->session->registerObject($topic, $topic->getUid());
+            $this->session->registerObject($topic, (string)$topic->getUid());
         }
     }
 
@@ -261,17 +264,18 @@ class TopicController extends AbstractController
                 (int)$this->request->getAttribute('frontend.user')->user['uid'],
             );
             $topic->setFrontendUser($user);
-            return null;
-        } else {
-            /* normally this should never be called, because the link to create a new entry was not displayed if user was not authenticated */
-            $this->addFlashMessage(
-                'You must be logged in before creating a topic',
-                '',
-                ContextualFeedbackSeverity::WARNING,
-            );
 
-            return $this->redirect('show', 'Forum', 'Pforum', ['forum' => $forum]);
+            return null;
         }
+
+        /* normally this should never be called, because the link to create a new entry was not displayed if user was not authenticated */
+        $this->addFlashMessage(
+            'You must be logged in before creating a topic',
+            '',
+            ContextualFeedbackSeverity::WARNING,
+        );
+
+        return $this->redirect('show', 'Forum', 'Pforum', ['forum' => $forum]);
     }
 
     protected function mailToUser(Topic $topic): void

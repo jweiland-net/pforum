@@ -11,16 +11,19 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Domain\Repository;
 
+use JWeiland\Pforum\Domain\Model\Forum;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Main Repo to manage forum records
+ *
+ * @extends Repository<Forum>
  */
 class ForumRepository extends Repository
 {
     /**
-     * @var array
+     * @var array<non-empty-string, QueryInterface::ORDER_*>
      */
     protected $defaultOrderings = [
         'sorting' => QueryInterface::ORDER_ASCENDING,

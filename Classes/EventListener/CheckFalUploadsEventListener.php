@@ -16,7 +16,7 @@ use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
 use JWeiland\Pforum\Traits\IsValidEventListenerRequestTrait;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Extbase\Mvc\Request;
+use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
 use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
 
@@ -85,10 +85,13 @@ final readonly class CheckFalUploadsEventListener
         return '';
     }
 
+    /**
+     * @param array<string, mixed> $options
+     */
     private function getValidator(
         string $className,
         array $options,
-        Request $request,
+        RequestInterface $request,
     ): ValidatorInterface {
         return $this->validatorResolver->createValidator($className, $options, $request);
     }

@@ -26,6 +26,9 @@ final class EmailValidator extends AbstractValidator
      */
     protected $acceptsEmptyValues = false;
 
+    /**
+     * @var array<string, array<int, mixed>>
+     */
     protected $supportedOptions = [
         'emailIsMandatory' => [false, 'Whether the email address is mandatory', 'bool'],
     ];

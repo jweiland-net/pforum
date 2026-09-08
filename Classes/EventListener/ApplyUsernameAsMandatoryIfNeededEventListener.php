@@ -15,7 +15,7 @@ use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
 use JWeiland\Pforum\Traits\IsValidEventListenerRequestTrait;
 use JWeiland\Pforum\Validation\Validator\UsernameValidator;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
-use TYPO3\CMS\Extbase\Mvc\Request;
+use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 use TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator;
 use TYPO3\CMS\Extbase\Validation\Validator\GenericObjectValidator;
 use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
@@ -54,7 +54,7 @@ final readonly class ApplyUsernameAsMandatoryIfNeededEventListener
             return;
         }
 
-        $usernameIsMandatory = (bool)$controllerActionEvent->getSettings()['usernameIsMandatory'] ?? false;
+        $usernameIsMandatory = (bool)($controllerActionEvent->getSettings()['usernameIsMandatory'] ?? false);
         if (!$usernameIsMandatory) {
             return;
         }
@@ -82,7 +82,7 @@ final readonly class ApplyUsernameAsMandatoryIfNeededEventListener
         );
     }
 
-    private function getUsersPropertyName(Request $request, string $argumentName): string
+    private function getUsersPropertyName(RequestInterface $request, string $argumentName): string
     {
         $requestedArgument = $this->getRequestedArgument($request, $argumentName);
         if ($requestedArgument === []) {
@@ -100,7 +100,10 @@ final readonly class ApplyUsernameAsMandatoryIfNeededEventListener
         return '';
     }
 
-    private function getRequestedArgument(Request $request, string $argumentName): array
+    /**
+     * @return array<string, mixed>
+     */
+    private function getRequestedArgument(RequestInterface $request, string $argumentName): array
     {
         if ($argumentName === '') {
             return [];
@@ -126,10 +129,13 @@ final readonly class ApplyUsernameAsMandatoryIfNeededEventListener
         return '';
     }
 
+    /**
+     * @param array<string, mixed> $options
+     */
     private function getValidator(
         string $className,
         array $options,
-        Request $request,
+        RequestInterface $request,
     ): ValidatorInterface {
         return $this->validatorResolver->createValidator($className, $options, $request);
     }

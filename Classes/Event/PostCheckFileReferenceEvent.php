@@ -22,10 +22,16 @@ class PostCheckFileReferenceEvent
 {
     protected ?Error $error = null;
 
+    /**
+     * @param array<array-key, mixed> $source
+     */
     public function __construct(protected array $source, protected int $key, protected ?UploadedFile $uploadedFile = null, protected ?FileReference $alreadyPersistedImage = null)
     {
     }
 
+    /**
+     * @return array<array-key, mixed>
+     */
     public function getSource(): array
     {
         return $this->source;

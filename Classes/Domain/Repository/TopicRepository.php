@@ -20,17 +20,22 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repo to retrieve records for topics
  *
- * @method QueryResultInterface findByForum(Forum $forum)
+ * @method QueryResultInterface<int, Topic> findByForum(Forum $forum)
+ *
+ * @extends Repository<Topic>
  */
 class TopicRepository extends Repository implements HiddenRepositoryInterface
 {
     /**
-     * @var array
+     * @var array<non-empty-string, QueryInterface::ORDER_*>
      */
     protected $defaultOrderings = [
         'crdate' => QueryInterface::ORDER_DESCENDING,
     ];
 
+    /**
+     * @return QueryResultInterface<int, Topic>
+     */
     public function findAllHidden(): QueryResultInterface
     {
         $query = $this->createQuery();

@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\EventListener;
 
-use JWeiland\Pforum\Domain\Model\Post;
-use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\Repository\PostRepository;
 use JWeiland\Pforum\Domain\Repository\TopicRepository;
 use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
@@ -25,7 +23,7 @@ use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\Arguments;
-use TYPO3\CMS\Extbase\Mvc\Request;
+use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 use TYPO3\CMS\Extbase\Service\ExtensionService;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -98,7 +96,7 @@ final readonly class RestrictAccessEventListener
         return true;
     }
 
-    private function isTopicAccessAllowed(bool $isAnonymousMode, Request $request): bool
+    private function isTopicAccessAllowed(bool $isAnonymousMode, RequestInterface $request): bool
     {
         if (!$request->hasArgument('topic')) {
             return true;
@@ -125,7 +123,6 @@ final readonly class RestrictAccessEventListener
 
         if (
             ($topic = $this->topicRepository->findHiddenObject($topicUid))
-            && $topic instanceof Topic
             && $topic->getHasValidUser() === false
         ) {
             $this->addFlashMessage(
@@ -139,7 +136,7 @@ final readonly class RestrictAccessEventListener
         return true;
     }
 
-    private function isPostAccessAllowed(bool $isAnonymousMode, Request $request): bool
+    private function isPostAccessAllowed(bool $isAnonymousMode, RequestInterface $request): bool
     {
         if (!$request->hasArgument('post')) {
             return true;
@@ -166,7 +163,6 @@ final readonly class RestrictAccessEventListener
 
         if (
             ($post = $this->postRepository->findHiddenObject($postUid))
-            && $post instanceof Post
             && $post->getHasValidUser() === false
         ) {
             $this->addFlashMessage(
@@ -180,7 +176,7 @@ final readonly class RestrictAccessEventListener
         return true;
     }
 
-    private function isAnonymousTokenValid(string $type, int $uid, Request $request): bool
+    private function isAnonymousTokenValid(string $type, int $uid, RequestInterface $request): bool
     {
         $token = $request->hasArgument('token') ? (string)$request->getArgument('token') : '';
 
@@ -194,7 +190,7 @@ final readonly class RestrictAccessEventListener
             : (int)$argument;
     }
 
-    private function addFlashMessage(string $messageBody, Request $request): void
+    private function addFlashMessage(string $messageBody, RequestInterface $request): void
     {
         $flashMessage = GeneralUtility::makeInstance(
             FlashMessage::class,
@@ -208,7 +204,7 @@ final readonly class RestrictAccessEventListener
     }
 
     private function getFlashMessageQueue(
-        Request $request,
+        RequestInterface $request,
     ): FlashMessageQueue {
         $pluginNamespace = $this->extensionService->getPluginNamespace(
             $request->getControllerExtensionName(),

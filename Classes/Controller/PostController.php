@@ -48,7 +48,10 @@ class PostController extends AbstractController
     {
         // if auth = frontend user
         if ((int)$this->settings['auth'] === 2) {
-            $this->addFeUserToPost($topic, $post);
+            $response = $this->addFeUserToPost($topic, $post);
+            if ($response instanceof ResponseInterface) {
+                return $response;
+            }
         }
 
         $topic->addPost($post);
@@ -274,13 +277,14 @@ class PostController extends AbstractController
                 (int)$this->request->getAttribute('frontend.user')->user['uid'],
             );
             $post->setFrontendUser($user);
-            return null;
-        } else {
-            /* normally this should never be called, because the link to create a new entry was not displayed if user was not authenticated */
-            $this->addFlashMessage('You must be logged in before creating a post');
 
-            return $this->redirect('show', 'Forum', 'Pforum', ['forum' => $topic->getForum()]);
+            return null;
         }
+
+        /* normally this should never be called, because the link to create a new entry was not displayed if user was not authenticated */
+        $this->addFlashMessage('You must be logged in before creating a post');
+
+        return $this->redirect('show', 'Forum', 'Pforum', ['forum' => $topic->getForum()]);
     }
 
     protected function mailToUser(Post $post): void
