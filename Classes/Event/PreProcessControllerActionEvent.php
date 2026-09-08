@@ -12,15 +12,18 @@ declare(strict_types=1);
 namespace JWeiland\Pforum\Event;
 
 use TYPO3\CMS\Extbase\Mvc\Controller\Arguments;
-use TYPO3\CMS\Extbase\Mvc\Request;
+use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 
 class PreProcessControllerActionEvent implements ControllerActionEventInterface
 {
-    public function __construct(protected Request $request, protected Arguments $arguments, protected array $settings)
+    /**
+     * @param array<string, mixed> $settings
+     */
+    public function __construct(protected RequestInterface $request, protected Arguments $arguments, protected array $settings)
     {
     }
 
-    public function getRequest(): Request
+    public function getRequest(): RequestInterface
     {
         return $this->request;
     }
@@ -40,7 +43,7 @@ class PreProcessControllerActionEvent implements ControllerActionEventInterface
         return $this->arguments;
     }
 
-    public function setRequest(Request $request): void
+    public function setRequest(RequestInterface $request): void
     {
         $this->request = $request;
     }
@@ -50,6 +53,9 @@ class PreProcessControllerActionEvent implements ControllerActionEventInterface
         $this->arguments = $arguments;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getSettings(): array
     {
         return $this->settings;

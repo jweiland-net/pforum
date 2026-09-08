@@ -190,6 +190,9 @@ class Post extends AbstractEntity
         return $this->images;
     }
 
+    /**
+     * @param ObjectStorage<FileReference> $images
+     */
     public function setImages(ObjectStorage $images): void
     {
         $this->images = $images;

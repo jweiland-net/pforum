@@ -2,6 +2,14 @@ parameters:
 		# Ignore specific errors:
 		ignoreErrors:
 			-
-				message: '#Call to an undefined method .*#'
-			#-
-			#	message: '#^Access to an undefined property TYPO3\\\\CMS\\\\Scheduler\\\\Task\\\\AbstractTask$#'
+				# Extbase skips the constructor when reconstituting entities from persistence,
+				# so the ObjectStorage properties are genuinely uninitialized at that point.
+				message: '#^Property JWeiland\\Pforum\\Domain\\Model\\(Forum|Post|Topic)::\$(topics|images|posts) on left side of \?\?= is not nullable nor uninitialized\.$#'
+				count: 4
+				path: ../../Classes/Domain/Model/
+			-
+				# checkfaluploads is an optional extension, guarded at runtime via ExtensionManagementUtility::isLoaded()
+				# and not a composer dependency of pforum, so its classes are not available for static analysis.
+				message: '#^Class JWeiland\\Checkfaluploads\\Validation\\Validator\\CheckFalUploadValidator not found\.$#'
+				count: 1
+				path: ../../Classes/EventListener/CheckFalUploadsEventListener.php

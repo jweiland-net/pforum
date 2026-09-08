@@ -25,6 +25,9 @@ final class UsernameValidator extends AbstractValidator
      */
     protected $acceptsEmptyValues = false;
 
+    /**
+     * @var array<string, array<int, mixed>>
+     */
     protected $supportedOptions = [
         'usernameIsMandatory' => [false, 'Whether the email address is mandatory', 'bool'],
     ];

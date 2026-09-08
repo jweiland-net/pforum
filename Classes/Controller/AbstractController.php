@@ -129,6 +129,9 @@ class AbstractController extends ActionController
         }
     }
 
+    /**
+     * @param array<string, mixed> $variables
+     */
     protected function postProcessAndAssignFluidVariables(array $variables = []): void
     {
         /** @var PostProcessFluidVariablesEvent $event */

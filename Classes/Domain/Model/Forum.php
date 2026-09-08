@@ -75,11 +75,17 @@ class Forum extends AbstractEntity
         $this->topics->detach($topic);
     }
 
+    /**
+     * @return ObjectStorage<Topic>
+     */
     public function getTopics(): ObjectStorage
     {
         return $this->topics;
     }
 
+    /**
+     * @param ObjectStorage<Topic> $topics
+     */
     public function setTopics(ObjectStorage $topics): void
     {
         $this->topics = $topics;

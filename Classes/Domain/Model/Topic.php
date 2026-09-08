@@ -154,11 +154,17 @@ class Topic extends AbstractEntity
         $this->posts->detach($post);
     }
 
+    /**
+     * @return ObjectStorage<Post>
+     */
     public function getPosts(): ObjectStorage
     {
         return $this->posts;
     }
 
+    /**
+     * @param ObjectStorage<Post> $posts
+     */
     public function setPosts(ObjectStorage $posts): void
     {
         $this->posts = $posts;
@@ -222,6 +228,9 @@ class Topic extends AbstractEntity
         return $this->images;
     }
 
+    /**
+     * @param ObjectStorage<FileReference> $images
+     */
     public function setImages(ObjectStorage $images): void
     {
         $this->images = $images;
