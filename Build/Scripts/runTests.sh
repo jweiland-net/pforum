@@ -436,7 +436,7 @@ case ${TEST_SUITE} in
         ;;
     composerNormalize)
         if [ "${DRY_RUN}" -eq 1 ]; then
-            COMMAND=(composer normalize -n)
+            COMMAND=(composer normalize --dry-run)
         else
             COMMAND=(composer normalize)
         fi
