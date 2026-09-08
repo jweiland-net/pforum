@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the package jweiland/pforum.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE file that was distributed with this source code.
+ */
+
 if (PHP_SAPI !== 'cli') {
     die('This script supports command line usage only. Please check your command.');
 }
@@ -12,7 +19,6 @@ This file is part of the package jweiland/pforum.
 For the full copyright and license information, please read the
 LICENSE file that was distributed with this source code.
 COMMENT;
-
 
 // 1. Official TYPO3 Rules
 $typo3Rules = [
@@ -139,6 +145,9 @@ $jweilandRules = [
     'multiline_whitespace_before_semicolons' => [
         'strategy' => 'no_multi_line',
     ],
+    // Override PER-CS3x0/TYPO3 default: `new Foo()->bar()` without parentheses is only valid
+    // syntax since PHP 8.4, but this extension still supports PHP 8.2/8.3
+    'new_expression_parentheses' => false,
     'no_empty_comment' => true,
     'no_extra_blank_lines' => [
         'tokens' => [
