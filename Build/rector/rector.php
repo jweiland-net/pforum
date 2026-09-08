@@ -9,7 +9,6 @@ declare(strict_types=1);
  * LICENSE file that was distributed with this source code.
  */
 
-use Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector;
 use Rector\Config\RectorConfig;
 use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
 use Rector\TypeDeclaration\Rector\Class_\TypedPropertyFromCreateMockAssignRector;
@@ -45,10 +44,6 @@ return RectorConfig::configure()
     ->withConfiguredRule(ExtEmConfRector::class, [
         ExtEmConfRector::TYPO3_VERSION_CONSTRAINT => '13.4.0-13.4.99',
         ExtEmConfRector::ADDITIONAL_VALUES_TO_BE_REMOVED => [],
-    ])
-    ->withConfiguredRule(EncapsedStringsToSprintfRector::class, [
-        'always' => true,
-        // force sprintf even for simple cases
     ])
     ->withImportNames(importShortClasses: false, removeUnusedImports: true)
     ->withSkip([
