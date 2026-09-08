@@ -7,14 +7,14 @@
 Administrator manual
 ====================
 
-Pforum Administration Module
-============================
+Pforum administration module
+=============================
 
 `pforum` comes with its own administration module.
-Here an administrator or an editor with given rights can activate hidden topic and post records.
+Here an administrator, or an editor with the appropriate permissions, can activate hidden topic and post records.
 
-If `settings.topic.hideAtCreation` and `settings.post.hideAtCreation` are deactivated in TypoScript you can deactivate
-that module for editors as it is useless in that case.
+If `settings.topic.hideAtCreation` and `settings.post.hideAtCreation` are deactivated in TypoScript, you can hide
+this module for editors, since it serves no purpose in that case.
 
 ..  toctree::
     :maxdepth: 2
