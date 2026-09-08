@@ -26,7 +26,7 @@ class Post extends AbstractEntity
 {
     protected bool $hidden = false;
 
-    protected \DateTime $crdate;
+    protected ?\DateTime $crdate = null;
 
     protected ?Topic $topic = null;
 
@@ -92,7 +92,7 @@ class Post extends AbstractEntity
         $this->hidden = $hidden;
     }
 
-    public function getCrdate(): \DateTime
+    public function getCrdate(): ?\DateTime
     {
         return $this->crdate;
     }

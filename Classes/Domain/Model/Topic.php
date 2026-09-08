@@ -27,7 +27,7 @@ class Topic extends AbstractEntity
 {
     protected bool $hidden = false;
 
-    protected \DateTime $crdate;
+    protected ?\DateTime $crdate = null;
 
     protected ?Forum $forum = null;
 
@@ -104,7 +104,7 @@ class Topic extends AbstractEntity
         $this->hidden = $hidden;
     }
 
-    public function getCrdate(): \DateTime
+    public function getCrdate(): ?\DateTime
     {
         return $this->crdate;
     }
