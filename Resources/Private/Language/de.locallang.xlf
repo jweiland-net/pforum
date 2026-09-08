@@ -231,9 +231,9 @@
         <source>from</source>
         <target state="final">von</target>
       </trans-unit>
-      <trans-unit id="save" approved="yes">
-        <source>save</source>
-        <target state="final">speichern</target>
+      <trans-unit id="save">
+        <source>Save</source>
+        <target state="needs-translation">Save</target>
       </trans-unit>
       <trans-unit id="reset" approved="yes">
         <source>Reset</source>
