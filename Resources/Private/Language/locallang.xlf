@@ -181,7 +181,7 @@
 				<source>from</source>
 			</trans-unit>
 			<trans-unit id="save">
-				<source>save</source>
+				<source>Save</source>
 			</trans-unit>
 			<trans-unit id="reset">
 				<source>Reset</source>
