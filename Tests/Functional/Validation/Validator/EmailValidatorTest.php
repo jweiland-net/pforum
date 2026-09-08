@@ -11,10 +11,7 @@ namespace JWeiland\Pforum\Tests\Functional\Validation\Validator;
 
 use JWeiland\Pforum\Validation\Validator\EmailValidator;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Error\Result;
 use TYPO3\CMS\Extbase\Validation\Error;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
@@ -25,11 +22,6 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 class EmailValidatorTest extends FunctionalTestCase
 {
     protected EmailValidator $subject;
-
-    /**
-     * @var ConfigurationManager|MockObject
-     */
-    protected $configurationManagerMock;
 
     protected array $testExtensionsToLoad = [
         'jweiland/pforum',
@@ -61,12 +53,20 @@ class EmailValidatorTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function validateWillNotAddAnyErrorIfEmailIsNotString(): void
+    public function validateWillAddErrorIfEmailIsNotString(): void
     {
         $this->setEmailIsMandatory(true);
 
+        $expectedResult = new Result();
+        $expectedResult->addError(
+            new Error(
+                'The email of user object is not a valid email',
+                1457431804,
+            ),
+        );
+
         self::assertEquals(
-            new Result(),
+            $expectedResult,
             $this->subject->validate(123),
         );
     }
@@ -122,19 +122,8 @@ class EmailValidatorTest extends FunctionalTestCase
 
     protected function setEmailIsMandatory(bool $isMandatory): void
     {
-        $this->configurationManagerMock = $this->createMock(ConfigurationManagerInterface::class);
-        $this->configurationManagerMock
-            ->expects(self::once())
-            ->method('getConfiguration')
-            ->with(
-                ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
-                'pforum',
-                'forum',
-            )
-            ->willReturn([
-                'emailIsMandatory' => $isMandatory ? '1' : '0',
-            ]);
-
-        $this->subject->injectConfigurationManager($this->configurationManagerMock);
+        $this->subject->setOptions([
+            'emailIsMandatory' => $isMandatory,
+        ]);
     }
 }
