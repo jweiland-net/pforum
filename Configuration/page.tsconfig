@@ -1,0 +1,2 @@
+# To reduce interferences with FE layout we have moved all BE related stuff into "Backend" folder
+templates.jweiland/pforum.1762160600 = jweiland/pforum:Resources/Private/Backend
