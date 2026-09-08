@@ -21,6 +21,8 @@ $EM_CONF[$_EXTKEY] = [
             'typo3' => '13.4.3-13.4.99',
         ],
         'conflicts' => [],
-        'suggests' => [],
+        'suggests' => [
+            'checkfaluploads' => '6.0.0-6.99.99',
+        ],
     ],
 ];
