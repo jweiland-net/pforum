@@ -41,6 +41,7 @@ class AdministrationController extends ActionController
 
     /**
      * Set up the doc header properly here
+     *
      * @param ViewInterface $view
      */
     protected function initializeView($view): void

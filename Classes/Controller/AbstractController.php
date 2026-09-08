@@ -115,7 +115,7 @@ class AbstractController extends ActionController
 
     /**
      * files will be uploaded in typeConverter automatically
-     * But, if an error occurs we have to remove them.
+     * But, if an error occurs, we have to remove them.
      */
     protected function deleteUploadedFilesOnValidationErrors(string $argument): void
     {

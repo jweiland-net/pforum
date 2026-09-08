@@ -19,7 +19,11 @@ class PreProcessControllerActionEvent implements ControllerActionEventInterface
     /**
      * @param array<string, mixed> $settings
      */
-    public function __construct(protected RequestInterface $request, protected Arguments $arguments, protected array $settings) {}
+    public function __construct(
+        protected RequestInterface $request,
+        protected Arguments $arguments,
+        protected array $settings,
+    ) {}
 
     public function getRequest(): RequestInterface
     {
