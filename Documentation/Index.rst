@@ -32,7 +32,7 @@ Pforum
 
 ----
 
-With `pforum` you can implement a little forum to your TYPO3 page.
+With `pforum` you can add a small forum to your TYPO3 website.
 
 ----
 

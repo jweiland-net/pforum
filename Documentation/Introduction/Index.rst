@@ -18,29 +18,29 @@ What does it do?
 Features
 ========
 
-*   Create forum records (only backend)
-*   Create topic records (f.e. the question)
-*   Create post records (f.e. the answer)
-*   Store up to 2 images foreach topic and post
-*   Non authorized mode. Each creation will create a new pforum own user record
-*   Authorized mode. The frontend user record (fe_user) will be assigned to topics and posts
-*   Inform users by mail about new posts, if a mail is provided.
+*   Create forum records (backend only)
+*   Create topic records (e.g. the question)
+*   Create post records (e.g. the answer)
+*   Store up to two images for each topic and post
+*   Unauthenticated mode: every new topic or post creates its own pforum user record
+*   Authenticated mode: the frontend user record (`fe_users`) is assigned to topics and posts
+*   Inform users about new posts by email, if an email address is provided
 *   Frontend admin users can manage topic and post records
 *   Backend module to manage topics and posts
 
 What it does not
-================
+=================
 
-Please keep in mind that we don't want to provide a full featured forum extension. In that case please use
-the forum extension of Mittwald.
+Please keep in mind that we don't want to provide a full-featured forum extension. If you need one, please use
+the forum extension by Mittwald.
 
-*   No images like smileys in textarea
-*   No HTML in general in textarea
+*   No images, such as smileys, in the textarea
+*   No HTML in the textarea
 *   No avatars for users
 *   No highlighting of topics and posts
-*   No fixed topics or posts at top of list
-*   No overview of all topics/posts of a user
-*   No quoting of previous topics/posts
-*   No anker links to jump to a specific topic/post
+*   No pinned topics or posts at the top of the list
+*   No overview of all topics and posts by a user
+*   No quoting of previous topics or posts
+*   No anchor links to jump to a specific topic or post
 *   No birthday reminders
 *   No links in general

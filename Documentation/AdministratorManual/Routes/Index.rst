@@ -6,8 +6,8 @@ Routes
 ======
 
 Currently, we don't have any route configuration here.
-There is no slug field in frontend forms for topics and posts. So, there is no
-valid possibility to create human-readable URLs. Maybe we can add a slug field to the forum records as these kind
-of records will be created in backend.
+There is no slug field in the frontend forms for topics and posts, so there is currently no way to create
+human-readable URLs. We may add a slug field to the forum records, since these records are created in the
+backend.
 
-Please profile an issue ticket for that, if you're interessted.
+Please file an issue ticket for this if you're interested.

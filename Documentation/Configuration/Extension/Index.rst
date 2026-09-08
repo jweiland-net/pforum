@@ -4,33 +4,33 @@
 ..  _extensionSettings:
 
 ==================
-Extension Settings
+Extension settings
 ==================
 
-Some general settings for `pforum` can be configured in *Admin Tools -> Settings*.
+Some general settings for `pforum` can be configured in :guilabel:`Admin Tools > Settings`.
 
 
 Tab: Basic
 ==========
 
-FROM email address
-------------------
+From email address
+-------------------
 
 Default: <empty>
 
-Define the email address, which will be used to inform users about new topics and posts.
+Define the email address that is used to inform users about new topics and posts.
 
-If this value is empty `pforum` will try to use the email address from
-`$GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress']`. If this location is not set, too, sending a mail
-will fail with an exception.
+If this value is empty, `pforum` tries to use the email address from
+`$GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress']`. If this is not set either, sending an email
+fails with an exception.
 
-FROM email name
-------------------
+From email name
+-----------------
 
 Default: <empty>
 
-Define the senders name, which will be used to inform users about new topics and posts.
+Define the sender name that is used to inform users about new topics and posts.
 
-If this value is empty `pforum` will try to use the email address from
-`$GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName']`. If this location is not set, too, sending a mail
-will fail with an exception.
+If this value is empty, `pforum` tries to use the sender name from
+`$GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName']`. If this is not set either, sending an email
+fails with an exception.
