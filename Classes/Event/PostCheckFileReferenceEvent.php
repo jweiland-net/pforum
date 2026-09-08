@@ -20,26 +20,10 @@ use TYPO3\CMS\Extbase\Error\Error;
  */
 class PostCheckFileReferenceEvent
 {
-    protected array $source = [];
-
-    protected int $key = 0;
-
-    protected ?UploadedFile $uploadedFile = null;
-
-    protected ?FileReference $alreadyPersistedImage = null;
-
     protected ?Error $error = null;
 
-    public function __construct(
-        array $source,
-        int $key,
-        ?UploadedFile $uploadedFile = null,
-        ?FileReference $alreadyPersistedImage = null,
-    ) {
-        $this->source = $source;
-        $this->key = $key;
-        $this->uploadedFile = $uploadedFile;
-        $this->alreadyPersistedImage = $alreadyPersistedImage;
+    public function __construct(protected array $source, protected int $key, protected ?UploadedFile $uploadedFile = null, protected ?FileReference $alreadyPersistedImage = null)
+    {
     }
 
     public function getSource(): array

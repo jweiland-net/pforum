@@ -47,6 +47,6 @@ class FrontendGroupHelper
             return [];
         }
 
-        return array_map('intval', $groupUids);
+        return array_map(intval(...), $groupUids);
     }
 }

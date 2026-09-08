@@ -61,7 +61,7 @@ class IsCreateButtonAllowedViewHelper extends AbstractViewHelper
     {
         try {
             return GeneralUtility::makeInstance(Context::class)->getAspect('frontend.user');
-        } catch (AspectNotFoundException $aspectNotFoundException) {
+        } catch (AspectNotFoundException) {
             return null;
         }
     }

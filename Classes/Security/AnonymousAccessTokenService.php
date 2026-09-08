@@ -14,12 +14,12 @@ namespace JWeiland\Pforum\Security;
 use TYPO3\CMS\Core\Crypto\HashService;
 use TYPO3\CMS\Core\Exception\Crypto\InvalidHashStringException;
 
-final class AnonymousAccessTokenService
+final readonly class AnonymousAccessTokenService
 {
     private const ADDITIONAL_SECRET = 'pforum-anonymous-access';
 
     public function __construct(
-        private readonly HashService $hashService,
+        private HashService $hashService,
     ) {}
 
     public function generateToken(string $type, int $uid): string

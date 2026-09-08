@@ -70,12 +70,7 @@ class PluginPreview extends StandardContentPreviewRenderer
         if (!isset($ttContentRecord['CType'])) {
             return false;
         }
-
-        if (!in_array($ttContentRecord['CType'], self::ALLOWED_PLUGINS, true)) {
-            return false;
-        }
-
-        return true;
+        return in_array($ttContentRecord['CType'], self::ALLOWED_PLUGINS, true);
     }
 
     /**
@@ -100,11 +95,10 @@ class PluginPreview extends StandardContentPreviewRenderer
      */
     protected function getPiFlexformData(array $ttContentRecord): array
     {
-        $data = [];
-        if ((int)($ttContentRecord['pi_flexform'] ?? '') !== '') {
-            $data = $this->flexFormService->convertFlexFormContentToArray($ttContentRecord['pi_flexform']);
+        if ((int)($ttContentRecord['pi_flexform'] ?? '') !== 0) {
+            return $this->flexFormService->convertFlexFormContentToArray($ttContentRecord['pi_flexform']);
         }
 
-        return $data;
+        return [];
     }
 }
