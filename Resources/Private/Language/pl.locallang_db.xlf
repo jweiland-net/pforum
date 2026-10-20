@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2013-08-32T14:44:32Z" product-name="pforum" target-language="pl">
+    <header/>
+    <body>
+      <trans-unit id="plugin.pforum.title">
+        <source>Forum</source>
+        <target state="needs-translation">Forum</target>
+      </trans-unit>
+      <trans-unit id="plugin.pforum.description">
+        <source>Shows a list of forum entries.</source>
+        <target state="needs-translation">Shows a list of forum entries.</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum">
+        <source>Forum</source>
+        <target state="needs-translation">Forum</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.title">
+        <source>Title</source>
+        <target state="needs-translation">Title</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.teaser">
+        <source>Teaser</source>
+        <target state="needs-translation">Teaser</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.topics">
+        <source>Topics</source>
+        <target state="needs-translation">Topics</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic">
+        <source>Topic</source>
+        <target state="needs-translation">Topic</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.crdate">
+        <source>Creation date</source>
+        <target state="needs-translation">Creation date</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.title">
+        <source>Title</source>
+        <target state="needs-translation">Title</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.description">
+        <source>Description</source>
+        <target state="needs-translation">Description</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.posts">
+        <source>Posts</source>
+        <target state="needs-translation">Posts</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.user">
+        <source>User</source>
+        <target state="needs-translation">User</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.images">
+        <source>Images</source>
+        <target state="needs-translation">Images</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post">
+        <source>Post</source>
+        <target state="needs-translation">Post</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.crdate">
+        <source>Creation date</source>
+        <target state="needs-translation">Creation date</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.title">
+        <source>Title</source>
+        <target state="needs-translation">Title</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.description">
+        <source>Description</source>
+        <target state="needs-translation">Description</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.user">
+        <source>User</source>
+        <target state="needs-translation">User</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.images">
+        <source>Images</source>
+        <target state="needs-translation">Images</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer">
+        <source>User</source>
+        <target state="needs-translation">User</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.name">
+        <source>Name</source>
+        <target state="needs-translation">Name</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.username">
+        <source>Username</source>
+        <target state="needs-translation">Username</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.email">
+        <source>Email</source>
+        <target state="needs-translation">Email</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
