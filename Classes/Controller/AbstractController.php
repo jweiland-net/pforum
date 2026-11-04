@@ -74,12 +74,6 @@ class AbstractController extends ActionController
 
     public function initializeAction(): void
     {
-        // if this value was not set, then it will be filled with 0
-        // but that is not good, because UriBuilder accepts 0 as pid, so it's better to set it to NULL
-        if (empty($this->settings['pidOfDetailPage'])) {
-            $this->settings['pidOfDetailPage'] = null;
-        }
-
         $this->checkForMisconfiguration();
     }
 

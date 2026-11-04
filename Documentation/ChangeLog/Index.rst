@@ -7,6 +7,12 @@
 ChangeLog
 =========
 
+Version 7.0.1
+=============
+
+*   [TASK] Remove obsolete conversion of an empty `settings.pidOfDetailPage` from 0 to NULL. Since TYPO3 13
+    the Fluid link/uri/form ViewHelpers fall back to the current page for a pageUid of 0
+
 Version 7.0.0
 =============
 
