@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2013-08-32T14:44:32Z" product-name="pforum" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="tx_pforum_domain_model_forum">
+        <source>Forum</source>
+        <target>crwdns308514:0crwdne308514:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.title">
+        <source>Title</source>
+        <target>crwdns308516:0crwdne308516:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.teaser">
+        <source>Teaser</source>
+        <target>crwdns308518:0crwdne308518:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.topics">
+        <source>Topics</source>
+        <target>crwdns308520:0crwdne308520:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic">
+        <source>Topic</source>
+        <target>crwdns308522:0crwdne308522:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.crdate">
+        <source>Creation date</source>
+        <target>crwdns308524:0crwdne308524:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.title">
+        <source>Title</source>
+        <target>crwdns308526:0crwdne308526:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.description">
+        <source>Description</source>
+        <target>crwdns308528:0crwdne308528:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.posts">
+        <source>Posts</source>
+        <target>crwdns308530:0crwdne308530:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.user">
+        <source>User</source>
+        <target>crwdns308532:0crwdne308532:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.images">
+        <source>Images</source>
+        <target>crwdns308534:0crwdne308534:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post">
+        <source>Post</source>
+        <target>crwdns308536:0crwdne308536:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.crdate">
+        <source>Creation date</source>
+        <target>crwdns308538:0crwdne308538:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.title">
+        <source>Title</source>
+        <target>crwdns308540:0crwdne308540:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.description">
+        <source>Description</source>
+        <target>crwdns308542:0crwdne308542:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.user">
+        <source>User</source>
+        <target>crwdns308544:0crwdne308544:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.images">
+        <source>Images</source>
+        <target>crwdns308546:0crwdne308546:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer">
+        <source>User</source>
+        <target>crwdns308548:0crwdne308548:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.name">
+        <source>Name</source>
+        <target>crwdns308550:0crwdne308550:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.username">
+        <source>Username</source>
+        <target>crwdns308552:0crwdne308552:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.email">
+        <source>E-Mail</source>
+        <target>crwdns308554:0crwdne308554:0</target>
+      </trans-unit>
+      <trans-unit id="noResults">
+        <source>No results found</source>
+        <target>crwdns308556:0crwdne308556:0</target>
+      </trans-unit>
+      <trans-unit id="noPosts">
+        <source>There are no posts to this topic yet.</source>
+        <target>crwdns308558:0crwdne308558:0</target>
+      </trans-unit>
+      <trans-unit id="noTopics">
+        <source>There are no topics to this forum yet.</source>
+        <target>crwdns308560:0crwdne308560:0</target>
+      </trans-unit>
+      <trans-unit id="noHiddenRecords">
+        <source>There are currently no activateable records available</source>
+        <target>crwdns308562:0crwdne308562:0</target>
+      </trans-unit>
+      <trans-unit id="newTopic">
+        <source>Create new Topic</source>
+        <target>crwdns308564:0crwdne308564:0</target>
+      </trans-unit>
+      <trans-unit id="topicCreated">
+        <source>Your new Topic was created.</source>
+        <target>crwdns308566:0crwdne308566:0</target>
+      </trans-unit>
+      <trans-unit id="hiddenTopicCreatedAndActivateByAdmin">
+        <source>New Topic was created, but must be reviewed by an administrator.</source>
+        <target>crwdns308568:0crwdne308568:0</target>
+      </trans-unit>
+      <trans-unit id="hiddenTopicCreatedAndActivateByUser">
+        <source>New Topic was created. We have send an email to you to activate, edit and delete your topic.</source>
+        <target>crwdns308570:0crwdne308570:0</target>
+      </trans-unit>
+      <trans-unit id="topicUpdated">
+        <source>Topic was updated.</source>
+        <target>crwdns308572:0crwdne308572:0</target>
+      </trans-unit>
+      <trans-unit id="topicDeleted">
+        <source>Topic was deleted.</source>
+        <target>crwdns308574:0crwdne308574:0</target>
+      </trans-unit>
+      <trans-unit id="newPost">
+        <source>Create new Post</source>
+        <target>crwdns308576:0crwdne308576:0</target>
+      </trans-unit>
+      <trans-unit id="postCreated">
+        <source>Your new Post was created.</source>
+        <target>crwdns308578:0crwdne308578:0</target>
+      </trans-unit>
+      <trans-unit id="hiddenPostCreatedAndActivateByAdmin">
+        <source>New Topic was created, but must be reviewed by an administrator.</source>
+        <target>crwdns308580:0crwdne308580:0</target>
+      </trans-unit>
+      <trans-unit id="hiddenPostCreatedAndActivateByUser">
+        <source>New Post was created. We have send an email to you to activate, edit and delete your post.</source>
+        <target>crwdns308582:0crwdne308582:0</target>
+      </trans-unit>
+      <trans-unit id="postUpdated">
+        <source>Post was updated.</source>
+        <target>crwdns308584:0crwdne308584:0</target>
+      </trans-unit>
+      <trans-unit id="postDeleted">
+        <source>Post was deleted.</source>
+        <target>crwdns308586:0crwdne308586:0</target>
+      </trans-unit>
+      <trans-unit id="anonymous">
+        <source>Anonymous User</source>
+        <target>crwdns308588:0crwdne308588:0</target>
+      </trans-unit>
+      <trans-unit id="activate">
+        <source>Activate</source>
+        <target>crwdns308590:0crwdne308590:0</target>
+      </trans-unit>
+      <trans-unit id="activateTopic">
+        <source>Activate Topic</source>
+        <target>crwdns308592:0crwdne308592:0</target>
+      </trans-unit>
+      <trans-unit id="activatePost">
+        <source>Activate Post</source>
+        <target>crwdns308594:0crwdne308594:0</target>
+      </trans-unit>
+      <trans-unit id="editTopic">
+        <source>Edit Topic</source>
+        <target>crwdns308596:0crwdne308596:0</target>
+      </trans-unit>
+      <trans-unit id="editPost">
+        <source>Edit Post</source>
+        <target>crwdns308598:0crwdne308598:0</target>
+      </trans-unit>
+      <trans-unit id="deleteTopic">
+        <source>Delete Topic</source>
+        <target>crwdns308600:0crwdne308600:0</target>
+      </trans-unit>
+      <trans-unit id="deletePost">
+        <source>Delete Post</source>
+        <target>crwdns308602:0crwdne308602:0</target>
+      </trans-unit>
+      <trans-unit id="topicActivated">
+        <source>Topic was successfully activated</source>
+        <target>crwdns308604:0crwdne308604:0</target>
+      </trans-unit>
+      <trans-unit id="postActivated">
+        <source>Post was successfully activated</source>
+        <target>crwdns308606:0crwdne308606:0</target>
+      </trans-unit>
+      <trans-unit id="preview">
+        <source>Preview</source>
+        <target>crwdns308608:0crwdne308608:0</target>
+      </trans-unit>
+      <trans-unit id="validator.anonymousUser.email">
+        <source>The email of user object is mandatory</source>
+        <target>crwdns308610:0crwdne308610:0</target>
+      </trans-unit>
+      <trans-unit id="validator.anonymousUser.validEmail">
+        <source>The email of user object is not a valid email</source>
+        <target>crwdns308612:0crwdne308612:0</target>
+      </trans-unit>
+      <trans-unit id="validator.anonymousUser.username">
+        <source>The username of user object is mandatory</source>
+        <target>crwdns308614:0crwdne308614:0</target>
+      </trans-unit>
+      <trans-unit id="email.topic.subject">
+        <source>Manage your newly created topic</source>
+        <target>crwdns308616:0crwdne308616:0</target>
+      </trans-unit>
+      <trans-unit id="email.post.subject">
+        <source>Manage your newly created post</source>
+        <target>crwdns308618:0crwdne308618:0</target>
+      </trans-unit>
+      <trans-unit id="email.topic.text">
+        <source>You have created a new topic. Now you have following options</source>
+        <target>crwdns308620:0crwdne308620:0</target>
+      </trans-unit>
+      <trans-unit id="email.post.text">
+        <source>You have created a new posting. Now you have following options</source>
+        <target>crwdns308622:0crwdne308622:0</target>
+      </trans-unit>
+      <trans-unit id="error.activateFirst">
+        <source>Sorry. This entry can't be edited or deleted as long as this record was not activated first.</source>
+        <target>crwdns308624:0crwdne308624:0</target>
+      </trans-unit>
+      <trans-unit id="from">
+        <source>from</source>
+        <target>crwdns308626:0crwdne308626:0</target>
+      </trans-unit>
+      <trans-unit id="save">
+        <source>Save</source>
+        <target>crwdns414581:0crwdne414581:0</target>
+      </trans-unit>
+      <trans-unit id="reset">
+        <source>Reset</source>
+        <target>crwdns308630:0crwdne308630:0</target>
+      </trans-unit>
+      <trans-unit id="error.upload">
+        <source>Something went wrong with your uploaded files. Please try again. Error: </source>
+        <target>crwdns308632:0crwdne308632:0</target>
+      </trans-unit>
+      <trans-unit id="error.fileExtension">
+        <source>You only can upload files with following file extensions: %1$s</source>
+        <target>crwdns308634:0%1$scrwdne308634:0</target>
+      </trans-unit>
+      <trans-unit id="mandatory">
+        <source>mandatory</source>
+        <target>crwdns308636:0crwdne308636:0</target>
+      </trans-unit>
+      <trans-unit id="be.administrateForumRecords">
+        <source>Manage records of pforum</source>
+        <target>crwdns308638:0crwdne308638:0</target>
+      </trans-unit>
+      <trans-unit id="be.administrateHiddenRecords">
+        <source>Hidden records</source>
+        <target>crwdns308640:0crwdne308640:0</target>
+      </trans-unit>
+      <trans-unit id="be.administrateTopicRecords">
+        <source>Manage hidden topics</source>
+        <target>crwdns308642:0crwdne308642:0</target>
+      </trans-unit>
+      <trans-unit id="be.administratePostRecords">
+        <source>Manage hidden posts</source>
+        <target>crwdns308644:0crwdne308644:0</target>
+      </trans-unit>
+      <trans-unit id="be.administrateRecords">
+        <source>Manage</source>
+        <target>crwdns308646:0crwdne308646:0</target>
+      </trans-unit>
+      <trans-unit id="be.administrateTopicRecords.description">
+        <source>If activated in TypoScript of pforum, new topics are hidden on creation. Within this BE module you can activate such records.</source>
+        <target>crwdns308648:0crwdne308648:0</target>
+      </trans-unit>
+      <trans-unit id="be.administratePostRecords.description">
+        <source>If activated in TypoScript of pforum, new postings are hidden on creation. Within this BE module you can activate such records.</source>
+        <target>crwdns308650:0crwdne308650:0</target>
+      </trans-unit>
+      <trans-unit id="be.noRecordsInStorage">
+        <source>Currently, there are no hidden records for selected record type.</source>
+        <target>crwdns308652:0crwdne308652:0</target>
+      </trans-unit>
+      <trans-unit id="unauthorizedUser">
+        <source>You are not allowed to edit records that are not assigned to you.</source>
+        <target>crwdns413057:0crwdne413057:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2013-08-32T14:44:32Z" product-name="pforum" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="plugin.pforum.title">
+        <source>Forum</source>
+        <target>crwdns308654:0crwdne308654:0</target>
+      </trans-unit>
+      <trans-unit id="plugin.pforum.description">
+        <source>Shows a list of forum entries.</source>
+        <target>crwdns308656:0crwdne308656:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum">
+        <source>Forum</source>
+        <target>crwdns308658:0crwdne308658:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.title">
+        <source>Title</source>
+        <target>crwdns308660:0crwdne308660:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.teaser">
+        <source>Teaser</source>
+        <target>crwdns308662:0crwdne308662:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_forum.topics">
+        <source>Topics</source>
+        <target>crwdns308664:0crwdne308664:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic">
+        <source>Topic</source>
+        <target>crwdns308666:0crwdne308666:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.crdate">
+        <source>Creation date</source>
+        <target>crwdns308668:0crwdne308668:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.title">
+        <source>Title</source>
+        <target>crwdns308670:0crwdne308670:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.description">
+        <source>Description</source>
+        <target>crwdns308672:0crwdne308672:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.posts">
+        <source>Posts</source>
+        <target>crwdns308674:0crwdne308674:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.user">
+        <source>User</source>
+        <target>crwdns308676:0crwdne308676:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_topic.images">
+        <source>Images</source>
+        <target>crwdns308678:0crwdne308678:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post">
+        <source>Post</source>
+        <target>crwdns308680:0crwdne308680:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.crdate">
+        <source>Creation date</source>
+        <target>crwdns308682:0crwdne308682:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.title">
+        <source>Title</source>
+        <target>crwdns308684:0crwdne308684:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.description">
+        <source>Description</source>
+        <target>crwdns308686:0crwdne308686:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.user">
+        <source>User</source>
+        <target>crwdns308688:0crwdne308688:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_post.images">
+        <source>Images</source>
+        <target>crwdns308690:0crwdne308690:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer">
+        <source>User</source>
+        <target>crwdns308692:0crwdne308692:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.name">
+        <source>Name</source>
+        <target>crwdns308694:0crwdne308694:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.username">
+        <source>Username</source>
+        <target>crwdns308696:0crwdne308696:0</target>
+      </trans-unit>
+      <trans-unit id="tx_pforum_domain_model_anonymoususer.email">
+        <source>Email</source>
+        <target>crwdns308698:0crwdne308698:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
