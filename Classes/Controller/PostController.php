@@ -19,7 +19,7 @@ use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\Mailer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Annotation as Extbase;
+use TYPO3\CMS\Extbase\Attribute\IgnoreValidation;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -28,9 +28,10 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class PostController extends AbstractController
 {
-    #[Extbase\IgnoreValidation(['value' => 'post'])]
-    public function newAction(Topic $topic, ?Post $post = null): ResponseInterface
-    {
+    public function newAction(
+        Topic $topic,
+        #[IgnoreValidation] ?Post $post = null,
+    ): ResponseInterface {
         $this->view->assign('topic', $topic);
         $this->view->assign('post', $post);
         return $this->htmlResponse();
@@ -118,9 +119,8 @@ class PostController extends AbstractController
      * @param bool $isNew We need the information if updateAction was called from createAction.
      *                    If so we have to passthrough this information
      */
-    #[Extbase\IgnoreValidation(['value' => 'post'])]
     public function editAction(
-        ?Post $post = null,
+        #[IgnoreValidation] ?Post $post = null,
         bool $isPreview = false,
         bool $isNew = false,
         string $token = '',

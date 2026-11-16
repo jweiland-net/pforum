@@ -30,7 +30,7 @@ class UsernameValidatorTest extends FunctionalTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $GLOBALS['LANG'] = $this->createMock(LanguageService::class);
+        $GLOBALS['LANG'] = $this->createStub(LanguageService::class);
 
         $this->subject = new UsernameValidator();
     }

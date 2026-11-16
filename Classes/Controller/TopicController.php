@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\Mailer;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Annotation as Extbase;
+use TYPO3\CMS\Extbase\Attribute\IgnoreValidation;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -127,9 +127,8 @@ class TopicController extends AbstractController
      * @param bool $isNew We need the information if updateAction was called from createAction.
      *                    If so we have to passthrough this information
      */
-    #[Extbase\IgnoreValidation(['value' => 'topic'])]
     public function editAction(
-        ?Topic $topic = null,
+        #[IgnoreValidation] ?Topic $topic = null,
         bool $isPreview = false,
         bool $isNew = false,
         string $token = '',
