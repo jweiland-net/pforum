@@ -31,7 +31,7 @@ class EmailValidatorTest extends FunctionalTestCase
     {
         parent::setUp();
 
-        $GLOBALS['LANG'] = $this->createMock(LanguageService::class);
+        $GLOBALS['LANG'] = $this->createStub(LanguageService::class);
         $this->subject = new EmailValidator();
     }
 

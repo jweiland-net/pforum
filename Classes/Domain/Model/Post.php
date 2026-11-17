@@ -14,8 +14,9 @@ namespace JWeiland\Pforum\Domain\Model;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Annotation as Extbase;
-use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
+use TYPO3\CMS\Extbase\Attribute\FileUpload;
+use TYPO3\CMS\Extbase\Attribute\ORM\Lazy;
+use TYPO3\CMS\Extbase\Attribute\Validate;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
@@ -33,7 +34,7 @@ class Post extends AbstractEntity
 
     protected string $title = '';
 
-    #[Extbase\Validate(['validator' => 'NotEmpty'])]
+    #[Validate(validator: 'NotEmpty')]
     protected string $description = '';
 
     protected ?AnonymousUser $anonymousUser = null;
@@ -47,32 +48,27 @@ class Post extends AbstractEntity
      * @var ObjectStorage<FileReference>
      */
     #[Lazy]
-    #[Extbase\FileUpload([
-        'validation' => [
-            'required' => false,
-            'maxFiles' => 2,
-            'fileSize' => [
-                'minimum' => '0K',
-                'maximum' => '4M',
-            ],
-            'mimeType' => [
-                'allowedMimeTypes' => [
-                    'image/jpeg',
-                    'image/png',
-                ],
-            ],
-            'fileExtension' => [
-                'allowedFileExtensions' => [
-                    'jpg',
-                    'jpeg',
-                    'png',
-                ],
+    #[FileUpload(validation: [
+        'required' => false,
+        'maxFiles' => 2,
+        'fileSize' => [
+            'minimum' => '0K',
+            'maximum' => '4M',
+        ],
+        'mimeType' => [
+            'allowedMimeTypes' => [
+                'image/jpeg',
+                'image/png',
             ],
         ],
-        'uploadFolder' => '1:/user_upload/tx_pforum/',
-        'duplicationBehavior' => DuplicationBehavior::RENAME,
-        'createUploadFolderIfNotExist' => true,
-    ])]
+        'fileExtension' => [
+            'allowedFileExtensions' => [
+                'jpg',
+                'jpeg',
+                'png',
+            ],
+        ],
+    ], uploadFolder: '1:/user_upload/tx_pforum/', duplicationBehavior: DuplicationBehavior::RENAME, createUploadFolderIfNotExist: true)]
     protected ObjectStorage $images;
 
     public function __construct()

@@ -37,7 +37,7 @@ class PluginPreview extends StandardContentPreviewRenderer
 
     public function renderPageModulePreviewContent(GridColumnItem $item): string
     {
-        $ttContentRecord = $item->getRecord();
+        $ttContentRecord = $item->getRow();
         if (!$this->isValidPlugin($ttContentRecord)) {
             return '';
         }
