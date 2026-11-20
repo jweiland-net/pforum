@@ -1,0 +1,10 @@
+@import 'EXT:pforum/Configuration/Sets/PForum/setup.typoscript'
+
+page = PAGE
+page {
+  10 = EXTBASEPLUGIN
+  10 {
+    extensionName = Pforum
+    pluginName = Forum
+  }
+}

@@ -1,6 +1,5 @@
 <html lang="en"
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-      xmlns:pf="http://typo3.org/ns/JWeiland/Pforum/ViewHelper"
       data-namespace-typo3-fluid="true">
 
 <f:layout name="Default"/>
@@ -45,15 +44,18 @@
                         </div>
 
                         <f:if condition="{topic.description}">
-                            <p class="mb-1">{topic.description -> f:format.crop(maxCharacters: 150, respectWordBoundaries: true, respectHtml: true)}</p>
+                            <p class="mb-1">{topic.description -> f:format.stripTags() -> f:format.crop(maxCharacters: 150, respectWordBoundaries: true)}</p>
                         </f:if>
 
-                        <f:if condition="{topic.hidden}">
-                            <div>
-                                <f:form action="activate" controller="Topic" name="topic" arguments="{topic: topic}">
-                                    <f:form.submit value="{f:translate(key: 'activate')}"/>
-                                </f:form>
-                            </div>
+                        <f:if condition="{topic.hidden} && {isAdmin}">
+                            <p>
+                                <f:link.action action="confirmActivation"
+                                               controller="Topic"
+                                               class="btn btn-sm btn-outline-primary"
+                                               arguments="{topic: topic.uid}">
+                                    {f:translate(key: 'activate')}
+                                </f:link.action>
+                            </p>
                         </f:if>
                     </div>
                 </div>
@@ -71,7 +73,7 @@
 </f:section>
 
 <f:section name="renderCreationButton">
-    <f:if condition="{pf:isCreateButtonAllowed(authType: settings.auth, userGroupUid: uidOfUserGroup)}">
+    <f:if condition="{isCreationAllowed}">
         <p>
             <f:link.action action="new"
                            controller="Topic"

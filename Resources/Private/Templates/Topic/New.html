@@ -27,10 +27,10 @@
         <f:render partial="FormErrors" arguments="{object: 'topic'}"/>
 
         <f:if condition="{settings.auth} == 1">
-            <f:render partial="User/FormFields" arguments="{object: 'topic'}"/>
+            <f:render partial="User/FormFields" arguments="{record: topic}"/>
         </f:if>
 
-        <f:render partial="Topic/FormFields" arguments="{object: 'topic'}"/>
+        <f:render partial="Topic/FormFields" arguments="{_all}"/>
 
         <div class="mb-3">
             <f:form.submit class="btn btn-primary" value="{f:translate(key: 'newTopic')}"/>

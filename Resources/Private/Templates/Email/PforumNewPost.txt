@@ -1,0 +1,10 @@
+<f:layout name="SystemEmail"/>
+<f:section name="Title">{f:translate(key: 'email.newPost.headline', extensionName: 'Pforum', arguments: {0: author.name})}</f:section>
+<f:section name="Main">{f:translate(key: 'email.newPost.introduction', extensionName: 'Pforum', arguments: {0: topic.title})}
+
+<f:if condition="{post.title}">{post.title}
+
+</f:if>{post.description -> f:format.raw()}
+
+<f:uri.action pageUid="{settings.pidOfDetailPage}" action="show" controller="Topic" pluginName="Forum" extensionName="Pforum" absolute="1" arguments="{topic: topic}"/>
+</f:section>

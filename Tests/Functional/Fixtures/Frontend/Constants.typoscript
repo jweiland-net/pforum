@@ -1,0 +1,25 @@
+pforum {
+  templateRootPath = EXT:pforum/Resources/Private/Templates/
+  partialRootPath = EXT:pforum/Resources/Private/Partials/
+  layoutRootPath = EXT:pforum/Resources/Private/Layouts/
+  storagePid = 10
+  auth = 1
+  emailIsMandatory = 1
+  usernameIsMandatory = 0
+  useImages = 1
+  uidOfAdminGroup = 2
+  uidOfUserGroup = 1
+  pidOfDetailPage = 0
+  topic.hideAtCreation = 1
+  topic.activateByAdmin = 0
+  post.hideAtCreation = 1
+  post.activateByAdmin = 0
+  new.uploadFolder = 1:/user_upload/tx_pforum/
+  image.width = 120c
+  image.height = 90c
+  image.minWidth = 120
+  image.maxWidth = 120
+  image.minHeight = 90
+  image.maxHeight = 90
+  pageBrowser.itemsPerPage = 15
+}
