@@ -7,6 +7,22 @@
 ChangeLog
 =========
 
+Version 8.0.0
+=============
+
+*   [!!!][TASK] Replace the Extbase forms of topics and posts with forms based on EXT:form, see :ref:`forms`
+*   [!!!][TASK] Activate and delete records via a confirmation page and POST requests only
+*   [!!!][TASK] Remove the Extbase integration of checkfaluploads, see :ref:`forms-checkfaluploads`
+*   [!!!][TASK] Use Bootstrap 5 classes in frontend templates
+*   [FEATURE] Add an optional rich text editor (CKEditor 5) to the topic and post forms, see
+    :ref:`frontend-rich-text-editor`
+*   [FEATURE] Members of the admin group activate hidden records in the frontend
+*   [BUGFIX] Use the site settings for hiding and activating topics and posts and for the image size
+*   [BUGFIX] Store descriptions of posts longer than 255 characters
+*   [TASK] Replace the deprecated magic findBy methods of repositories
+*   [TASK] Load the assets of the rich text editor in Fluid and read paths of templates from TypoScript and
+    page TSconfig instead of PHP
+
 Version 7.0.1
 =============
 

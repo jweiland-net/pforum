@@ -137,7 +137,7 @@ Default: 0
 
 Example: `plugin.tx_pforum.settings.useImages = 1`
 
-If activated, two additional upload fields are added to the form for new topics and posts.
+If activated, two upload fields are added to the topic and post forms.
 
 settings.uidOfAdminGroup
 ------------------------
@@ -146,9 +146,8 @@ Default: 0
 
 Example: `plugin.tx_pforum.settings.uidOfAdminGroup = 14`
 
-By default, you, as an administrator, have to modify or delete topic and post records in the TYPO3 backend.
-With this setting you can define a frontend user group that should act as an administrator to edit
-and delete records in the frontend.
+By default, hidden topic and post records are activated in the backend module of pforum. Members of this
+frontend user group see hidden topics and posts in the frontend and can activate them.
 
 settings.uidOfUserGroup
 --------------------------
@@ -157,8 +156,8 @@ Default: 0
 
 Example: `plugin.tx_pforum.settings.uidOfUserGroup = 26`
 
-If authentication is required (`auth = 2`), you have to define a frontend user group that is allowed to create
-new topics and posts.
+If authentication is required (`auth = 2`), only members of this frontend user group can create new topics and
+posts. With `0` every logged-in frontend user can create topics and posts.
 
 settings.pidOfDetailPage
 ---------------------------
@@ -177,8 +176,10 @@ Default: 0
 
 Example: `plugin.tx_pforum.settings.topic.hideAtCreation = 1`
 
+Site setting: `pforum.topic.hideAtCreation`
+
 By default, every new topic created in the frontend is directly visible. If you want to prevent this, activate
-this option — an administrator will then have to review the topic first.
+this option. The topic is activated by an administrator or by its author, see `activateByAdmin`.
 
 settings.topic.activateByAdmin
 ---------------------------------
@@ -187,8 +188,10 @@ Default: 0
 
 Example: `plugin.tx_pforum.settings.topic.activateByAdmin = 1`
 
-By default, hidden records can only be activated by a backend editor. If you want your frontend
-administrator to be able to enable hidden topics, activate this option here.
+Site setting: `pforum.topic.activateByAdmin`
+
+If activated, hidden topics are activated by members of the group `uidOfAdminGroup` or in the backend module only.
+Otherwise, the author gets a link to activate the topic by mail (`auth = 1` and `emailIsMandatory = 1`).
 
 settings.post.hideAtCreation
 -------------------------------
@@ -197,8 +200,10 @@ Default: 0
 
 Example: `plugin.tx_pforum.settings.post.hideAtCreation = 1`
 
+Site setting: `pforum.post.hideAtCreation`
+
 By default, every new post created in the frontend is directly visible. If you want to prevent this, activate
-this option — an administrator will then have to review the post first.
+this option. The post is activated by an administrator or by its author, see `activateByAdmin`.
 
 settings.post.activateByAdmin
 --------------------------------
@@ -207,18 +212,41 @@ Default: 0
 
 Example: `plugin.tx_pforum.settings.post.activateByAdmin = 1`
 
-By default, hidden records can only be activated by a backend editor. If you want your frontend
-administrator to be able to enable hidden posts, activate this option here.
+Site setting: `pforum.post.activateByAdmin`
+
+If activated, hidden posts are activated by members of the group `uidOfAdminGroup` or in the backend module only.
+Otherwise, the author gets a link to activate the post by mail (`auth = 1` and `emailIsMandatory = 1`).
 
 settings.new.uploadFolder
 ----------------------------
 
-Default: 1:user_upload/tx_pforum/
+Default: 1:/user_upload/tx_pforum/
 
-Example: `plugin.tx_pforum.settings.new.uploadFolder = 2:dropbox/pforum/`
+Site setting: `pforum.new.uploadFolder`
 
-Only valid if you have activated `useImages`. Define the default storage location for uploaded images in the
-frontend.
+Only valid if you have activated `useImages`. Define the folder for images uploaded in the topic and post forms.
+It is copied into the upload elements of the forms with `settings.overrideForm`, see :ref:`forms-configuration`.
+
+settings.new.richText.*
+-----------------------
+
+Site settings: `pforum.form.richText.enable`, `pforum.form.richText.elements` and
+`pforum.form.richText.translationsPath`
+
+Enables the rich text editor of the topic and post forms, see :ref:`frontend-rich-text-editor`.
+
+settings.email.templateRootPaths
+--------------------------------
+
+Default: `0 = EXT:pforum/Resources/Private/Templates/Email/`
+
+Template root paths of the mail, which informs the author of a topic about a new post (template `PforumNewPost`).
+Add your own path with a higher key to override the template.
+
+settings.overrideForm.topic / settings.overrideForm.post
+---------------------------------------------------------
+
+Overrides values of the topic and post form definitions, see :ref:`forms-configuration`.
 
 settings.image.*
 ----------------

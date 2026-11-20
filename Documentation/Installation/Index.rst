@@ -48,6 +48,13 @@ On TYPO3 installations that don't run in Composer mode, you can still install `p
     Use the search field to find `pforum`. Select the `pforum` entry from the search results and click the cloud
     icon to install `pforum`.
 
+Requirements
+============
+
+`pforum` needs the system extension EXT:form (:composer:`typo3/cms-form`) for the topic and post forms. Add the
+site set `jweiland/pforum` to your site. It depends on the site set `typo3/form`. The rich text editor of the
+forms needs EXT:rte_ckeditor (:composer:`typo3/cms-rte-ckeditor`), see :ref:`frontend-rich-text-editor`.
+
 Next step
 =========
 
