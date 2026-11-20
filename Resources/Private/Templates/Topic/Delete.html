@@ -10,7 +10,7 @@
     <h2>{f:translate(key: 'deleteTopic')}</h2>
     <p>{f:translate(key: 'delete.description')}</p>
 
-    <f:render partial="Record/Summary" arguments="{record: topic, settings: settings}"/>
+    <f:render partial="Record/Summary" arguments="{record: topic, table: 'tx_pforum_domain_model_topic', settings: settings}"/>
 
     <f:form action="delete" controller="Topic" method="post">
         <f:form.hidden name="topic" value="{topic.uid}"/>

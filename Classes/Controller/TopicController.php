@@ -51,12 +51,12 @@ class TopicController extends AbstractController
     #[Extbase\IgnoreValidation(['value' => 'topic'])]
     public function newAction(Forum $forum, ?Topic $topic = null): ResponseInterface
     {
-        $this->postProcessAndAssignFluidVariables([
-            'forum' => $forum,
-            'topic' => $topic ?? new Topic(),
-        ]);
+        $topic ??= new Topic();
 
-        return $this->htmlResponse();
+        return $this->renderForm($topic, [
+            'forum' => $forum,
+            'topic' => $topic,
+        ]);
     }
 
     public function initializeCreateAction(): void
@@ -87,14 +87,12 @@ class TopicController extends AbstractController
     #[Extbase\IgnoreValidation(['value' => 'topic'])]
     public function editAction(Topic $topic, bool $isPreview = false, bool $isNew = false, string $token = ''): ResponseInterface
     {
-        $this->postProcessAndAssignFluidVariables([
+        return $this->renderForm($topic, [
             'topic' => $topic,
             'isPreview' => $isPreview,
             'isNew' => $isNew,
             'token' => $token,
         ]);
-
-        return $this->htmlResponse();
     }
 
     public function initializeUpdateAction(): void

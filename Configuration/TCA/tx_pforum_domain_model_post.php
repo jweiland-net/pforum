@@ -60,8 +60,11 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:pforum/Resources/Private/Language/locallang_db.xlf:tx_pforum_domain_model_post.description',
             'config' => [
-                'type' => 'input',
-                'size' => 30,
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'softref' => 'typolink_tag,email[subst],url',
+                'enableRichtext' => true,
                 'eval' => 'trim',
             ],
         ],

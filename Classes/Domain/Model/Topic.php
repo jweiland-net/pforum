@@ -147,7 +147,7 @@ class Topic extends AbstractEntity
 
     public function setDescription(string $description): void
     {
-        $this->description = strip_tags($description);
+        $this->description = $description;
     }
 
     public function addPost(Post $post): void

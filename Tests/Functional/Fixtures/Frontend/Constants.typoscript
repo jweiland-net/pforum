@@ -15,6 +15,9 @@ pforum {
   post.hideAtCreation = 1
   post.activateByAdmin = 0
   new.uploadFolder = 1:/user_upload/tx_pforum/
+  form.richText.enable = 0
+  form.richText.elements = description
+  form.richText.translationsPath = EXT:rte_ckeditor/Resources/Public/Contrib/translations/
   image.width = 120c
   image.height = 90c
   image.minWidth = 120

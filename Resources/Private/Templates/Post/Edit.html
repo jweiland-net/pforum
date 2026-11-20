@@ -1,5 +1,6 @@
 <html lang="en"
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:pf="http://typo3.org/ns/JWeiland/Pforum/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
 <f:layout name="Default"/>
@@ -43,7 +44,7 @@
                             </small>
                         </div>
 
-                        <p class="card-text">{post.description -> f:format.html(parseFuncTSPath: 'lib.parseFunc') -> f:format.nl2br()}</p>
+                        <div class="card-text"><pf:formatRichText value="{post.description}" table="tx_pforum_domain_model_post" column="description"/></div>
                     </div>
                 </div>
             </div>

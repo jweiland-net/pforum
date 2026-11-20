@@ -1,5 +1,6 @@
 <html lang="en"
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:pf="http://typo3.org/ns/JWeiland/Pforum/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
 <f:layout name="SystemEmail"/>
@@ -13,7 +14,7 @@
         <h4>{post.title}</h4>
     </f:if>
 
-    <f:format.nl2br>{post.description}</f:format.nl2br>
+    <pf:formatRichText value="{post.description}" table="tx_pforum_domain_model_post" column="description"/>
 
     <p>
         <f:link.action pageUid="{settings.pidOfDetailPage}" action="show" controller="Topic" pluginName="Forum" extensionName="Pforum" absolute="1" arguments="{topic: topic}">

@@ -10,7 +10,7 @@
     <h2>{f:translate(key: 'confirmActivation.header')}</h2>
     <p>{f:translate(key: 'confirmActivation.description')}</p>
 
-    <f:render partial="Record/Summary" arguments="{record: post, settings: settings}"/>
+    <f:render partial="Record/Summary" arguments="{record: post, table: 'tx_pforum_domain_model_post', settings: settings}"/>
 
     <f:form action="activate" controller="Post" method="post">
         <f:form.hidden name="post" value="{post.uid}"/>

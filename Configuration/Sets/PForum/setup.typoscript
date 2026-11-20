@@ -30,6 +30,14 @@ plugin.tx_pforum {
     new {
       # Folder of the images of topics and posts uploaded in frontend
       uploadFolder = {$pforum.new.uploadFolder}
+      # CKEditor 5 of EXT:rte_ckeditor for the description of topics and posts
+      richText {
+        enable = {$pforum.form.richText.enable}
+        # Comma separated names of fields
+        elements = {$pforum.form.richText.elements}
+        # Folder with the translations of CKEditor
+        translationsPath = {$pforum.form.richText.translationsPath}
+      }
     }
 
     email {

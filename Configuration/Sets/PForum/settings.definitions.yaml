@@ -10,6 +10,9 @@ categories:
   pforum.settings:
     label: 'Settings'
     parent: pforum
+  pforum.form:
+    label: 'Forms of topics and posts'
+    parent: pforum
 settings:
   pforum.templateRootPath:
     label: 'Templates'
@@ -106,6 +109,25 @@ settings:
     type: string
     description: 'Combined identifier of the folder, where the images of topics and posts are stored.'
     default: '1:/user_upload/tx_pforum/'
+
+  pforum.form.richText.enable:
+    label: 'Enable rich text editor'
+    category: pforum.form
+    description: 'Use CKEditor 5 of EXT:rte_ckeditor for the description of topics and posts. Requires EXT:rte_ckeditor.'
+    type: bool
+    default: false
+  pforum.form.richText.elements:
+    label: 'Rich text elements'
+    category: pforum.form
+    description: 'Comma separated names of the fields, which get the rich text editor. Currently only "description" is supported.'
+    type: string
+    default: 'description'
+  pforum.form.richText.translationsPath:
+    label: 'Translations of the rich text editor'
+    category: pforum.form
+    description: 'Folder with the translations of CKEditor 5 (e.g. de.js). Empty: English user interface only.'
+    type: string
+    default: 'EXT:rte_ckeditor/Resources/Public/Contrib/translations/'
 
   pforum.image.width:
     label: 'Image width'

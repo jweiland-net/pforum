@@ -1,0 +1,23 @@
+<html lang="en"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:comment>
+    <!--
+    Textarea of the description of topics and posts. With the rich text editor
+    the textarea gets the options of the editor and the assets are loaded with
+    the partial RichTextEditor/LoadAssets.html. Without it, the textarea
+    contains the stored description as plain text.
+    -->
+</f:comment>
+<f:if condition="{richTextEditor.enabled}">
+    <f:then>
+        <f:form.textarea id="{id}" class="form-control" property="description" rows="15"
+                         additionalAttributes="{'data-pforum-rich-text': richTextEditor.options}"/>
+        <f:render partial="RichTextEditor/LoadAssets"/>
+    </f:then>
+    <f:else>
+        <f:form.textarea id="{id}" class="form-control" property="description" rows="15" value="{descriptionPlainText}"/>
+    </f:else>
+</f:if>
+</html>

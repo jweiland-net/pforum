@@ -74,6 +74,7 @@ class RecordFormTest extends FunctionalTestCase
         $topic = $this->getTopicByTitle('New topic');
         self::assertSame(1, (int)$topic['hidden']);
         self::assertSame(1, (int)$topic['forum']);
+        self::assertSame('<p>My question</p>', $topic['description']);
         self::assertGreaterThan(0, (int)$topic['anonymous_user']);
         self::assertStringContainsString('New Topic was created. We have send an email', $this->getFlashMessages());
 

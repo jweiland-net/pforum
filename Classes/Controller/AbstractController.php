@@ -25,6 +25,7 @@ use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
 use JWeiland\Pforum\Mail\ManageRecordMail;
 use JWeiland\Pforum\Security\AnonymousAccessTokenService;
 use JWeiland\Pforum\Service\RecordAccessService;
+use JWeiland\Pforum\Service\RichTextDescriptionService;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
@@ -51,6 +52,7 @@ class AbstractController extends ActionController
         protected readonly RecordAccessService $recordAccessService,
         protected readonly AnonymousAccessTokenService $anonymousAccessTokenService,
         protected readonly ManageRecordMail $manageRecordMail,
+        protected readonly RichTextDescriptionService $richTextDescriptionService,
     ) {}
 
     public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
@@ -140,6 +142,21 @@ class AbstractController extends ActionController
     }
 
     /**
+     * Assigns the variables of the form of a topic or post
+     *
+     * @param array<string, mixed> $variables
+     */
+    protected function renderForm(Topic|Post $record, array $variables): ResponseInterface
+    {
+        $this->postProcessAndAssignFluidVariables(array_replace(
+            $variables,
+            $this->richTextDescriptionService->getFormVariables($record, $this->settings, $this->request),
+        ));
+
+        return $this->htmlResponse();
+    }
+
+    /**
      * Frontend users have to be logged in (and member of the user group, if
      * configured) to create records
      *
@@ -184,6 +201,7 @@ class AbstractController extends ActionController
     protected function processCreation(Topic|Post $record): ResponseInterface
     {
         $recordType = $record instanceof Topic ? RecordType::Topic : RecordType::Post;
+        $this->richTextDescriptionService->prepareForPersistence($record, $this->settings);
         $frontendUser = $this->frontendUserRepository->findByIdentifier($this->recordAccessService->getFrontendUserUid());
         if ($this->getForumSettings()->isFrontendUserMode() && $frontendUser instanceof FrontendUser) {
             $record->setFrontendUser($frontendUser);
@@ -209,6 +227,7 @@ class AbstractController extends ActionController
     protected function processUpdate(Topic|Post $record, bool $isNew, string $token): ResponseInterface
     {
         $recordType = $record instanceof Topic ? RecordType::Topic : RecordType::Post;
+        $this->richTextDescriptionService->prepareForPersistence($record, $this->settings);
         if ($this->request->hasArgument('preview')) {
             $this->persistenceManager->update($record);
 
