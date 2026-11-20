@@ -1,0 +1,12 @@
+# Frontend configuration of EXT:form of the site set typo3/form
+@import 'EXT:form/Configuration/TypoScript/setup.typoscript'
+@import 'EXT:pforum/Configuration/Sets/PForum/setup.typoscript'
+
+page = PAGE
+page {
+  10 = EXTBASEPLUGIN
+  10 {
+    extensionName = Pforum
+    pluginName = Forum
+  }
+}

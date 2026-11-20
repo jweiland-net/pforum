@@ -1,0 +1,33 @@
+<html lang="en"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:comment><!-- Summary of a topic or post for the confirmation of activation and deletion --></f:comment>
+<div class="card mb-3">
+    <div class="card-body">
+        <f:if condition="{record.title}">
+            <h3 class="card-title h5">{record.title}</h3>
+        </f:if>
+        <p class="card-subtitle mb-2 text-body-secondary">
+            {record.crdate -> f:format.date(format: 'd.m.Y')} |
+            {f:translate(key: 'from')}: <f:render partial="User/Username" arguments="{user: record.user}"/>
+        </p>
+        <div class="card-text">
+            <f:format.html>{record.description}</f:format.html>
+        </div>
+        <f:if condition="{record.images}">
+            <ul class="list-unstyled d-flex flex-wrap gap-3 mb-0">
+                <f:for each="{record.images}" as="image">
+                    <li>
+                        <f:image image="{image}"
+                                 alt="{image.alternative}"
+                                 class="img-fluid img-thumbnail"
+                                 width="{settings.image.width}"
+                                 height="{settings.image.height}"/>
+                    </li>
+                </f:for>
+            </ul>
+        </f:if>
+    </div>
+</div>
+</html>

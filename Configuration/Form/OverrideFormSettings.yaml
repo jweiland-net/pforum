@@ -1,0 +1,16 @@
+TYPO3:
+  CMS:
+    Form:
+      prototypes:
+        standard:
+          # Finishers of the topic and post forms of pforum. Templates,
+          # partials and translations are set in the form definitions, so
+          # they are not used by other forms of the installation.
+          finishersDefinition:
+            PforumSaveTopic:
+              implementationClassName: 'JWeiland\Pforum\Domain\Finisher\SaveTopicFinisher'
+            PforumSavePost:
+              implementationClassName: 'JWeiland\Pforum\Domain\Finisher\SavePostFinisher'
+      persistenceManager:
+        allowedExtensionPaths:
+          1763890800: EXT:pforum/Configuration/Form/

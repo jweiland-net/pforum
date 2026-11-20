@@ -21,16 +21,14 @@ ExtensionUtility::configurePlugin(
     'Forum',
     [
         ForumController::class => 'list, show',
-        TopicController::class => 'show, new, create, edit, update, delete, activate',
-        PostController::class => 'new, create, edit, update, delete, activate',
+        TopicController::class => 'show, new, edit, delete, confirmActivation, activate',
+        PostController::class => 'new, edit, delete, confirmActivation, activate',
     ],
     // non-cacheable actions
     [
         ForumController::class => 'list, show',
-        TopicController::class => 'create, update, delete, activate',
-        PostController::class => 'create, update, delete, activate',
+        TopicController::class => 'show, new, edit, delete, confirmActivation, activate',
+        PostController::class => 'new, edit, delete, confirmActivation, activate',
     ],
     ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
 );
-
-$GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][1666352112] = 'EXT:pforum/Resources/Private/Templates/Mail';

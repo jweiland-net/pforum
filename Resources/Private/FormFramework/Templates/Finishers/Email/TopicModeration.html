@@ -1,0 +1,51 @@
+<html lang="en"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:formvh="http://typo3.org/ns/TYPO3/CMS/Form/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:layout name="SystemEmail"/>
+<f:section name="Title">{title}</f:section>
+<f:section name="Main">
+    <f:variable name="topic">{finisherVariableProvider.PforumSaveTopic.recordUid}</f:variable>
+    <f:variable name="accessToken">{finisherVariableProvider.PforumSaveTopic.accessToken}</f:variable>
+    <f:variable name="activationToken">{finisherVariableProvider.PforumSaveTopic.activationToken}</f:variable>
+
+    <p>{f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:email.topic.text')}</p>
+
+    <f:if condition="{activationToken}">
+        <p>
+            <f:link.action pageUid="{pageUid}" action="confirmActivation" controller="Topic" extensionName="Pforum" pluginName="Forum" absolute="1" arguments="{topic: topic, token: activationToken}">
+                {f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:activateTopic')}
+            </f:link.action>
+        </p>
+    </f:if>
+    <p>
+        <f:link.action pageUid="{pageUid}" action="edit" controller="Topic" extensionName="Pforum" pluginName="Forum" absolute="1" arguments="{topic: topic, token: accessToken}">
+            {f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:editTopic')}
+        </f:link.action>
+    </p>
+    <p>
+        <f:link.action pageUid="{pageUid}" action="delete" controller="Topic" extensionName="Pforum" pluginName="Forum" absolute="1" arguments="{topic: topic, token: accessToken}">
+            {f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:deleteTopic')}
+        </f:link.action>
+    </p>
+
+    <p>{f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:email.form.values')}</p>
+
+    <table>
+        <formvh:renderAllFormValues renderable="{form.formDefinition}" as="formValue">
+            <tr>
+                <td valign="top" align="left">{formvh:translateElementProperty(element: formValue.element, property: 'label')}</td>
+                <td valign="top" align="left">
+                    <f:if condition="{formValue.value}">
+                        <f:then>
+                            <f:format.nl2br>{formValue.processedValue}</f:format.nl2br>
+                        </f:then>
+                        <f:else>-</f:else>
+                    </f:if>
+                </td>
+            </tr>
+        </formvh:renderAllFormValues>
+    </table>
+</f:section>
+</html>

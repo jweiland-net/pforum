@@ -1,0 +1,21 @@
+<html lang="en"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:layout name="Default"/>
+
+<f:section name="main">
+    <f:flashMessages/>
+
+    <h2>{f:translate(key: 'confirmActivation.header')}</h2>
+    <p>{f:translate(key: 'confirmActivation.description')}</p>
+
+    <f:render partial="Record/Summary" arguments="{record: topic, settings: settings}"/>
+
+    <f:form action="activate" controller="Topic" method="post">
+        <f:form.hidden name="topic" value="{topic.uid}"/>
+        <f:form.hidden name="token" value="{token}"/>
+        <f:form.submit class="btn btn-primary" value="{f:translate(key: 'activateTopic')}"/>
+    </f:form>
+</f:section>
+</html>

@@ -20,6 +20,10 @@ class ExtConfTest extends FunctionalTestCase
 {
     protected ExtConf $subject;
 
+    protected array $coreExtensionsToLoad = [
+        'form',
+    ];
+
     protected array $testExtensionsToLoad = [
         'jweiland/pforum',
     ];

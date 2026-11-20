@@ -29,7 +29,8 @@
 		"source": "https://github.com/jweiland-net/pforum"
 	},
 	"require": {
-		"typo3/cms-core": "^13.4"
+		"typo3/cms-core": "^13.4",
+		"typo3/cms-form": "^13.4"
 	},
 	"require-dev": {
 		"ergebnis/composer-normalize": "^2.44",
@@ -43,7 +44,7 @@
 		"typo3-ter/pforum": "self.version"
 	},
 	"suggest": {
-		"jweiland/checkfaluploads": "Adds a mandatory rights checkbox to file uploads in pforum's forms. Requires at least version 6.0.0."
+		"jweiland/checkfaluploads": "Adds a mandatory rights checkbox to the image upload fields of the topic and post forms based on EXT:form. Requires at least version 6.0.0."
 	},
 	"autoload": {
 		"psr-4": {

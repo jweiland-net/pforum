@@ -1,2 +1,7 @@
 name: jweiland/pforum
 label: PForum Set
+
+dependencies:
+  # Provides the frontend configuration of EXT:form (plugin.tx_form) for
+  # the topic and post forms
+  - typo3/form

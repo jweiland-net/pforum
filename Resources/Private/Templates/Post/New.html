@@ -1,5 +1,6 @@
 <html lang="en"
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:formvh="http://typo3.org/ns/TYPO3/CMS/Form/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
 <f:layout name="Default"/>
@@ -13,34 +14,28 @@
                 <f:link.action action="list" controller="Forum">{f:translate(key: 'tx_pforum_domain_model_forum')}</f:link.action>
             </li>
             <li class="breadcrumb-item">
-                <f:link.action action="show" controller="Forum" arguments="{forum: topic.forum}">
-                    {topic.forum.title}
-                </f:link.action>
+                <f:link.action action="show" controller="Forum" arguments="{forum: topic.forum}">{topic.forum.title}</f:link.action>
             </li>
             <li class="breadcrumb-item">
-                <f:link.action action="show" controller="Topic" arguments="{topic: topic}">
-                    {topic.title}
-                </f:link.action>
+                <f:link.action action="show" controller="Topic" arguments="{topic: topic}">{topic.title}</f:link.action>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">
-                {f:translate(key: 'post')}
-            </li>
+            <li class="breadcrumb-item active" aria-current="page">{f:translate(key: 'newPost')}</li>
         </ol>
     </nav>
 
-    <f:form action="create" name="post" object="{post}" arguments="{topic: topic}" enctype="multipart/form-data">
-        <f:render partial="FormErrors" arguments="{object: 'post'}"/>
+    <h2>{f:translate(key: 'newPost')}</h2>
 
-        <f:if condition="{settings.auth} == 1">
-            <f:render partial="User/FormFields" arguments="{object: 'post'}"/>
-        </f:if>
-
-        <f:render partial="Post/FormFields" arguments="{object: 'post'}"/>
-
-        <div class="mb-3">
-            <f:form.submit class="btn btn-primary" value="{f:translate(key: 'newPost')}"/>
-            <f:form.submit class="btn btn-secondary" name="preview" value="{f:translate(key: 'preview')}"/>
-        </div>
-    </f:form>
+    <f:if condition="{denialReason}">
+        <f:then>
+            <div class="alert alert-danger" role="alert">
+                {f:translate(key: denialReason)}
+            </div>
+        </f:then>
+        <f:else>
+            <formvh:render persistenceIdentifier="EXT:pforum/Configuration/Form/Post.form.yaml"
+                           factoryClass="JWeiland\\Pforum\\Domain\\Factory\\ArrayFormFactory"
+                           overrideConfiguration="{settings.overrideForm.post}"/>
+        </f:else>
+    </f:if>
 </f:section>
 </html>

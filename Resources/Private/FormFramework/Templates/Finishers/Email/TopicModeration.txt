@@ -1,0 +1,29 @@
+<html lang="en"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:formvh="http://typo3.org/ns/TYPO3/CMS/Form/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+<f:layout name="SystemEmail" />
+<f:section name="Title">{title}</f:section>
+<f:section name="Main">
+<f:variable name="topic">{finisherVariableProvider.PforumSaveTopic.recordUid}</f:variable>
+<f:variable name="accessToken">{finisherVariableProvider.PforumSaveTopic.accessToken}</f:variable>
+<f:variable name="activationToken">{finisherVariableProvider.PforumSaveTopic.activationToken}</f:variable>
+{f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:email.topic.text')}
+<f:if condition="{activationToken}">
+{f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:activateTopic')}:
+<f:uri.action pageUid="{pageUid}" action="confirmActivation" controller="Topic" extensionName="Pforum" pluginName="Forum" absolute="1" arguments="{topic: topic, token: activationToken}" />
+</f:if>
+{f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:editTopic')}:
+<f:uri.action pageUid="{pageUid}" action="edit" controller="Topic" extensionName="Pforum" pluginName="Forum" absolute="1" arguments="{topic: topic, token: accessToken}" />
+
+{f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:deleteTopic')}:
+<f:uri.action pageUid="{pageUid}" action="delete" controller="Topic" extensionName="Pforum" pluginName="Forum" absolute="1" arguments="{topic: topic, token: accessToken}" />
+
+{f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:email.form.values')}
+
+<formvh:renderAllFormValues renderable="{form.formDefinition}" as="formValue"><f:spaceless>
+<formvh:translateElementProperty element="{formValue.element}" property="label" />: <f:if condition="{formValue.processedValue}"><f:then>{formValue.processedValue -> f:format.raw()}</f:then><f:else>-</f:else></f:if>
+</f:spaceless>
+</formvh:renderAllFormValues>
+</f:section>
+</html>

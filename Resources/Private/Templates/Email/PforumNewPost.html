@@ -1,0 +1,18 @@
+<html lang="en"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:layout name="SystemEmail"/>
+
+<f:section name="Title">{f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:email.newPost.headline', arguments: {0: author.name})}</f:section>
+
+<f:section name="Main">
+    <p>{f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:email.newPost.introduction', arguments: {0: topic.title})}</p>
+
+    <f:if condition="{post.title}">
+        <h4>{post.title}</h4>
+    </f:if>
+
+    <f:sanitize.html>{description}</f:sanitize.html>
+</f:section>
+</html>

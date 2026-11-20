@@ -1,0 +1,175 @@
+type: Form
+identifier: pforumPost
+label: 'Post'
+prototypeName: standard
+renderingOptions:
+  # Topic or post. Read by the ArrayFormFactory of pforum.
+  recordType: post
+  submitButtonLabel: 'Save post'
+  templateVariant: version2
+  partialRootPaths:
+    1763890800: 'EXT:pforum/Resources/Private/FormFramework/Partials/'
+  translation:
+    translationFiles:
+      1763890800: 'EXT:pforum/Resources/Private/Language/locallang_form.xlf'
+renderables:
+  - type: Page
+    identifier: post
+    label: 'Post'
+    renderables:
+      # The elements of the pforum user are removed for frontend users
+      # (settings.auth = 2). "username" and "email" get the validator
+      # NotEmpty, if settings.usernameIsMandatory or settings.emailIsMandatory
+      # is set.
+      - type: Text
+        identifier: name
+        label: 'Name'
+        defaultValue: ''
+        properties:
+          dbMapping:
+            table: tx_pforum_domain_model_anonymoususer
+            column: name
+      - type: Text
+        identifier: username
+        label: 'Username'
+        defaultValue: ''
+        properties:
+          dbMapping:
+            table: tx_pforum_domain_model_anonymoususer
+            column: username
+      - type: Email
+        identifier: email
+        label: 'Email'
+        defaultValue: ''
+        properties:
+          dbMapping:
+            table: tx_pforum_domain_model_anonymoususer
+            column: email
+        validators:
+          - identifier: EmailAddress
+      - type: Text
+        identifier: title
+        label: 'Title'
+        defaultValue: ''
+        properties:
+          dbMapping:
+            column: title
+        validators:
+          - identifier: StringLength
+            options:
+              minimum: 0
+              maximum: 255
+      - type: Textarea
+        identifier: description
+        label: 'Description'
+        defaultValue: ''
+        properties:
+          dbMapping:
+            column: description
+            dataType: plainText
+          fluidAdditionalAttributes:
+            required: required
+            rows: 10
+        validators:
+          - identifier: NotEmpty
+      # The upload elements are removed, if settings.useImages is not set
+      - type: ImageUpload
+        identifier: image-1
+        label: 'Image'
+        properties:
+          dbMapping:
+            column: images
+            position: 1
+          # Overridden by TypoScript "settings.new.uploadFolder"
+          saveToFileMount: '1:/user_upload/tx_pforum/'
+          allowedMimeTypes:
+            - image/jpeg
+            - image/png
+          elementDescription: 'JPG or PNG, max. 4 MB'
+        validators:
+          - identifier: FileSize
+            options:
+              minimum: 0K
+              maximum: 4M
+      - type: ImageUpload
+        identifier: image-2
+        label: 'Further image'
+        properties:
+          dbMapping:
+            column: images
+            position: 2
+          # Overridden by TypoScript "settings.new.uploadFolder"
+          saveToFileMount: '1:/user_upload/tx_pforum/'
+          allowedMimeTypes:
+            - image/jpeg
+            - image/png
+          elementDescription: 'JPG or PNG, max. 4 MB'
+        validators:
+          - identifier: FileSize
+            options:
+              minimum: 0K
+              maximum: 4M
+finishers:
+  1:
+    identifier: PforumSavePost
+    options:
+      elements:
+        name:
+          mapOnDatabaseColumn: name
+          table: tx_pforum_domain_model_anonymoususer
+          normalizePlainText: true
+        username:
+          mapOnDatabaseColumn: username
+          table: tx_pforum_domain_model_anonymoususer
+          normalizePlainText: true
+        email:
+          mapOnDatabaseColumn: email
+          table: tx_pforum_domain_model_anonymoususer
+        title:
+          mapOnDatabaseColumn: title
+          normalizePlainText: true
+        description:
+          mapOnDatabaseColumn: description
+          convertPlainTextToHtml: true
+        image-1:
+          mapOnDatabaseColumn: images
+        image-2:
+          mapOnDatabaseColumn: images
+  2:
+    # Sends the links to activate, edit and delete the post to the pforum
+    # user. Removed, if the post is edited or if settings.auth is not 1 or
+    # settings.emailIsMandatory is not set.
+    identifier: EmailToSender
+    options:
+      # Taken from the extension settings and the labels of pforum, if empty
+      #subject: ''
+      #senderAddress: ''
+      #senderName: ''
+      recipients:
+        '{email}': '{name}'
+      title: 'Post'
+      useFluidEmail: true
+      addHtmlPart: true
+      attachUploads: false
+      # Template of this form only. Do not register it in the prototype, as
+      # it would be used for the mails of all forms of the installation.
+      templateName: PostModeration
+      templateRootPaths:
+        1763890800: 'EXT:pforum/Resources/Private/FormFramework/Templates/Finishers/Email/'
+      variables:
+        # Page with the Forum plugin for the links of the mail. Set to the
+        # current page.
+        pageUid: 0
+  3:
+    # The message depends on the settings "hideAtCreation" and
+    # "activateByAdmin" of the post and is set by pforum
+    identifier: FlashMessage
+    options:
+      messageBody: 'Post saved'
+      messageTitle: ''
+      severity: 0
+  4:
+    # Shows the topic of the post. The current page is used, if empty.
+    identifier: Redirect
+    options:
+      pageUid: 0

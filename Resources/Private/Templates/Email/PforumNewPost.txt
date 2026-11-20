@@ -1,0 +1,7 @@
+<f:layout name="SystemEmail"/>
+<f:section name="Title">{f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:email.newPost.headline', arguments: {0: author.name})}</f:section>
+<f:section name="Main">{f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:email.newPost.introduction', arguments: {0: topic.title})}
+
+<f:if condition="{post.title}">{post.title}
+
+</f:if>{descriptionPlainText -> f:format.raw()}</f:section>

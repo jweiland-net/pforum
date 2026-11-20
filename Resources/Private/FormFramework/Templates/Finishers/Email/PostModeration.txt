@@ -1,0 +1,29 @@
+<html lang="en"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:formvh="http://typo3.org/ns/TYPO3/CMS/Form/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+<f:layout name="SystemEmail" />
+<f:section name="Title">{title}</f:section>
+<f:section name="Main">
+<f:variable name="post">{finisherVariableProvider.PforumSavePost.recordUid}</f:variable>
+<f:variable name="accessToken">{finisherVariableProvider.PforumSavePost.accessToken}</f:variable>
+<f:variable name="activationToken">{finisherVariableProvider.PforumSavePost.activationToken}</f:variable>
+{f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:email.post.text')}
+<f:if condition="{activationToken}">
+{f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:activatePost')}:
+<f:uri.action pageUid="{pageUid}" action="confirmActivation" controller="Post" extensionName="Pforum" pluginName="Forum" absolute="1" arguments="{post: post, token: activationToken}" />
+</f:if>
+{f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:editPost')}:
+<f:uri.action pageUid="{pageUid}" action="edit" controller="Post" extensionName="Pforum" pluginName="Forum" absolute="1" arguments="{post: post, token: accessToken}" />
+
+{f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:deletePost')}:
+<f:uri.action pageUid="{pageUid}" action="delete" controller="Post" extensionName="Pforum" pluginName="Forum" absolute="1" arguments="{post: post, token: accessToken}" />
+
+{f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:email.form.values')}
+
+<formvh:renderAllFormValues renderable="{form.formDefinition}" as="formValue"><f:spaceless>
+<formvh:translateElementProperty element="{formValue.element}" property="label" />: <f:if condition="{formValue.processedValue}"><f:then>{formValue.processedValue -> f:format.raw()}</f:then><f:else>-</f:else></f:if>
+</f:spaceless>
+</formvh:renderAllFormValues>
+</f:section>
+</html>

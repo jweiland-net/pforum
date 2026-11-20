@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="EXT:pforum/Resources/Private/Language/locallang_form.xlf" date="2026-11-20T12:00:00Z" product-name="pforum">
+		<header/>
+		<body>
+			<trans-unit id="pforumTopic.renderingOptions.submitButtonLabel">
+				<source>Save topic</source>
+			</trans-unit>
+			<trans-unit id="pforumTopic.element.topic.properties.label">
+				<source>Topic</source>
+			</trans-unit>
+			<trans-unit id="pforumTopic.element.name.properties.label">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="pforumTopic.element.username.properties.label">
+				<source>Username</source>
+			</trans-unit>
+			<trans-unit id="pforumTopic.element.email.properties.label">
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="pforumTopic.element.title.properties.label">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="pforumTopic.element.description.properties.label">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="pforumTopic.element.image-1.properties.label">
+				<source>Image</source>
+			</trans-unit>
+			<trans-unit id="pforumTopic.element.image-2.properties.label">
+				<source>Further image</source>
+			</trans-unit>
+			<trans-unit id="pforumTopic.element.image-1.properties.elementDescription">
+				<source>JPG or PNG, max. 4 MB</source>
+			</trans-unit>
+			<trans-unit id="pforumTopic.element.image-2.properties.elementDescription">
+				<source>JPG or PNG, max. 4 MB</source>
+			</trans-unit>
+			<trans-unit id="pforumTopic.finisher.EmailToSender.title">
+				<source>Topic</source>
+			</trans-unit>
+			<trans-unit id="pforumPost.renderingOptions.submitButtonLabel">
+				<source>Save post</source>
+			</trans-unit>
+			<trans-unit id="pforumPost.element.post.properties.label">
+				<source>Post</source>
+			</trans-unit>
+			<trans-unit id="pforumPost.element.name.properties.label">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="pforumPost.element.username.properties.label">
+				<source>Username</source>
+			</trans-unit>
+			<trans-unit id="pforumPost.element.email.properties.label">
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="pforumPost.element.title.properties.label">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="pforumPost.element.description.properties.label">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="pforumPost.element.image-1.properties.label">
+				<source>Image</source>
+			</trans-unit>
+			<trans-unit id="pforumPost.element.image-2.properties.label">
+				<source>Further image</source>
+			</trans-unit>
+			<trans-unit id="pforumPost.element.image-1.properties.elementDescription">
+				<source>JPG or PNG, max. 4 MB</source>
+			</trans-unit>
+			<trans-unit id="pforumPost.element.image-2.properties.elementDescription">
+				<source>JPG or PNG, max. 4 MB</source>
+			</trans-unit>
+			<trans-unit id="pforumPost.finisher.EmailToSender.title">
+				<source>Post</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

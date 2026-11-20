@@ -1,3 +1,6 @@
+# Register the finishers of the topic and post forms based on EXT:form
+plugin.tx_form.settings.yamlConfigurations.1763890800 = EXT:pforum/Configuration/Form/OverrideFormSettings.yaml
+
 plugin.tx_pforum {
   view {
     templateRootPaths.100 = {$pforum.templateRootPath}
@@ -18,26 +21,41 @@ plugin.tx_pforum {
     uidOfUserGroup = {$pforum.uidOfUserGroup}
     pidOfDetailPage = {$pforum.pidOfDetailPage}
     topic {
-      hideAtCreation = 0
-      activateByAdmin = 0
+      hideAtCreation = {$pforum.topic.hideAtCreation}
+      activateByAdmin = {$pforum.topic.activateByAdmin}
     }
 
     post {
-      hideAtCreation = 0
-      activateByAdmin = 0
+      hideAtCreation = {$pforum.post.hideAtCreation}
+      activateByAdmin = {$pforum.post.activateByAdmin}
     }
 
     new {
-      uploadFolder = 1:user_upload/tx_pforum/
+      # Folder of the images uploaded in the topic and post forms
+      uploadFolder = {$pforum.new.uploadFolder}
+    }
+
+    # Special configuration for the forms based on EXT:form
+    # See EXT:pforum/Configuration/Form/Topic.form.yaml and Post.form.yaml
+    overrideForm {
+      topic {
+        renderables.0.renderables.5.properties.saveToFileMount < plugin.tx_pforum.settings.new.uploadFolder
+        renderables.0.renderables.6.properties.saveToFileMount < plugin.tx_pforum.settings.new.uploadFolder
+      }
+
+      post {
+        renderables.0.renderables.5.properties.saveToFileMount < plugin.tx_pforum.settings.new.uploadFolder
+        renderables.0.renderables.6.properties.saveToFileMount < plugin.tx_pforum.settings.new.uploadFolder
+      }
     }
 
     image {
-      width = 120c
-      height = 90c
-      minWidth = 120
-      maxWidth = 120
-      minHeight = 90
-      maxHeight = 90
+      width = {$pforum.image.width}
+      height = {$pforum.image.height}
+      minWidth = {$pforum.image.minWidth}
+      maxWidth = {$pforum.image.maxWidth}
+      minHeight = {$pforum.image.minHeight}
+      maxHeight = {$pforum.image.maxHeight}
     }
 
     pageBrowser {

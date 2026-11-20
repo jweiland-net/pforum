@@ -1,6 +1,5 @@
 <html lang="en"
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-      xmlns:pf="http://typo3.org/ns/JWeiland/Pforum/ViewHelper"
       data-namespace-typo3-fluid="true">
 
 <f:layout name="Default"/>
@@ -60,7 +59,13 @@
                     </div>
 
                     <f:if condition="{topic.description}">
-                        <p class="card-text">{topic.description -> f:format.html(parseFuncTSPath: 'lib.parseFunc') -> f:format.nl2br()}</p>
+                        <div class="card-text">
+                            <f:format.html>{topic.description}</f:format.html>
+                        </div>
+                    </f:if>
+
+                    <f:if condition="{topic.hasValidUser}">
+                        <f:render section="renderManagementLinks" arguments="{controller: 'Topic', arguments: {topic: topic.uid}}"/>
                     </f:if>
                 </div>
             </div>
@@ -98,14 +103,23 @@
                             </small>
                         </div>
 
-                        <p class="mb-1">{post.description -> f:format.html(parseFuncTSPath: 'lib.parseFunc') ->f:format.nl2br()}</p>
+                        <div class="mb-1">
+                            <f:format.html>{post.description}</f:format.html>
+                        </div>
 
-                        <f:if condition="{post.hidden}">
-                            <div>
-                                <f:form action="activate" controller="Post" name="post" arguments="{post: post}">
-                                    <f:form.submit value="{f:translate(key: 'activate')}"/>
-                                </f:form>
-                            </div>
+                        <f:if condition="{post.hasValidUser}">
+                            <f:render section="renderManagementLinks" arguments="{controller: 'Post', arguments: {post: post.uid}}"/>
+                        </f:if>
+
+                        <f:if condition="{post.hidden} && {isAdmin}">
+                            <p>
+                                <f:link.action action="confirmActivation"
+                                               controller="Post"
+                                               class="btn btn-sm btn-outline-primary"
+                                               arguments="{post: post.uid}">
+                                    {f:translate(key: 'activate')}
+                                </f:link.action>
+                            </p>
                         </f:if>
                     </div>
                 </div>
@@ -123,16 +137,27 @@
 </f:section>
 
 <f:section name="renderCreationButton">
-    <f:if condition="{pf:isCreateButtonAllowed(authType: settings.auth, userGroupUid: uidOfUserGroup)}">
+    <f:if condition="{isCreationAllowed}">
         <p>
             <f:link.action action="new"
                            controller="Post"
                            pageUid="{settings.pidOfDetailPage}"
                            class="btn btn-primary"
-                           arguments="{topic: topic, forum: forum}">
+                           arguments="{topic: topic}">
                 {f:translate(key: 'newPost')}
             </f:link.action>
         </p>
     </f:if>
+</f:section>
+
+<f:section name="renderManagementLinks">
+    <p class="mb-1">
+        <f:link.action action="edit" controller="{controller}" arguments="{arguments}" class="btn btn-sm btn-outline-secondary">
+            {f:translate(key: 'edit')}
+        </f:link.action>
+        <f:link.action action="delete" controller="{controller}" arguments="{arguments}" class="btn btn-sm btn-outline-danger">
+            {f:translate(key: 'delete')}
+        </f:link.action>
+    </p>
 </f:section>
 </html>

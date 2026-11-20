@@ -16,7 +16,7 @@
             <f:for each="{records}" as="record">
                 <tr>
                     <td>{record.title}</td>
-                    <td>{record.description}</td>
+                    <td>{record.description -> f:format.stripTags() -> f:format.crop(maxCharacters: 200, respectWordBoundaries: true)}</td>
                     <td>
                         <f:link.action action="{action}"
                                        class="btn btn-default"

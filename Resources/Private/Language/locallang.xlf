@@ -107,7 +107,7 @@
 				<source>Your new Post was created.</source>
 			</trans-unit>
 			<trans-unit id="hiddenPostCreatedAndActivateByAdmin">
-				<source>New Topic was created, but must be reviewed by an administrator.</source>
+				<source>New Post was created, but must be reviewed by an administrator.</source>
 			</trans-unit>
 			<trans-unit id="hiddenPostCreatedAndActivateByUser">
 				<source>New Post was created. We have send an email to you to activate, edit and delete your post.</source>
@@ -148,19 +148,6 @@
 			<trans-unit id="postActivated">
 				<source>Post was successfully activated</source>
 			</trans-unit>
-			<trans-unit id="preview">
-				<source>Preview</source>
-			</trans-unit>
-
-			<trans-unit id="validator.anonymousUser.email">
-				<source>The email of user object is mandatory</source>
-			</trans-unit>
-			<trans-unit id="validator.anonymousUser.validEmail">
-				<source>The email of user object is not a valid email</source>
-			</trans-unit>
-			<trans-unit id="validator.anonymousUser.username">
-				<source>The username of user object is mandatory</source>
-			</trans-unit>
 
 			<trans-unit id="email.topic.subject">
 				<source>Manage your newly created topic</source>
@@ -174,30 +161,8 @@
 			<trans-unit id="email.post.text">
 				<source>You have created a new posting. Now you have following options</source>
 			</trans-unit>
-			<trans-unit id="error.activateFirst">
-				<source>Sorry. This entry can't be edited or deleted as long as this record was not activated first.</source>
-			</trans-unit>
 			<trans-unit id="from">
 				<source>from</source>
-			</trans-unit>
-			<trans-unit id="save">
-				<source>Save</source>
-			</trans-unit>
-			<trans-unit id="reset">
-				<source>Reset</source>
-			</trans-unit>
-
-			<trans-unit id="error.upload">
-				<source>Something went wrong with your uploaded files. Please try again. Error: </source>
-				<target>Ein Fehler ist beim Upload der Dateien aufgetreten. Bitte versuchen Sie es zunächst erneut. Fehlermeldung: </target>
-			</trans-unit>
-			<trans-unit id="error.fileExtension">
-				<source>You only can upload files with following file extensions: %1$s</source>
-				<target>Sie können nur Bilder mit folgenden Dateiendungen hochladen: %1$s</target>
-			</trans-unit>
-
-			<trans-unit id="mandatory">
-				<source>mandatory</source>
 			</trans-unit>
 
 			<trans-unit id="be.administrateForumRecords">
@@ -223,6 +188,51 @@
 			</trans-unit>
 			<trans-unit id="be.noRecordsInStorage">
 				<source>Currently, there are no hidden records for selected record type.</source>
+			</trans-unit>
+
+			<trans-unit id="edit">
+				<source>Edit</source>
+			</trans-unit>
+			<trans-unit id="delete">
+				<source>Delete</source>
+			</trans-unit>
+			<trans-unit id="delete.description">
+				<source>Do you really want to delete this entry? This can not be undone.</source>
+			</trans-unit>
+			<trans-unit id="pluginNeedsLogin">
+				<source>Please log in to create topics and posts.</source>
+			</trans-unit>
+			<trans-unit id="notAllowedToCreate">
+				<source>You are not allowed to create topics and posts.</source>
+			</trans-unit>
+			<trans-unit id="parentNotFound">
+				<source>The forum or topic does not exist.</source>
+			</trans-unit>
+
+			<trans-unit id="confirmActivation.header">
+				<source>Activate entry</source>
+			</trans-unit>
+			<trans-unit id="confirmActivation.description">
+				<source>Please check the entry and confirm its activation.</source>
+			</trans-unit>
+			<trans-unit id="activation.invalidToken">
+				<source>The entry can not be activated. The link is invalid or you are not allowed to activate it.</source>
+			</trans-unit>
+			<trans-unit id="activation.alreadyActivated">
+				<source>The entry is activated already.</source>
+			</trans-unit>
+
+			<trans-unit id="email.form.values">
+				<source>You have entered the following values:</source>
+			</trans-unit>
+			<trans-unit id="email.newPost.subject">
+				<source>New post at your topic: %s</source>
+			</trans-unit>
+			<trans-unit id="email.newPost.headline">
+				<source>Hello %s</source>
+			</trans-unit>
+			<trans-unit id="email.newPost.introduction">
+				<source>There is a new post for your topic &quot;%s&quot;:</source>
 			</trans-unit>
 			<trans-unit id="unauthorizedUser">
 				<source>You are not allowed to edit records that are not assigned to you.</source>
