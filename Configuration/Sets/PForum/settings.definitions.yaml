@@ -77,30 +77,35 @@ settings:
   pforum.topic.hideAtCreation:
     label: 'Hide topic at creation'
     category: pforum.settings
-    type: int
-    default: 0
+    description: 'New topics are hidden until they are activated by an admin or by their author.'
+    type: bool
+    default: false
   pforum.topic.activateByAdmin:
     label: 'Topic activation by admin'
     category: pforum.settings
-    type: int
-    default: 0
+    description: 'Hidden topics are activated by members of the admin group or in the backend module only. Otherwise the author gets a link to activate the topic by mail.'
+    type: bool
+    default: false
 
   pforum.post.hideAtCreation:
     label: 'Hide post at creation'
     category: pforum.settings
-    type: int
-    default: 0
+    description: 'New posts are hidden until they are activated by an admin or by their author.'
+    type: bool
+    default: false
   pforum.post.activateByAdmin:
     label: 'Post activation by admin'
     category: pforum.settings
-    type: int
-    default: 0
+    description: 'Hidden posts are activated by members of the admin group or in the backend module only. Otherwise the author gets a link to activate the post by mail.'
+    type: bool
+    default: false
 
   pforum.new.uploadFolder:
     label: 'Upload folder'
     category: pforum.settings
     type: string
-    default: '1:user_upload/tx_pforum/'
+    description: 'Combined identifier of the folder, where the images of topics and posts are stored.'
+    default: '1:/user_upload/tx_pforum/'
 
   pforum.image.width:
     label: 'Image width'

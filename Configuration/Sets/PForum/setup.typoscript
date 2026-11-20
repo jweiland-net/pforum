@@ -18,26 +18,27 @@ plugin.tx_pforum {
     uidOfUserGroup = {$pforum.uidOfUserGroup}
     pidOfDetailPage = {$pforum.pidOfDetailPage}
     topic {
-      hideAtCreation = 0
-      activateByAdmin = 0
+      hideAtCreation = {$pforum.topic.hideAtCreation}
+      activateByAdmin = {$pforum.topic.activateByAdmin}
     }
 
     post {
-      hideAtCreation = 0
-      activateByAdmin = 0
+      hideAtCreation = {$pforum.post.hideAtCreation}
+      activateByAdmin = {$pforum.post.activateByAdmin}
     }
 
     new {
-      uploadFolder = 1:user_upload/tx_pforum/
+      # Folder of the images of topics and posts uploaded in frontend
+      uploadFolder = {$pforum.new.uploadFolder}
     }
 
     image {
-      width = 120c
-      height = 90c
-      minWidth = 120
-      maxWidth = 120
-      minHeight = 90
-      maxHeight = 90
+      width = {$pforum.image.width}
+      height = {$pforum.image.height}
+      minWidth = {$pforum.image.minWidth}
+      maxWidth = {$pforum.image.maxWidth}
+      minHeight = {$pforum.image.minHeight}
+      maxHeight = {$pforum.image.maxHeight}
     }
 
     pageBrowser {
