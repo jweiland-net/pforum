@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace JWeiland\Pforum\Backend\Preview;
 
 use TYPO3\CMS\Backend\Preview\StandardContentPreviewRenderer;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\BackendLayout\Grid\GridColumnItem;
 use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\View\ViewFactoryData;
@@ -24,8 +25,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class PluginPreview extends StandardContentPreviewRenderer
 {
-    private const PREVIEW_TEMPLATE_PATH = 'EXT:pforum/Resources/Private/Templates/PluginPreview/';
-
     private const ALLOWED_PLUGINS = [
         'pforum_forum',
     ];
@@ -42,7 +41,10 @@ class PluginPreview extends StandardContentPreviewRenderer
             return '';
         }
 
-        $template = self::PREVIEW_TEMPLATE_PATH . 'Forum.html';
+        $template = $this->getPreviewTemplate($ttContentRecord);
+        if ($template === '') {
+            return '';
+        }
 
         $view = $this->viewFactory->create(
             new ViewFactoryData(
@@ -60,6 +62,19 @@ class PluginPreview extends StandardContentPreviewRenderer
         }
 
         return $view->render();
+    }
+
+    /**
+     * The template of page TSconfig "mod.web_layout.tt_content.preview.[CType]"
+     *
+     * @param array<string, mixed> $ttContentRecord
+     */
+    protected function getPreviewTemplate(array $ttContentRecord): string
+    {
+        $pageTsConfig = BackendUtility::getPagesTSconfig((int)($ttContentRecord['pid'] ?? 0));
+        $template = $pageTsConfig['mod.']['web_layout.']['tt_content.']['preview.'][(string)$ttContentRecord['CType']] ?? '';
+
+        return is_string($template) ? $template : '';
     }
 
     /**
