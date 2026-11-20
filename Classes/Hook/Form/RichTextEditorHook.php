@@ -13,7 +13,7 @@ namespace JWeiland\Pforum\Hook\Form;
 
 use JWeiland\Pforum\Form\FormOwner;
 use JWeiland\Pforum\Form\RecordType;
-use JWeiland\Pforum\Form\RichTextEditorAssets;
+use JWeiland\Pforum\Form\RichTextEditorOptions;
 use JWeiland\Pforum\Form\RichTextFormElementConfigurator;
 use JWeiland\Pforum\Sanitizer\RichTextSanitizer;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
@@ -22,10 +22,13 @@ use TYPO3\CMS\Form\Domain\Model\Renderable\RootRenderableInterface;
 use TYPO3\CMS\Form\Domain\Runtime\FormRuntime;
 
 /**
- * Adds the CKEditor to the rich text elements (dataType "richText"), which
- * are rendered on the current page of a form of pforum (see
- * FormOwner). So the assets are loaded on
- * these pages only. Each textarea gets its own options as JSON.
+ * Adds the options of the CKEditor as JSON to the rich text elements
+ * (dataType "richText") of the forms of pforum (see FormOwner), which are
+ * rendered on the current page of the form. The partial
+ * RichTextEditor/Textarea.html renders the textarea and loads the assets
+ * with the partial RichTextEditor/LoadAssets.html. The folder of the
+ * translations of CKEditor is the property "richTextEditor.translationsPath"
+ * of the element, see RichTextFormElementConfigurator.
  *
  * The toolbar of the editor is based on the tags, which the sanitizer allows
  * for the column of the element (see ModifyRichTextSanitizerConfigurationEvent).
@@ -39,7 +42,7 @@ final readonly class RichTextEditorHook
     public const DATA_ATTRIBUTE = 'data-pforum-rich-text';
 
     public function __construct(
-        private RichTextEditorAssets $richTextEditorAssets,
+        private RichTextEditorOptions $richTextEditorOptions,
         private RichTextSanitizer $richTextSanitizer,
     ) {}
 
@@ -59,12 +62,16 @@ final readonly class RichTextEditorHook
             (string)($dbMapping['column'] ?? ''),
         );
 
+        $editorProperties = $renderable->getProperties()['richTextEditor'] ?? [];
         $renderable->setProperty('fluidAdditionalAttributes', [
             self::DATA_ATTRIBUTE => json_encode(
-                $this->richTextEditorAssets->getEditorOptions($formRuntime->getRequest(), $configuration),
+                $this->richTextEditorOptions->getEditorOptions(
+                    $formRuntime->getRequest(),
+                    $configuration,
+                    (string)($editorProperties['translationsPath'] ?? ''),
+                ),
                 JSON_THROW_ON_ERROR,
             ),
         ]);
-        $this->richTextEditorAssets->load();
     }
 }

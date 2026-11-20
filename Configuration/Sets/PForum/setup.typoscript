@@ -38,6 +38,16 @@ plugin.tx_pforum {
         enable = {$pforum.form.richText.enable}
         # Comma separated identifiers of form elements
         elements = {$pforum.form.richText.elements}
+        # Folder with the translations of CKEditor
+        translationsPath = {$pforum.form.richText.translationsPath}
+      }
+    }
+
+    email {
+      # Template root paths of the mail about a new post to the author of
+      # the topic (template PforumNewPost). Used for this mail only.
+      templateRootPaths {
+        0 = EXT:pforum/Resources/Private/Templates/Email/
       }
     }
 

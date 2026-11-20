@@ -89,6 +89,41 @@ class RichTextFormElementConfiguratorTest extends UnitTestCase
     }
 
     #[Test]
+    public function configureRendersRichTextElementWithPartialOfEditor(): void
+    {
+        $configuration = $this->subject->configure($this->getFormDefinition(), $this->buildRequest('1'));
+
+        $description = $this->findElement($configuration, 'description');
+        self::assertSame('RichTextEditor/Textarea', $description['renderingOptions']['templateName']);
+        self::assertSame('EXT:my_site/Translations/', $description['properties']['richTextEditor']['translationsPath']);
+        self::assertArrayNotHasKey('richTextEditor', $this->findElement($configuration, 'title')['properties']);
+    }
+
+    #[Test]
+    public function configureKeepsValuesOfFormDefinition(): void
+    {
+        $formDefinition = $this->getFormDefinition();
+        $formDefinition['renderables'][0]['renderables'][4]['renderingOptions']['templateName'] = 'MyEditor';
+        $formDefinition['renderables'][0]['renderables'][4]['properties']['richTextEditor']['translationsPath'] = '';
+
+        $configuration = $this->subject->configure($formDefinition, $this->buildRequest('1'));
+
+        $description = $this->findElement($configuration, 'description');
+        self::assertSame('MyEditor', $description['renderingOptions']['templateName']);
+        self::assertSame('', $description['properties']['richTextEditor']['translationsPath']);
+    }
+
+    #[Test]
+    public function configureWhileDisabledKeepsTextareaPartial(): void
+    {
+        $configuration = $this->subject->configure($this->getFormDefinition(), $this->buildRequest('0'));
+
+        $description = $this->findElement($configuration, 'description');
+        self::assertArrayNotHasKey('renderingOptions', $description);
+        self::assertArrayNotHasKey('richTextEditor', $description['properties']);
+    }
+
+    #[Test]
     public function configureWithTwoConfiguredElementsSwitchesBothToRichText(): void
     {
         $configuration = $this->subject->configure(
@@ -240,6 +275,7 @@ class RichTextFormElementConfiguratorTest extends UnitTestCase
                             'richText.' => [
                                 'enable' => $enable,
                                 'elements' => $elements,
+                                'translationsPath' => 'EXT:my_site/Translations/',
                             ],
                         ],
                     ],

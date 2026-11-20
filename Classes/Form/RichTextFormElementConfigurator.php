@@ -29,7 +29,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * EXT:rte_ckeditor is installed, these elements get "dataType: richText" and
  * their mappings in the save finishers of pforum get "sanitizeRichText". Else they
  * fall back to plain text (dataType "plainText", "convertPlainTextToHtml").
- * The editor itself is added by RichTextEditorHook while rendering.
+ * Rich text elements are rendered with the partial RichTextEditor/Textarea.html
+ * of the partial root path of the form, which loads the assets of the editor.
+ * RichTextEditorHook adds the options of the editor while rendering.
  */
 readonly class RichTextFormElementConfigurator
 {
@@ -40,6 +42,12 @@ readonly class RichTextFormElementConfigurator
     private const PLAIN_TEXT_OPTIONS = ['convertPlainTextToHtml', 'normalizePlainText'];
 
     private const SAVE_FINISHERS = ['PforumSaveTopic', 'PforumSavePost'];
+
+    /**
+     * Partial of rich text elements in the partial root path of the form.
+     * Overridable with "renderingOptions.templateName" of the element.
+     */
+    private const TEMPLATE_NAME = 'RichTextEditor/Textarea';
 
     public function __construct(
         private PackageManager $packageManager,
@@ -71,7 +79,7 @@ readonly class RichTextFormElementConfigurator
         $configuration['renderables'] = $this->configureRenderables(
             $configuration['renderables'] ?? [],
             $isEnabled ? $this->getConfiguredElementIdentifiers($request) : [],
-            $isEnabled,
+            $isEnabled ? $this->getTranslationsPath($request) : null,
             $richTextIdentifiers,
         );
         $configuration['finishers'] = $this->configureFinishers(
@@ -86,13 +94,14 @@ readonly class RichTextFormElementConfigurator
     /**
      * @param array<int|string, mixed> $renderables
      * @param string[] $configuredIdentifiers Identifiers, which become rich text elements
+     * @param string|null $translationsPath Folder of the CKEditor translations. NULL, if the editor is disabled.
      * @param string[] $richTextIdentifiers Collects the identifiers of all rich text elements
      * @return array<int|string, mixed>
      */
     private function configureRenderables(
         array $renderables,
         array $configuredIdentifiers,
-        bool $isEnabled,
+        ?string $translationsPath,
         array &$richTextIdentifiers,
     ): array {
         foreach ($renderables as $key => $renderable) {
@@ -101,7 +110,7 @@ readonly class RichTextFormElementConfigurator
             }
 
             if ($this->isRichTextElement($renderable, $configuredIdentifiers)) {
-                $renderable['properties']['dbMapping']['dataType'] = $isEnabled ? self::DATA_TYPE : self::FALLBACK_DATA_TYPE;
+                $renderable = $this->configureRichTextElement($renderable, $translationsPath);
                 $richTextIdentifiers[] = (string)$renderable['identifier'];
             }
 
@@ -109,7 +118,7 @@ readonly class RichTextFormElementConfigurator
                 $renderable['renderables'] = $this->configureRenderables(
                     $renderable['renderables'],
                     $configuredIdentifiers,
-                    $isEnabled,
+                    $translationsPath,
                     $richTextIdentifiers,
                 );
             }
@@ -118,6 +127,38 @@ readonly class RichTextFormElementConfigurator
         }
 
         return $renderables;
+    }
+
+    /**
+     * With the editor the element is rendered with the partial
+     * RichTextEditor/Textarea.html, which loads the assets of the editor.
+     * Values of the form definition are kept.
+     *
+     * @param array<string, mixed> $renderable
+     * @return array<string, mixed>
+     */
+    private function configureRichTextElement(array $renderable, ?string $translationsPath): array
+    {
+        if ($translationsPath === null) {
+            $renderable['properties']['dbMapping']['dataType'] = self::FALLBACK_DATA_TYPE;
+            return $renderable;
+        }
+
+        $renderable['properties']['dbMapping']['dataType'] = self::DATA_TYPE;
+        $renderable['renderingOptions']['templateName'] ??= self::TEMPLATE_NAME;
+        $renderable['properties']['richTextEditor']['translationsPath'] ??= $translationsPath;
+
+        return $renderable;
+    }
+
+    /**
+     * Folder of the translations of CKEditor (TypoScript
+     * "settings.new.richText.translationsPath", site setting
+     * "pforum.form.richText.translationsPath")
+     */
+    private function getTranslationsPath(?ServerRequestInterface $request): string
+    {
+        return (string)($this->getSettings($request)['translationsPath'] ?? '');
     }
 
     /**

@@ -1,0 +1,2 @@
+# Enables the rich text editor of the topic and post forms
+plugin.tx_pforum.settings.new.richText.enable = 1
