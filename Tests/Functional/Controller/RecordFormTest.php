@@ -75,6 +75,7 @@ class RecordFormTest extends FunctionalTestCase
         self::assertSame(1, (int)$topic['hidden']);
         self::assertSame(1, (int)$topic['forum']);
         self::assertSame('<p>My question</p>', $topic['description']);
+        self::assertSame('new-topic', $topic['path_segment']);
         self::assertGreaterThan(0, (int)$topic['anonymous_user']);
         self::assertStringContainsString('New Topic was created. We have send an email', $this->getFlashMessages());
 
@@ -148,7 +149,7 @@ class RecordFormTest extends FunctionalTestCase
             ],
         ]);
 
-        self::assertSame('Published topic', $this->getTopicByTitle('Published topic')['title'] ?? '');
+        self::assertSame('published-topic', $this->getTopicByTitle('Published topic')['path_segment'] ?? '');
         self::assertStringContainsString('jane@example.com', $this->getMails());
     }
 
@@ -167,6 +168,8 @@ class RecordFormTest extends FunctionalTestCase
 
         $topic = $this->getTopicByTitle('Edited topic');
         self::assertSame(1, (int)$topic['hidden']);
+        // Records of former versions get a path segment
+        self::assertSame('edited-topic', $topic['path_segment']);
         self::assertStringContainsString('Topic was updated.', $this->getFlashMessages());
         self::assertSame('', $this->getMails());
     }

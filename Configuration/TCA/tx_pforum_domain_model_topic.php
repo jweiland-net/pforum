@@ -31,7 +31,7 @@ return [
     ],
     'types' => [
         '1' => [
-            'showitem' => '--palette--;;languageHidden, title, description,
+            'showitem' => '--palette--;;languageHidden, title, path_segment, description,
             posts, anonymous_user, frontend_user, images,
             --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.tabs.access,
             --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.palettes.access;access',
@@ -54,6 +54,25 @@ return [
                 'size' => 30,
                 'eval' => 'trim',
                 'required' => true,
+            ],
+        ],
+        'path_segment' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:pforum/Resources/Private/Language/locallang_db.xlf:tx_pforum_domain_model_topic.path_segment',
+            'config' => [
+                'type' => 'slug',
+                'size' => 50,
+                'generatorOptions' => [
+                    'fields' => ['title'],
+                    'fieldSeparator' => '-',
+                    'prefixParentPageSlug' => false,
+                    'replacements' => [
+                        '/' => '-',
+                    ],
+                ],
+                'fallbackCharacter' => '-',
+                'eval' => 'uniqueInPid',
+                'default' => '',
             ],
         ],
         'description' => [
