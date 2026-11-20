@@ -63,6 +63,8 @@ return [
                 'type' => 'text',
                 'cols' => 40,
                 'rows' => 15,
+                'softref' => 'typolink_tag,email[subst],url',
+                'enableRichtext' => true,
                 'eval' => 'trim',
             ],
         ],

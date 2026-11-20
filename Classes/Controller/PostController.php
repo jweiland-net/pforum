@@ -38,12 +38,12 @@ class PostController extends AbstractController
     #[Extbase\IgnoreValidation(['value' => 'post'])]
     public function newAction(Topic $topic, ?Post $post = null): ResponseInterface
     {
-        $this->postProcessAndAssignFluidVariables([
-            'topic' => $topic,
-            'post' => $post ?? new Post(),
-        ]);
+        $post ??= new Post();
 
-        return $this->htmlResponse();
+        return $this->renderForm($post, [
+            'topic' => $topic,
+            'post' => $post,
+        ]);
     }
 
     public function initializeCreateAction(): void
@@ -74,14 +74,12 @@ class PostController extends AbstractController
     #[Extbase\IgnoreValidation(['value' => 'post'])]
     public function editAction(Post $post, bool $isPreview = false, bool $isNew = false, string $token = ''): ResponseInterface
     {
-        $this->postProcessAndAssignFluidVariables([
+        return $this->renderForm($post, [
             'post' => $post,
             'isPreview' => $isPreview,
             'isNew' => $isNew,
             'token' => $token,
         ]);
-
-        return $this->htmlResponse();
     }
 
     public function initializeUpdateAction(): void

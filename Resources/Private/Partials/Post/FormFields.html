@@ -10,7 +10,7 @@
 <div class="mb-3">
     <label for="description" class="form-label">{f:translate(key: 'tx_pforum_domain_model_post.description')}</label>
     <span class="required">*</span>
-    <f:form.textarea class="form-control" property="description" cols="40" rows="15"/>
+    <f:render partial="RichTextEditor/Description" arguments="{id: 'post-description', richTextEditor: richTextEditor, descriptionPlainText: descriptionPlainText}"/>
 </div>
 
 <f:if condition="{settings.useImages}">

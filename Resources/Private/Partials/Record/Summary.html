@@ -1,5 +1,6 @@
 <html lang="en"
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:pf="http://typo3.org/ns/JWeiland/Pforum/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
 <f:comment><!-- Summary of a topic or post for the confirmation of activation and deletion --></f:comment>
@@ -13,7 +14,7 @@
             {f:translate(key: 'from')}: <f:render partial="User/Username" arguments="{user: record.user}"/>
         </p>
         <div class="card-text">
-            <f:format.html>{record.description}</f:format.html>
+            <pf:formatRichText value="{record.description}" table="{table}" column="description"/>
         </div>
         <f:if condition="{record.images}">
             <ul class="list-unstyled d-flex flex-wrap gap-3 mb-0">

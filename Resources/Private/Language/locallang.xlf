@@ -263,6 +263,9 @@
 			<trans-unit id="email.newPost.introduction">
 				<source>There is a new post for your topic &quot;%s&quot;:</source>
 			</trans-unit>
+			<trans-unit id="richText.openInNewTab">
+				<source>Open in a new tab</source>
+			</trans-unit>
 			<trans-unit id="unauthorizedUser">
 				<source>You are not allowed to edit records that are not assigned to you.</source>
 			</trans-unit>
