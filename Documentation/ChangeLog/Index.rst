@@ -7,6 +7,23 @@
 ChangeLog
 =========
 
+Version 8.0.0
+=============
+
+*   [!!!][TASK] Rework access checks: confirmation pages for activation and deletion, own activation token,
+    activation by members of the admin group, edited records keep their visibility
+*   [!!!][FEATURE] Store descriptions of topics and posts as rich text with an optional CKEditor 5, see
+    :ref:`frontend-rich-text-editor`
+*   [FEATURE] Add path segments to topics and posts, see :ref:`routes`
+*   [!!!][TASK] Use Bootstrap 5 in frontend templates
+*   [!!!][BUGFIX] Render the plugin preview with the template of page TSconfig only
+*   [!!!][TASK] Remove unused classes
+*   [BUGFIX] Render the rights checkbox of checkfaluploads
+*   [BUGFIX] Use site settings of topics, posts and images in TypoScript
+*   [BUGFIX] Store descriptions of posts longer than 255 characters
+*   [BUGFIX] Show the button to create records for members of the user group (`settings.auth = 2`)
+*   [TASK] Replace the deprecated magic findBy methods of repositories
+
 Version 7.0.1
 =============
 

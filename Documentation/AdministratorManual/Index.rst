@@ -20,5 +20,7 @@ this module for editors, since it serves no purpose in that case.
     :maxdepth: 2
     :titlesonly:
 
+    FrontendManagement/Index
+    FrontendRichTextEditor/Index
     Routes/Index
     Upgrade/Index

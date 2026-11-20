@@ -48,6 +48,14 @@ On TYPO3 installations that don't run in Composer mode, you can still install `p
     Use the search field to find `pforum`. Select the `pforum` entry from the search results and click the cloud
     icon to install `pforum`.
 
+Requirements
+============
+
+Add the site set `jweiland/pforum` to your site. The optional rich text editor of the description of topics and
+posts needs EXT:rte_ckeditor (:composer:`typo3/cms-rte-ckeditor`), see :ref:`frontend-rich-text-editor`. The
+optional EXT:checkfaluploads adds a rights checkbox to the image uploads, see
+:ref:`frontend-management-checkfaluploads`.
+
 Next step
 =========
 
