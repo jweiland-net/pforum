@@ -20,8 +20,6 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repo to retrieve records for postings
  *
- * @method QueryResultInterface<int, Post> findByTopic(Topic $topic)
- *
  * @extends Repository<Post>
  */
 class PostRepository extends Repository implements HiddenRepositoryInterface
@@ -32,6 +30,16 @@ class PostRepository extends Repository implements HiddenRepositoryInterface
     protected $defaultOrderings = [
         'crdate' => QueryInterface::ORDER_DESCENDING,
     ];
+
+    /**
+     * @return QueryResultInterface<int, Post>
+     */
+    public function findByTopic(Topic $topic): QueryResultInterface
+    {
+        $query = $this->createQuery();
+
+        return $query->matching($query->equals('topic', $topic))->execute();
+    }
 
     /**
      * @return QueryResultInterface<int, Post>
