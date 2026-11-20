@@ -20,5 +20,8 @@
         </label>
         <f:form.upload property="images" multiple="1" class="form-control"/>
     </div>
+    <f:if condition="{isCheckFalUploadsLoaded}">
+        <f:render partial="CheckFalUploads/Rights" arguments="{object: 'post'}"/>
+    </f:if>
 </f:if>
 </html>

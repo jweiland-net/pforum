@@ -68,6 +68,9 @@ class RecordManagementTest extends FunctionalTestCase
         self::assertStringContainsString('name="tx_pforum_forum[topic][anonymousUser][name]"', $content);
         self::assertStringContainsString('name="tx_pforum_forum[topic][title]"', $content);
         self::assertMatchesRegularExpression('/<input[^>]*name="tx_pforum_forum\[preview\]"/', $content);
+        // The rights checkbox is rendered with EXT:checkfaluploads only
+        self::assertStringContainsString('name="tx_pforum_forum[topic][images][]"', $content);
+        self::assertStringNotContainsString('[images][rights]', $content);
     }
 
     #[Test]
