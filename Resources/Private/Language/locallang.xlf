@@ -234,6 +234,24 @@
 			<trans-unit id="email.newPost.introduction">
 				<source>There is a new post for your topic &quot;%s&quot;:</source>
 			</trans-unit>
+			<trans-unit id="pageBrowser">
+				<source>Pages</source>
+			</trans-unit>
+			<trans-unit id="pageBrowser.first">
+				<source>First</source>
+			</trans-unit>
+			<trans-unit id="pageBrowser.previous">
+				<source>Previous</source>
+			</trans-unit>
+			<trans-unit id="pageBrowser.next">
+				<source>Next</source>
+			</trans-unit>
+			<trans-unit id="pageBrowser.last">
+				<source>Last</source>
+			</trans-unit>
+			<trans-unit id="hidden">
+				<source>Hidden</source>
+			</trans-unit>
 			<trans-unit id="richText.openInNewTab">
 				<source>Open in a new tab</source>
 			</trans-unit>

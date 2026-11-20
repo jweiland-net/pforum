@@ -69,15 +69,3 @@ plugin.tx_pforum {
     }
   }
 }
-
-plugin.tx_pforum._CSS_DEFAULT_STYLE (
-	textarea.f3-form-error {
-		background-color:#FF9F9F;
-		border: 1px #FF0000 solid;
-	}
-
-	input.f3-form-error {
-		background-color:#FF9F9F;
-		border: 1px #FF0000 solid;
-	}
-)
