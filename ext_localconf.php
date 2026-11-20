@@ -14,6 +14,7 @@ if (!defined('TYPO3')) {
 use JWeiland\Pforum\Controller\ForumController;
 use JWeiland\Pforum\Controller\PostController;
 use JWeiland\Pforum\Controller\TopicController;
+use JWeiland\Pforum\Hook\Form\RichTextEditorHook;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 ExtensionUtility::configurePlugin(
@@ -32,3 +33,7 @@ ExtensionUtility::configurePlugin(
     ],
     ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
 );
+
+// Add the CKEditor to rich text elements of the topic and post forms
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/form']['beforeRendering'][1763890800]
+    = RichTextEditorHook::class;

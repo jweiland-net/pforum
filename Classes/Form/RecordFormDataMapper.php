@@ -13,6 +13,7 @@ namespace JWeiland\Pforum\Form;
 
 use JWeiland\Pforum\Converter\RteContentConverter;
 use JWeiland\Pforum\Service\RecordService;
+use JWeiland\Pforum\Service\RichTextService;
 use TYPO3\CMS\Core\Resource\FileReference as CoreFileReference;
 use TYPO3\CMS\Core\Schema\TcaSchemaFactory;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
@@ -35,6 +36,8 @@ readonly class RecordFormDataMapper
 {
     public function __construct(
         private RteContentConverter $rteContentConverter,
+        private RichTextService $richTextService,
+        private RecordService $recordService,
         private TcaSchemaFactory $tcaSchemaFactory,
     ) {}
 
@@ -73,11 +76,11 @@ readonly class RecordFormDataMapper
     {
         $table = (string)($configuration['table'] ?? $formContext->recordType->getTable());
         if ($table === RecordService::USER_TABLE) {
-            $data['userColumns'][$column] = $this->convertText($this->getText($value), $configuration);
+            $data['userColumns'][$column] = $this->convertText($this->getText($value), $configuration, $column, $formContext);
         } elseif ($table === $formContext->recordType->getTable() && $this->isFileColumn($table, $column)) {
             $data['files'][$column] = [...($data['files'][$column] ?? []), ...$this->getFileUids($value)];
         } elseif ($table === $formContext->recordType->getTable()) {
-            $data['columns'][$column] = $this->convertText($this->getText($value), $configuration);
+            $data['columns'][$column] = $this->convertText($this->getText($value), $configuration, $column, $formContext);
         }
 
         return $data;
@@ -86,11 +89,18 @@ readonly class RecordFormDataMapper
     /**
      * @param array<string, mixed> $configuration
      */
-    private function convertText(string $text, array $configuration): string
+    private function convertText(string $text, array $configuration, string $column, RecordFormContext $formContext): string
     {
         return match (true) {
             (bool)($configuration['convertPlainTextToHtml'] ?? false) => $this->rteContentConverter->convertPlainTextToHtml($text),
             (bool)($configuration['normalizePlainText'] ?? false) => $this->rteContentConverter->normalizePlainText($text),
+            (bool)($configuration['sanitizeRichText'] ?? false) => $this->richTextService->prepareForPersistence(
+                $text,
+                $formContext->recordType->getTable(),
+                $column,
+                $formContext->recordUid,
+                (int)($this->recordService->findParentRecord($formContext->recordType, $formContext->parentUid)['pid'] ?? 0),
+            ),
             default => trim($text),
         };
     }

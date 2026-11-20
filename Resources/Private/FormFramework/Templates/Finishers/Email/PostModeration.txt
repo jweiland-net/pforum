@@ -1,6 +1,7 @@
 <html lang="en"
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       xmlns:formvh="http://typo3.org/ns/TYPO3/CMS/Form/ViewHelpers"
+      xmlns:pf="http://typo3.org/ns/JWeiland/Pforum/ViewHelpers"
       data-namespace-typo3-fluid="true">
 <f:layout name="SystemEmail" />
 <f:section name="Title">{title}</f:section>
@@ -22,7 +23,8 @@
 {f:translate(key: 'LLL:EXT:pforum/Resources/Private/Language/locallang.xlf:email.form.values')}
 
 <formvh:renderAllFormValues renderable="{form.formDefinition}" as="formValue"><f:spaceless>
-<formvh:translateElementProperty element="{formValue.element}" property="label" />: <f:if condition="{formValue.processedValue}"><f:then>{formValue.processedValue -> f:format.raw()}</f:then><f:else>-</f:else></f:if>
+<formvh:translateElementProperty element="{formValue.element}" property="label" />: <f:if condition="{formValue.processedValue}"><f:then><f:if condition="{formValue.element.properties.dbMapping.dataType} == 'richText'"><f:then>
+<pf:formatRichText element="{formValue.element}" value="{formValue.processedValue}" format="plaintext"/></f:then><f:else>{formValue.processedValue -> f:format.raw()}</f:else></f:if></f:then><f:else>-</f:else></f:if>
 </f:spaceless>
 </formvh:renderAllFormValues>
 </f:section>

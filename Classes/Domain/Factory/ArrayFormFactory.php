@@ -17,6 +17,7 @@ use JWeiland\Pforum\Form\RecordFormContext;
 use JWeiland\Pforum\Form\RecordFormContextBuilder;
 use JWeiland\Pforum\Form\RecordFormPrefiller;
 use JWeiland\Pforum\Form\RecordType;
+use JWeiland\Pforum\Form\RichTextFormElementConfigurator;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use TYPO3\CMS\Form\Domain\Factory\ArrayFormFactory as CoreArrayFormFactory;
@@ -26,7 +27,8 @@ use TYPO3\CMS\Form\Domain\Model\FormDefinition;
  * Builds the topic and post forms based on EXT:form. The rendering option
  * "recordType" of the form definition defines, whether a topic or a post
  * is created or edited. The form definition is configured for the current
- * request before it is built (form action, elements and finishers).
+ * request before it is built (form action, elements, finishers and rich
+ * text elements).
  * Afterward, the elements are prefilled with the values of the record to
  * edit. The rendering option "formOwner" marks the form, so the hooks of
  * pforum act on forms of this factory only (see FormOwner).
@@ -42,6 +44,7 @@ class ArrayFormFactory extends CoreArrayFormFactory
         protected readonly RecordFormContextBuilder $recordFormContextBuilder,
         protected readonly RecordFormConfigurator $recordFormConfigurator,
         protected readonly RecordFormPrefiller $recordFormPrefiller,
+        protected readonly RichTextFormElementConfigurator $richTextFormElementConfigurator,
     ) {}
 
     /**
@@ -60,6 +63,7 @@ class ArrayFormFactory extends CoreArrayFormFactory
 
         if ($formContext instanceof RecordFormContext) {
             $configuration = $this->recordFormConfigurator->configure($configuration, $formContext);
+            $configuration = $this->richTextFormElementConfigurator->configure($configuration, $request);
         }
 
         $formDefinition = parent::build($configuration, $prototypeName, $request);

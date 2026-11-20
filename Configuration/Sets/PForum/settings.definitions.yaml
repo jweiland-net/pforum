@@ -109,6 +109,18 @@ settings:
     description: 'Combined identifier of the folder, where the images of the topic and post forms are stored.'
     type: string
     default: '1:/user_upload/tx_pforum/'
+  pforum.form.richText.enable:
+    label: 'Enable rich text editor'
+    category: pforum.form
+    description: 'Use CKEditor 5 of EXT:rte_ckeditor for the rich text elements of the topic and post forms. Requires EXT:rte_ckeditor.'
+    type: bool
+    default: false
+  pforum.form.richText.elements:
+    label: 'Rich text elements'
+    category: pforum.form
+    description: 'Comma separated identifiers of form elements, which get the rich text editor. Elements with "dataType: richText" in the form definition get it, too.'
+    type: string
+    default: 'description'
 
   pforum.image.width:
     label: 'Image width'

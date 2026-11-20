@@ -34,6 +34,17 @@ enum RecordType: string
         return is_string($recordType) ? self::tryFrom($recordType) : null;
     }
 
+    /**
+     * Returns the table of the topic or post of a form of pforum. Empty for
+     * forms of other extensions.
+     *
+     * @param array<string, mixed> $renderingOptions Rendering options of the form
+     */
+    public static function getTableOfForm(array $renderingOptions): string
+    {
+        return self::fromConfiguration(['renderingOptions' => $renderingOptions])?->getTable() ?? '';
+    }
+
     public function getTable(): string
     {
         return 'tx_pforum_domain_model_' . $this->value;

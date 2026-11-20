@@ -33,6 +33,12 @@ plugin.tx_pforum {
     new {
       # Folder of the images uploaded in the topic and post forms
       uploadFolder = {$pforum.new.uploadFolder}
+      # CKEditor 5 of EXT:rte_ckeditor for rich text elements in the topic and post forms
+      richText {
+        enable = {$pforum.form.richText.enable}
+        # Comma separated identifiers of form elements
+        elements = {$pforum.form.richText.elements}
+      }
     }
 
     # Special configuration for the forms based on EXT:form

@@ -1,6 +1,7 @@
 <html lang="en"
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       xmlns:formvh="http://typo3.org/ns/TYPO3/CMS/Form/ViewHelpers"
+      xmlns:pf="http://typo3.org/ns/JWeiland/Pforum/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
 <f:layout name="SystemEmail"/>
@@ -39,7 +40,14 @@
                 <td valign="top" align="left">
                     <f:if condition="{formValue.value}">
                         <f:then>
-                            <f:format.nl2br>{formValue.processedValue}</f:format.nl2br>
+                            <f:if condition="{formValue.element.properties.dbMapping.dataType} == 'richText'">
+                                <f:then>
+                                    <pf:formatRichText element="{formValue.element}" value="{formValue.processedValue}"/>
+                                </f:then>
+                                <f:else>
+                                    <f:format.nl2br>{formValue.processedValue}</f:format.nl2br>
+                                </f:else>
+                            </f:if>
                         </f:then>
                         <f:else>-</f:else>
                     </f:if>
