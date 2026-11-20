@@ -13,24 +13,20 @@ namespace JWeiland\Pforum\Controller;
 
 use JWeiland\Pforum\Domain\Model\Forum;
 use JWeiland\Pforum\Domain\Model\Topic;
+use JWeiland\Pforum\Domain\RecordType;
 use Psr\Http\Message\ResponseInterface;
-use Symfony\Component\Mime\Address;
-use TYPO3\CMS\Core\Mail\FluidEmail;
-use TYPO3\CMS\Core\Mail\Mailer;
-use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
- * Controller to list and show topics of forum
+ * Controller to show, create, edit, activate and delete topics
  */
 class TopicController extends AbstractController
 {
     public function showAction(Topic $topic): ResponseInterface
     {
+        $isAdmin = $this->recordAccessService->isAdmin($this->getForumSettings());
         $posts = $this->postRepository->findByTopic($topic);
-        if ($this->frontendGroupHelper->uidExistsInGroupData((int)($this->settings['uidOfAdminGroup'] ?? 0))) {
+        if ($isAdmin) {
             $posts->getQuery()
                 ->getQuerySettings()
                 ->setIgnoreEnableFields(true)
@@ -40,279 +36,90 @@ class TopicController extends AbstractController
         $this->postProcessAndAssignFluidVariables([
             'topic' => $topic,
             'posts' => $posts,
+            'isCreationAllowed' => $this->recordAccessService->getCreationDenialReason($this->getForumSettings()) === '',
+            'isAdmin' => $isAdmin,
         ]);
+
         return $this->htmlResponse();
     }
 
-    public function newAction(Forum $forum): ResponseInterface
+    public function initializeNewAction(): void
     {
-        $this->deleteUploadedFilesOnValidationErrors('topic');
+        $this->denyCreationUnlessAllowed();
+    }
 
+    #[Extbase\IgnoreValidation(['value' => 'topic'])]
+    public function newAction(Forum $forum, ?Topic $topic = null): ResponseInterface
+    {
         $this->postProcessAndAssignFluidVariables([
             'forum' => $forum,
-            'topic' => GeneralUtility::makeInstance(Topic::class),
+            'topic' => $topic ?? new Topic(),
         ]);
 
         return $this->htmlResponse();
     }
 
-    /**
-     * Set typeConverter for images
-     */
     public function initializeCreateAction(): void
     {
+        $this->denyCreationUnlessAllowed();
         $this->preProcessControllerAction();
     }
 
     public function createAction(Forum $forum, Topic $topic): ResponseInterface
     {
-        // if auth = frontend user
-        if ((int)$this->settings['auth'] === 2) {
-            $response = $this->addFeUserToTopic($forum, $topic);
-            if ($response instanceof ResponseInterface) {
-                return $response;
-            }
-        }
-
+        $topic->setForum($forum);
         $forum->addTopic($topic);
         $this->forumRepository->update($forum);
 
-        // if a preview was requested direct to preview action
-        if ($this->request->hasArgument('preview')) {
-            $topic->setHidden(true); // topic should not be visible while previewing
-            $this->persistenceManager->persistAll(); // we need an uid before redirecting
-
-            return $this->redirect(
-                'edit',
-                'Topic',
-                'Pforum',
-                [
-                    'topic' => $topic,
-                    'isPreview' => true,
-                    'isNew' => true,
-                    'token' => $this->anonymousAccessTokenService->generateToken('Topic', $topic->getUid()),
-                ],
-            );
-        }
-
-        if ($this->settings['topic']['hideAtCreation']) {
-            $topic->setHidden(true);
-        }
-
-        // if auth = anonymous user
-        // send a mail to the user to activate, edit or delete his entry
-        if (((int)$this->settings['auth'] === 1) && $this->settings['emailIsMandatory']) {
-            $this->persistenceManager->persistAll(); // we need an uid before mailing
-            $this->mailToUser($topic);
-        }
-
-        $this->addFlashMessageForCreation();
-
-        return $this->redirect('show', 'Forum', 'Pforum', ['forum' => $forum]);
+        return $this->processCreation($topic);
     }
 
-    /**
-     * Hidden record throws an exception.
-     * That's why I check it here before calling editAction.
-     */
     public function initializeEditAction(): void
     {
+        $this->registerRecordOfRequestAndDenyEditUnlessAllowed(RecordType::Topic);
         $this->preProcessControllerAction();
-
-        $this->registerTopicFromRequest('topic');
     }
 
     /**
-     * @param bool $isPreview If is preview there will be an additional output above edit form
-     * @param bool $isNew We need the information if updateAction was called from createAction.
-     *                    If so we have to passthrough this information
+     * @param bool $isPreview Shows the topic above the form
+     * @param bool $isNew The topic is published, when the form is saved
      */
     #[Extbase\IgnoreValidation(['value' => 'topic'])]
-    public function editAction(
-        ?Topic $topic = null,
-        bool $isPreview = false,
-        bool $isNew = false,
-        string $token = '',
-    ): ResponseInterface {
+    public function editAction(Topic $topic, bool $isPreview = false, bool $isNew = false, string $token = ''): ResponseInterface
+    {
         $this->postProcessAndAssignFluidVariables([
             'topic' => $topic,
             'isPreview' => $isPreview,
             'isNew' => $isNew,
             'token' => $token,
         ]);
+
         return $this->htmlResponse();
     }
 
-    /**
-     * getObjectByIdentifier can only find non-hidden values
-     * With this method we help extbase backend to find our hidden object.
-     */
     public function initializeUpdateAction(): void
     {
+        $this->registerRecordOfRequestAndDenyEditUnlessAllowed(RecordType::Topic);
         $this->preProcessControllerAction();
-
-        $this->registerTopicFromRequest('topic');
     }
 
-    /**
-     * @param bool $isNew We need the information if updateAction was called from createAction.
-     *                    If so we have to add different messages
-     */
     public function updateAction(Topic $topic, bool $isNew = false, string $token = ''): ResponseInterface
     {
-        $this->topicRepository->update($topic);
-
-        // if a preview was requested direct to preview action
-        if ($this->request->hasArgument('preview')) {
-            $topic->setHidden(true);
-
-            return $this->redirect(
-                'edit',
-                'Topic',
-                'Pforum',
-                ['topic' => $topic, 'isPreview' => true, 'isNew' => $isNew, 'token' => $token],
-            );
-        }
-        if ($isNew) {
-            // if is new and preview was pressed we have to check for visibility again
-            if ($this->settings['topic']['hideAtCreation']) {
-                $topic->setHidden(true);
-            } else {
-                $topic->setHidden(false);
-            }
-
-            // if auth = anonymous user
-            // send a mail to the user to activate, edit or delete his entry
-            if (((int)$this->settings['auth'] === 1) && $this->settings['emailIsMandatory']) {
-                $this->mailToUser($topic);
-            }
-
-            $this->addFlashMessageForCreation();
-        } else {
-            // edited topics which are not new are visible
-            $topic->setHidden(false);
-            $this->addFlashMessage(LocalizationUtility::translate('topicUpdated', 'pforum'));
-        }
-        return $this->redirect('show', 'Forum', 'Pforum', ['forum' => $topic->getForum()]);
+        return $this->processUpdate($topic, $isNew, $token);
     }
 
-    /**
-     * Hidden record throws an exception.
-     * That's why I check it here before calling deleteAction.
-     */
-    public function initializeDeleteAction(): void
+    public function deleteAction(int $topic, string $token = ''): ResponseInterface
     {
-        $this->preProcessControllerAction();
-
-        $this->registerTopicFromRequest('topic');
+        return $this->processDeletion(RecordType::Topic, $topic, $token);
     }
 
-    public function deleteAction(Topic $topic): ResponseInterface
+    public function confirmActivationAction(int $topic, string $token = ''): ResponseInterface
     {
-        $this->topicRepository->remove($topic);
-        $this->addFlashMessage(LocalizationUtility::translate('topicDeleted', 'pforum'));
-
-        return $this->redirect('list', 'Forum', 'Pforum');
+        return $this->renderActivationConfirmation(RecordType::Topic, $topic, $token);
     }
 
-    /**
-     * Hidden record throws an exception.
-     * That's why I check it here before calling activateAction.
-     */
-    public function initializeActivateAction(): void
+    public function activateAction(int $topic, string $token = ''): ResponseInterface
     {
-        $this->preProcessControllerAction();
-
-        $this->registerTopicFromRequest('topic');
-    }
-
-    /**
-     * We need this extra action, because hidden entries can't be found in FE mode.
-     */
-    public function activateAction(Topic $topic): ResponseInterface
-    {
-        $topic->setHidden(false);
-        $this->topicRepository->update($topic);
-        $this->addFlashMessage(LocalizationUtility::translate('topicActivated', 'pforum'));
-
-        return $this->redirect('list', 'Forum', 'Pforum');
-    }
-
-    /**
-     * This is a workaround to help controller actions to find (hidden) topics.
-     */
-    protected function registerTopicFromRequest(string $argumentName): void
-    {
-        $argument = $this->request->getArgument($argumentName);
-        if (is_array($argument)) {
-            // get topic from form ($_POST)
-            $topic = $this->topicRepository->findHiddenObject((int)$argument['__identity']);
-        } else {
-            // get topic from UID
-            $topic = $this->topicRepository->findHiddenObject((int)$argument);
-        }
-
-        if ($topic instanceof Topic) {
-            $this->session->registerObject($topic, (string)$topic->getUid());
-        }
-    }
-
-    protected function addFeUserToTopic(Forum $forum, Topic $topic): ?ResponseInterface
-    {
-        if (is_array($this->request->getAttribute('frontend.user')->user) && $this->request->getAttribute('frontend.user')->user['uid']) {
-            $user = $this->frontendUserRepository->findByUid(
-                (int)$this->request->getAttribute('frontend.user')->user['uid'],
-            );
-            $topic->setFrontendUser($user);
-
-            return null;
-        }
-
-        /* normally this should never be called, because the link to create a new entry was not displayed if user was not authenticated */
-        $this->addFlashMessage(
-            'You must be logged in before creating a topic',
-            '',
-            ContextualFeedbackSeverity::WARNING,
-        );
-
-        return $this->redirect('show', 'Forum', 'Pforum', ['forum' => $forum]);
-    }
-
-    protected function mailToUser(Topic $topic): void
-    {
-        $email = GeneralUtility::makeInstance(FluidEmail::class);
-        $email
-            ->to(new Address($topic->getUser()->getEmail(), $topic->getUser()->getName()))
-            ->from(new Address($this->extConf->getEmailFromAddress(), $this->extConf->getEmailFromName()))
-            ->subject(LocalizationUtility::translate('email.topic.subject', 'pforum'))
-            ->format('html')
-            ->setRequest($this->request)
-            ->setTemplate('ConfigureTopic')
-            ->assignMultiple([
-                'settings' => $this->settings,
-                'topic' => $topic,
-                'token' => $this->anonymousAccessTokenService->generateToken('Topic', $topic->getUid()),
-            ]);
-        GeneralUtility::makeInstance(Mailer::class)->send($email);
-    }
-
-    protected function addFlashMessageForCreation(): void
-    {
-        if ($this->settings['topic']['hideAtCreation']) {
-            if ($this->settings['topic']['activateByAdmin']) {
-                $this->addFlashMessage(
-                    LocalizationUtility::translate('hiddenTopicCreatedAndActivateByAdmin', 'pforum'),
-                );
-            } else {
-                $this->addFlashMessage(
-                    LocalizationUtility::translate('hiddenTopicCreatedAndActivateByUser', 'pforum'),
-                );
-            }
-        } else {
-            // if topic is not hidden at creation there is no need to activate it by admin
-            $this->addFlashMessage(
-                LocalizationUtility::translate('topicCreated', 'pforum'),
-            );
-        }
+        return $this->processActivation(RecordType::Topic, $topic, $token);
     }
 }

@@ -1,0 +1,24 @@
+<html lang="en"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:layout name="SystemEmail"/>
+
+<f:section name="Title">{f:translate(key: 'email.newPost.headline', extensionName: 'Pforum', arguments: {0: author.name})}</f:section>
+
+<f:section name="Main">
+    <p>{f:translate(key: 'email.newPost.introduction', extensionName: 'Pforum', arguments: {0: topic.title})}</p>
+
+    <f:if condition="{post.title}">
+        <h4>{post.title}</h4>
+    </f:if>
+
+    <f:format.nl2br>{post.description}</f:format.nl2br>
+
+    <p>
+        <f:link.action pageUid="{settings.pidOfDetailPage}" action="show" controller="Topic" pluginName="Forum" extensionName="Pforum" absolute="1" arguments="{topic: topic}">
+            {topic.title}
+        </f:link.action>
+    </p>
+</f:section>
+</html>

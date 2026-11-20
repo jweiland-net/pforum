@@ -1,0 +1,13 @@
+<f:layout name="SystemEmail"/>
+<f:section name="Title">{post.title}</f:section>
+<f:section name="Main">{f:translate(key: 'email.post.text', extensionName: 'Pforum')}
+<f:if condition="{activationToken}">
+{f:translate(key: 'activatePost', extensionName: 'Pforum')}:
+<f:uri.action pageUid="{settings.pidOfDetailPage}" action="confirmActivation" controller="Post" pluginName="Forum" extensionName="Pforum" absolute="1" arguments="{post: post.uid, token: activationToken}"/>
+</f:if>
+{f:translate(key: 'editPost', extensionName: 'Pforum')}:
+<f:uri.action pageUid="{settings.pidOfDetailPage}" action="edit" controller="Post" pluginName="Forum" extensionName="Pforum" absolute="1" arguments="{post: post.uid, token: token}"/>
+
+{f:translate(key: 'deletePost', extensionName: 'Pforum')}:
+<f:uri.action pageUid="{settings.pidOfDetailPage}" action="delete" controller="Post" pluginName="Forum" extensionName="Pforum" absolute="1" arguments="{post: post.uid, token: token}"/>
+</f:section>

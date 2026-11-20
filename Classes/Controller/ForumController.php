@@ -30,8 +30,9 @@ class ForumController extends AbstractController
 
     public function showAction(Forum $forum): ResponseInterface
     {
+        $isAdmin = $this->recordAccessService->isAdmin($this->getForumSettings());
         $topics = $this->topicRepository->findByForum($forum);
-        if ($this->frontendGroupHelper->uidExistsInGroupData((int)($this->settings['uidOfAdminGroup'] ?? 0))) {
+        if ($isAdmin) {
             $topics->getQuery()
                 ->getQuerySettings()
                 ->setIgnoreEnableFields(true)
@@ -41,6 +42,8 @@ class ForumController extends AbstractController
         $this->postProcessAndAssignFluidVariables([
             'forum' => $forum,
             'topics' => $topics,
+            'isCreationAllowed' => $this->recordAccessService->getCreationDenialReason($this->getForumSettings()) === '',
+            'isAdmin' => $isAdmin,
         ]);
 
         return $this->htmlResponse();

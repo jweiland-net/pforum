@@ -32,6 +32,13 @@ plugin.tx_pforum {
       uploadFolder = {$pforum.new.uploadFolder}
     }
 
+    email {
+      # Template root paths of the mails of pforum. Used for these mails only.
+      templateRootPaths {
+        0 = EXT:pforum/Resources/Private/Templates/Email/
+      }
+    }
+
     image {
       width = {$pforum.image.width}
       height = {$pforum.image.height}
