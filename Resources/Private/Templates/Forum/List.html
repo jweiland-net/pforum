@@ -22,7 +22,7 @@
                                     {forum.title}
                                 </f:link.action>
                             </h5>
-                            <small>{forum.topics -> f:count()} {f:translate(key: 'tx_pforum_domain_model_forum.topics')}</small>
+                            <small class="text-body-secondary">{forum.topics -> f:count()} {f:translate(key: 'tx_pforum_domain_model_forum.topics')}</small>
                         </div>
 
                         <f:if condition="{forum.teaser}">
