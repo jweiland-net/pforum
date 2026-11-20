@@ -1,0 +1,30 @@
+"pages"
+,"uid","pid","title","slug","doktype","is_siteroot"
+,1,0,"Root","/",1,1
+,2,1,"Forum","/forum",1,0
+,10,1,"Storage","/storage",254,0
+"fe_groups"
+,"uid","pid","title"
+,1,10,"Forum users"
+,2,10,"Forum admins"
+"fe_users"
+,"uid","pid","username","password","usergroup","name","email"
+,5,10,"owner","secret","1","Owner","owner@example.com"
+,6,10,"other","secret","1","Other","other@example.com"
+,7,10,"admin","secret","2","Admin","admin@example.com"
+"tx_pforum_domain_model_forum"
+,"uid","pid","title","teaser","topics"
+,1,10,"General","General topics",3
+"tx_pforum_domain_model_anonymoususer"
+,"uid","pid","name","username","email"
+,1,10,"Jane","jane","jane@example.com"
+"tx_pforum_domain_model_topic"
+,"uid","pid","forum","title","description","hidden","frontend_user","anonymous_user","posts","crdate"
+,1,10,1,"Welcome","<p>Hello forum</p>",0,5,0,1,1700000000
+,2,10,1,"Hidden topic of Jane","First line
+Second line",1,0,1,0,1700000000
+,3,10,1,"Hidden topic of owner","<p>Waiting</p>",1,5,0,0,1700000000
+"tx_pforum_domain_model_post"
+,"uid","pid","topic","title","description","hidden","frontend_user","anonymous_user","crdate"
+,1,10,1,"Reply","<p>Reply of other</p>",0,6,0,1700000000
+,2,10,1,"Hidden reply","<p>Hidden reply of Jane</p>",1,0,1,1700000000

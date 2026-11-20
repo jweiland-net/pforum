@@ -1,0 +1,30 @@
+<html lang="en"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:comment>
+    <!--
+    Preview of the Forum plugin in the page module. Registered in page
+    TSconfig "mod.web_layout.tt_content.preview.pforum_forum". The variable
+    "pforum" is added by AddPluginPreviewDataEventListener.
+    -->
+</f:comment>
+<f:variable name="languageFile" value="LLL:EXT:pforum/Resources/Private/Language/locallang_db.xlf"/>
+<f:variable name="flexFormLanguageFile" value="LLL:EXT:pforum/Resources/Private/Language/FlexForms.xlf"/>
+
+<p>
+    <strong>{f:translate(key: '{languageFile}:plugin.pforum.title')}</strong><br>
+    {f:translate(key: '{languageFile}:plugin.pforum.description')}
+</p>
+
+<f:if condition="{pforum.detailPageTitle}">
+    <table class="table table-sm">
+        <tbody>
+        <tr>
+            <th scope="row">{f:translate(key: '{flexFormLanguageFile}:pidOfDetailPage')}</th>
+            <td>{pforum.detailPageTitle} [{pforum.settings.pidOfDetailPage}]</td>
+        </tr>
+        </tbody>
+    </table>
+</f:if>
+</html>
