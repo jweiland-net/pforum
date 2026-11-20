@@ -7,6 +7,65 @@ Updating
 
 If you update `pforum` to a newer version, please read this section carefully!
 
+..  _upgrade-8-0-0:
+
+Upgrade to version 8.0.0
+========================
+
+*   Run the database analyzer and the upgrade wizards "[pforum] Convert
+    plain text descriptions of topics and posts into HTML" and "[pforum]
+    Fill path segments of topics and posts". The description of posts
+    becomes a `text` column instead of `varchar(255)`, both descriptions
+    are rich text fields now. Topics and posts get the column
+    `path_segment`, see :ref:`routes`.
+*   Links to activate and delete records show a confirmation page, see
+    :ref:`frontend-management-confirmation`. The actions `delete`,
+    `confirmActivation` and `activate` get the UID of the record and the
+    argument `token`. The new action `confirmActivation` has to be allowed,
+    if you configure the plugin yourself.
+*   The mail link to activate a record contains an own token now.
+    Activation links of mails sent by former versions do not work anymore.
+    The links to edit and delete a record keep working.
+*   Edited records keep their visibility. Former versions made hidden
+    records visible after editing them. The preview button is shown for
+    new records only.
+*   Members of the group `settings.uidOfAdminGroup` activate hidden records
+    in the frontend. With `settings.auth = 2` only members of
+    `settings.uidOfUserGroup` create records, if the group is set.
+*   All actions of the Topic and Post controllers are uncached now.
+*   The mail templates moved to :file:`Resources/Private/Templates/Email/`
+    and are named `PforumManageTopic`, `PforumManagePost` and
+    `PforumNewPost`. They are read from
+    `plugin.tx_pforum.settings.email.templateRootPaths` instead of
+    `$GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths']`.
+*   The templates use Bootstrap 5 classes. Adapt your own copies of
+    :file:`Topic/New.html`, :file:`Topic/Edit.html`, :file:`Post/New.html`,
+    :file:`Post/Edit.html`, :file:`Forum/Show.html`, :file:`Topic/Show.html`
+    and the partials :file:`FormErrors.html`, :file:`*/FormFields.html` and
+    :file:`Component/Pagination.html`. The templates get the variables
+    `isCreationAllowed`, `isAdmin`, `richTextEditor`,
+    `descriptionPlainText` and `isCheckFalUploadsLoaded`. The partial
+    :file:`User/FormFields.html` gets the argument `object` ("topic" or
+    "post"). `plugin.tx_pforum._CSS_DEFAULT_STYLE` has been removed.
+*   Removed templates and partials: :file:`Post/List.html`,
+    :file:`Post/Show.html`, :file:`Topic/List.html`, :file:`User/*.html`,
+    :file:`Partials/*/Properties.html`, :file:`Mail/ConfigureTopic.html`
+    and :file:`Mail/ConfigurePost.html`.
+*   The preview of the plugin in the page module is the template of page
+    TSconfig `mod.web_layout.tt_content.preview.pforum_forum`
+    (:file:`Resources/Private/Backend/PluginPreview/Forum.html`). The class
+    `PluginPreview` has been removed.
+*   Removed classes: `IsCreateButtonAllowedViewHelper`,
+    `FrontendGroupHelper`, `EmailValidator`, `UsernameValidator`,
+    `AnonymousUserRepository`, `PostCheckFileReferenceEvent` and the event
+    listeners `RestrictAccessEventListener`,
+    `ApplyEmailAsMandatoryIfNeededEventListener` and
+    `ApplyUsernameAsMandatoryIfNeededEventListener`. Username and email are
+    validated by the new `AnonymousUserValidator`.
+*   The site settings `pforum.topic.*`, `pforum.post.*`,
+    `pforum.new.uploadFolder` and `pforum.image.*` are used in TypoScript
+    now. `hideAtCreation` and `activateByAdmin` are of type `bool`.
+
 Upgrade to version 7.0.0
 =========================
 
