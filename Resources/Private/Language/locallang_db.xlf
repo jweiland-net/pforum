@@ -32,6 +32,9 @@
 			<trans-unit id="tx_pforum_domain_model_topic.title">
 				<source>Title</source>
 			</trans-unit>
+			<trans-unit id="tx_pforum_domain_model_topic.path_segment">
+				<source>Path segment</source>
+			</trans-unit>
 			<trans-unit id="tx_pforum_domain_model_topic.description">
 				<source>Description</source>
 			</trans-unit>
@@ -53,6 +56,9 @@
 			</trans-unit>
 			<trans-unit id="tx_pforum_domain_model_post.title">
 				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_pforum_domain_model_post.path_segment">
+				<source>Path segment</source>
 			</trans-unit>
 			<trans-unit id="tx_pforum_domain_model_post.description">
 				<source>Description</source>

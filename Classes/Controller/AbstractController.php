@@ -24,6 +24,7 @@ use JWeiland\Pforum\Event\PostProcessFluidVariablesEvent;
 use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
 use JWeiland\Pforum\Mail\ManageRecordMail;
 use JWeiland\Pforum\Security\AnonymousAccessTokenService;
+use JWeiland\Pforum\Service\PathSegmentService;
 use JWeiland\Pforum\Service\RecordAccessService;
 use JWeiland\Pforum\Service\RichTextDescriptionService;
 use Psr\Http\Message\ResponseInterface;
@@ -54,6 +55,7 @@ class AbstractController extends ActionController
         protected readonly AnonymousAccessTokenService $anonymousAccessTokenService,
         protected readonly ManageRecordMail $manageRecordMail,
         protected readonly RichTextDescriptionService $richTextDescriptionService,
+        protected readonly PathSegmentService $pathSegmentService,
     ) {}
 
     public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
@@ -209,17 +211,11 @@ class AbstractController extends ActionController
             $record->setFrontendUser($frontendUser);
         }
 
-        if ($this->request->hasArgument('preview')) {
-            $record->setHidden(true);
-            $this->persistenceManager->persistAll();
+        $isPreview = $this->request->hasArgument('preview');
+        $record->setHidden($isPreview || $this->getForumSettings()->isHiddenAtCreation($recordType));
+        $this->persistRecord($record, true);
 
-            return $this->redirectToPreview($record, true);
-        }
-
-        $record->setHidden($this->getForumSettings()->isHiddenAtCreation($recordType));
-        $this->persistenceManager->persistAll();
-
-        return $this->publish($record);
+        return $isPreview ? $this->redirectToPreview($record, true) : $this->publish($record);
     }
 
     /**
@@ -231,22 +227,40 @@ class AbstractController extends ActionController
         $recordType = $record instanceof Topic ? RecordType::Topic : RecordType::Post;
         $this->richTextDescriptionService->prepareForPersistence($record, $this->settings);
         if ($this->request->hasArgument('preview')) {
-            $this->persistenceManager->update($record);
+            $this->persistRecord($record, $isNew);
 
             return $this->redirectToPreview($record, $isNew, $token);
         }
 
         if (!$isNew) {
-            $this->persistenceManager->update($record);
+            $this->persistRecord($record, false);
 
             return $this->redirectWithMessage($recordType->value . 'Updated', ContextualFeedbackSeverity::OK, $record);
         }
 
         $record->setHidden($this->getForumSettings()->isHiddenAtCreation($recordType));
-        $this->persistenceManager->update($record);
-        $this->persistenceManager->persistAll();
+        $this->persistRecord($record, true);
 
         return $this->publish($record);
+    }
+
+    /**
+     * Stores the record and generates its path segment. New records get a
+     * new path segment, as their title may change until they are published.
+     * Published records keep their path segment, so their URL is kept.
+     */
+    protected function persistRecord(Topic|Post $record, bool $isNew): void
+    {
+        if ($record->getUid() !== null) {
+            $this->persistenceManager->update($record);
+        }
+        $this->persistenceManager->persistAll();
+
+        $this->pathSegmentService->generate(
+            $record instanceof Topic ? RecordType::Topic : RecordType::Post,
+            (int)$record->getUid(),
+            $isNew,
+        );
     }
 
     /**
