@@ -1,0 +1,5 @@
+# Topics and posts are created by logged-in frontend users of group 1
+plugin.tx_pforum.settings.auth = 2
+plugin.tx_pforum.settings.emailIsMandatory = 0
+plugin.tx_pforum.settings.topic.hideAtCreation = 0
+plugin.tx_pforum.settings.post.hideAtCreation = 0

@@ -23,7 +23,7 @@
         </ol>
     </nav>
 
-    <div class="card mb-3 bg-light">
+    <div class="card mb-3 bg-body-tertiary">
         <div class="row g-0">
             <f:if condition="{topic.images}">
                 <div class="col-md-2">
@@ -49,7 +49,7 @@
                         <h5 class="mb-1">
                             {topic.title}
                         </h5>
-                        <small>
+                        <small class="text-body-secondary">
                             {topic.crdate -> f:format.date(format: 'd.m.Y')}&nbsp;|
                             {f:translate(key: 'from')}:
                             <f:render partial="User/Username" arguments="{user: topic.user}"/>
@@ -64,7 +64,7 @@
                         </div>
                     </f:if>
 
-                    <f:if condition="{topic.hasValidUser}">
+                    <f:if condition="{settings.auth} == 2 && {topic.hasValidUser}">
                         <f:render section="renderManagementLinks" arguments="{controller: 'Topic', arguments: {topic: topic.uid}}"/>
                     </f:if>
                 </div>
@@ -96,8 +96,13 @@
 
                     <div class="col-md-{columns}">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">{post.title}</h5>
-                            <small>
+                            <h5 class="mb-1">
+                                {post.title}
+                                <f:if condition="{post.hidden}">
+                                    <span class="badge text-bg-secondary">{f:translate(key: 'hidden')}</span>
+                                </f:if>
+                            </h5>
+                            <small class="text-body-secondary">
                                 {post.crdate -> f:format.date(format: 'd.m.Y')} |
                                 {f:translate(key: 'from')}:&nbsp;<f:render partial="User/Username" arguments="{user: post.user}"/>
                             </small>
@@ -107,7 +112,7 @@
                             <f:format.html>{post.description}</f:format.html>
                         </div>
 
-                        <f:if condition="{post.hasValidUser}">
+                        <f:if condition="{settings.auth} == 2 && {post.hasValidUser}">
                             <f:render section="renderManagementLinks" arguments="{controller: 'Post', arguments: {post: post.uid}}"/>
                         </f:if>
 

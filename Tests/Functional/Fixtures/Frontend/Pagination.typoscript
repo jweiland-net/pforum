@@ -1,0 +1,2 @@
+# One topic per page to render the pagination
+plugin.tx_pforum.settings.pageBrowser.itemsPerPage = 1

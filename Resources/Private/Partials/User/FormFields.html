@@ -2,28 +2,32 @@
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
+<f:comment><!-- Fields of the pforum user (anonymous user). "object" is "topic" or "post". --></f:comment>
 <div class="mb-3">
-    <label for="name" class="form-label">{f:translate(key: 'tx_pforum_domain_model_anonymoususer.name')}</label>
-    <f:form.textfield class="form-control" property="anonymousUser.name"/>
+    <label for="{object}-user-name" class="form-label">{f:translate(key: 'tx_pforum_domain_model_anonymoususer.name')}</label>
+    <f:form.textfield id="{object}-user-name" class="form-control" errorClass="is-invalid" property="anonymousUser.name"/>
+    <f:render partial="Form/FieldErrors" arguments="{for: '{object}.anonymousUser.name'}"/>
 </div>
 
 <div class="mb-3">
-    <label for="username" class="form-label">
+    <label for="{object}-user-username" class="form-label">
         {f:translate(key: 'tx_pforum_domain_model_anonymoususer.username')}
         <f:if condition="{settings.usernameIsMandatory}">
-            <span class="required">*</span>
+            <span class="text-danger">*</span>
         </f:if>
     </label>
-    <f:form.textfield class="form-control" property="anonymousUser.username"/>
+    <f:form.textfield id="{object}-user-username" class="form-control" errorClass="is-invalid" property="anonymousUser.username"/>
+    <f:render partial="Form/FieldErrors" arguments="{for: '{object}.anonymousUser.username'}"/>
 </div>
 
 <div class="mb-3">
-    <label for="email" class="form-label">
+    <label for="{object}-user-email" class="form-label">
         {f:translate(key: 'tx_pforum_domain_model_anonymoususer.email')}
         <f:if condition="{settings.emailIsMandatory}">
-            <span class="required">*</span>
+            <span class="text-danger">*</span>
         </f:if>
     </label>
-    <f:form.textfield class="form-control" property="anonymousUser.email"/>
+    <f:form.textfield id="{object}-user-email" type="email" class="form-control" errorClass="is-invalid" property="anonymousUser.email"/>
+    <f:render partial="Form/FieldErrors" arguments="{for: '{object}.anonymousUser.email'}"/>
 </div>
 </html>

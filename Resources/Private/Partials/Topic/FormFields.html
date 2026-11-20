@@ -3,27 +3,30 @@
       data-namespace-typo3-fluid="true">
 
 <div class="mb-3">
-    <label for="title" class="form-label">
+    <label for="topic-title" class="form-label">
         {f:translate(key: 'tx_pforum_domain_model_topic.title')}
-        <span class="required">*</span>
+        <span class="text-danger">*</span>
     </label>
-    <f:form.textfield class="form-control" property="title"/>
+    <f:form.textfield id="topic-title" class="form-control" errorClass="is-invalid" property="title" required="1"/>
+    <f:render partial="Form/FieldErrors" arguments="{for: 'topic.title'}"/>
 </div>
 
 <div class="mb-3">
-    <label for="description" class="form-label">
+    <label for="topic-description" class="form-label">
         {f:translate(key: 'tx_pforum_domain_model_topic.description')}
-        <span class="required">*</span>
+        <span class="text-danger">*</span>
     </label>
     <f:render partial="RichTextEditor/Description" arguments="{id: 'topic-description', richTextEditor: richTextEditor, descriptionPlainText: descriptionPlainText}"/>
+    <f:render partial="Form/FieldErrors" arguments="{for: 'topic.description'}"/>
 </div>
 
 <f:if condition="{settings.useImages}">
     <div class="mb-3">
-        <label for="images" class="form-label">
+        <label for="topic-images" class="form-label">
             {f:translate(key: 'tx_pforum_domain_model_topic.images')}
         </label>
-        <f:form.upload property="images" multiple="1" class="form-control"/>
+        <f:form.upload id="topic-images" property="images" multiple="1" class="form-control" errorClass="is-invalid" accept="image/jpeg,image/png"/>
+        <f:render partial="Form/FieldErrors" arguments="{for: 'topic.images'}"/>
     </div>
     <f:if condition="{isCheckFalUploadsLoaded}">
         <f:render partial="CheckFalUploads/Rights" arguments="{object: 'topic'}"/>
