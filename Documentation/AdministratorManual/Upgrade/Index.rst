@@ -13,10 +13,11 @@ Upgrade to version 8.0.2
 ========================
 
 *   pforum does not add the `CheckFalUploadValidator` of EXT:checkfaluploads
-    to the image uploads anymore. Images are uploaded like in the other
-    extensions of jweiland.net. If you added the rights checkbox to your
-    overrides of the form partials, the rights are checked by
-    EXT:checkfaluploads, see :ref:`frontend-management-checkfaluploads`.
+    to the image uploads anymore. Images of topics and posts are uploaded
+    without a rights checkbox, even if EXT:checkfaluploads is installed. If
+    you want the rights checkbox, add it to your overrides of the form
+    partials. EXT:checkfaluploads checks it, see
+    :ref:`frontend-management-checkfaluploads`.
 
 ..  _upgrade-8-0-1:
 

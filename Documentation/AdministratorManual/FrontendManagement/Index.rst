@@ -93,8 +93,9 @@ settings.
 Rights checkbox of EXT:checkfaluploads
 ======================================
 
-The templates of pforum do not contain the rights checkbox of
-EXT:checkfaluploads. To get it, add the checkbox
-`tx_pforum_forum[topic|post][images][rights]` to your overrides of the
-form partials. The rights are checked by EXT:checkfaluploads, see its
+pforum ships no rights checkbox and adds no validator for the image
+uploads, so images are uploaded without a checkbox. If you want the
+rights checkbox of EXT:checkfaluploads, add the checkbox
+`tx_pforum_forum[topic|post][images][rights]` to your template overrides.
+EXT:checkfaluploads checks it, see its
 :ref:`documentation <checkfaluploads:developer-manual>`.
