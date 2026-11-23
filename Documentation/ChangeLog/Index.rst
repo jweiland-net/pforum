@@ -7,6 +7,11 @@
 ChangeLog
 =========
 
+Version 8.0.2
+=============
+
+*   [TASK] Do not add the CheckFalUploadValidator of checkfaluploads to the image uploads
+
 Version 8.0.1
 =============
 
