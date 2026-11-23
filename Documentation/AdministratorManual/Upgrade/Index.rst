@@ -7,6 +7,18 @@ Updating
 
 If you update `pforum` to a newer version, please read this section carefully!
 
+..  _upgrade-8-0-1:
+
+Upgrade to version 8.0.1
+========================
+
+*   The templates of pforum do not contain the rights checkbox of
+    EXT:checkfaluploads anymore. The partial
+    :file:`CheckFalUploads/Rights.html` and the variable
+    `isCheckFalUploadsLoaded` have been removed. If EXT:checkfaluploads is
+    installed, add the checkbox to your overrides of the form partials, see
+    :ref:`frontend-management-checkfaluploads`.
+
 ..  _upgrade-8-0-0:
 
 Upgrade to version 8.0.0
