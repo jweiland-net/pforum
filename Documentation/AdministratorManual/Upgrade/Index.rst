@@ -18,6 +18,8 @@ Upgrade to version 8.0.1
     `isCheckFalUploadsLoaded` have been removed. If EXT:checkfaluploads is
     installed, add the checkbox to your overrides of the form partials, see
     :ref:`frontend-management-checkfaluploads`.
+*   Run the upgrade wizard "[pforum] Fill path segments of topics and posts"
+    again, if path segments of existing records are empty.
 
 ..  _upgrade-8-0-0:
 
