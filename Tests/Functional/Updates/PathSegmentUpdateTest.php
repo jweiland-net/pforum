@@ -47,6 +47,10 @@ class PathSegmentUpdateTest extends FunctionalTestCase
         self::assertSame('hidden-topic-of-jane', $this->getPathSegment('topic', 2));
         self::assertSame('reply', $this->getPathSegment('post', 1));
         self::assertSame('hidden-reply', $this->getPathSegment('post', 2));
+        // Path segments of records of former versions are NULL after the database compare
+        self::assertSame('topic-of-mallory', $this->getPathSegment('topic', 4));
+        // Records without title get the record type and their UID
+        self::assertSame('post-4', $this->getPathSegment('post', 4));
         self::assertFalse($subject->updateNecessary());
     }
 

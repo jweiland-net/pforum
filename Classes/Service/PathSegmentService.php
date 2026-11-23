@@ -58,15 +58,14 @@ readonly class PathSegmentService
     public function buildPathSegment(RecordType $recordType, array $record): string
     {
         $table = $recordType->getTable();
-        $slugHelper = GeneralUtility::makeInstance(
-            SlugHelper::class,
-            $table,
-            self::COLUMN,
-            $this->tcaSchemaFactory->get($table)->getField(self::COLUMN)->getConfiguration(),
-        );
+        $configuration = $this->tcaSchemaFactory->get($table)->getField(self::COLUMN)->getConfiguration();
+        $slugHelper = GeneralUtility::makeInstance(SlugHelper::class, $table, self::COLUMN, $configuration);
 
         $pid = (int)$record['pid'];
-        $pathSegment = $slugHelper->generate($record, $pid);
+        // SlugHelper falls back to "default-[hash]" for records without title
+        $pathSegment = $this->hasGeneratorFieldValue($record, $configuration)
+            ? $slugHelper->generate($record, $pid)
+            : '';
         if ($pathSegment === '' || $pathSegment === '/') {
             $pathSegment = $slugHelper->sanitize($recordType->value . '-' . $record['uid']);
         }
@@ -74,6 +73,25 @@ readonly class PathSegmentService
         $state = RecordStateFactory::forName($table)->fromArray($record, $pid, (int)$record['uid']);
 
         return $slugHelper->buildSlugForUniqueInPid($pathSegment, $state);
+    }
+
+    /**
+     * @param array<string, mixed> $record
+     * @param array<string, mixed> $configuration
+     */
+    private function hasGeneratorFieldValue(array $record, array $configuration): bool
+    {
+        // Fields can be grouped in arrays, see "generatorOptions" of TCA type "slug"
+        $fields = $configuration['generatorOptions']['fields'] ?? [];
+        foreach (is_array($fields) ? $fields : [] as $field) {
+            foreach ((array)$field as $fieldName) {
+                if (trim((string)($record[$fieldName] ?? '')) !== '') {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
