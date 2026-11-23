@@ -93,9 +93,8 @@ settings.
 Rights checkbox of EXT:checkfaluploads
 ======================================
 
-If EXT:checkfaluploads (6.0.0 or higher) is installed, pforum adds its
-`CheckFalUploadValidator` to the image uploads. The templates of pforum
-do not contain the rights checkbox, so add the checkbox
+The templates of pforum do not contain the rights checkbox of
+EXT:checkfaluploads. To get it, add the checkbox
 `tx_pforum_forum[topic|post][images][rights]` to your overrides of the
-form partials, as described in the :ref:`documentation of
-EXT:checkfaluploads <checkfaluploads:developer-manual>`.
+form partials. The rights are checked by EXT:checkfaluploads, see its
+:ref:`documentation <checkfaluploads:developer-manual>`.

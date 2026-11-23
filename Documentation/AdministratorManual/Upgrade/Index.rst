@@ -7,6 +7,17 @@ Updating
 
 If you update `pforum` to a newer version, please read this section carefully!
 
+..  _upgrade-8-0-2:
+
+Upgrade to version 8.0.2
+========================
+
+*   pforum does not add the `CheckFalUploadValidator` of EXT:checkfaluploads
+    to the image uploads anymore. Images are uploaded like in the other
+    extensions of jweiland.net. If you added the rights checkbox to your
+    overrides of the form partials, the rights are checked by
+    EXT:checkfaluploads, see :ref:`frontend-management-checkfaluploads`.
+
 ..  _upgrade-8-0-1:
 
 Upgrade to version 8.0.1

@@ -53,7 +53,7 @@ Requirements
 
 Add the site set `jweiland/pforum` to your site. The optional rich text editor of the description of topics and
 posts needs EXT:rte_ckeditor (:composer:`typo3/cms-rte-ckeditor`), see :ref:`frontend-rich-text-editor`. The
-optional EXT:checkfaluploads adds a rights checkbox to the image uploads, see
+optional EXT:checkfaluploads checks a rights checkbox of the image uploads, if you add it to your templates, see
 :ref:`frontend-management-checkfaluploads`.
 
 Next step

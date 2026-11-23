@@ -66,6 +66,7 @@ trait FrontendRequestTrait
         array $pluginArguments = [],
         array $parsedBody = [],
         int $frontendUserUid = 0,
+        array $uploadedFiles = [],
     ): ResponseInterface {
         $queryParameters = [
             'id' => self::FORUM_PAGE,
@@ -84,6 +85,9 @@ trait FrontendRequestTrait
             // The testing framework can not build a body of nested arrays
             $request->getBody()->write(http_build_query($parsedBody));
         }
+        if ($uploadedFiles !== []) {
+            $request = $request->withUploadedFiles($uploadedFiles);
+        }
 
         $context = new InternalRequestContext();
         if ($frontendUserUid > 0) {
@@ -100,6 +104,7 @@ trait FrontendRequestTrait
      * @param array<string, string> $pluginArguments Arguments of the query string
      * @param array<string, mixed> $values Submitted values of the form without plugin namespace
      * @param array<string, mixed> $referringArguments Arguments of the action of the form. Extbase forwards to this action on validation errors.
+     * @param array<string, mixed> $uploadedFiles Uploaded files of the form without plugin namespace, e.g. ['topic' => ['images' => [UploadedFile]]]
      */
     private function submitForm(
         string $controllerName,
@@ -109,9 +114,14 @@ trait FrontendRequestTrait
         int $frontendUserUid = 0,
         string $referringActionName = '',
         array $referringArguments = [],
+        array $uploadedFiles = [],
     ): ResponseInterface {
+        $fieldNames = [
+            ...$this->getFieldNames($values, self::PLUGIN_NAMESPACE),
+            ...$this->getFieldNames($uploadedFiles, self::PLUGIN_NAMESPACE),
+        ];
         $values['__trustedProperties'] = $this->get(MvcPropertyMappingConfigurationService::class)
-            ->generateTrustedPropertiesToken($this->getFieldNames($values, self::PLUGIN_NAMESPACE), self::PLUGIN_NAMESPACE);
+            ->generateTrustedPropertiesToken($fieldNames, self::PLUGIN_NAMESPACE);
         if ($referringActionName !== '') {
             $hashService = $this->get(HashService::class);
             $values['__referrer'] = [
@@ -123,7 +133,14 @@ trait FrontendRequestTrait
             ];
         }
 
-        return $this->request($controllerName, $actionName, $pluginArguments, [self::PLUGIN_NAMESPACE => $values], $frontendUserUid);
+        return $this->request(
+            $controllerName,
+            $actionName,
+            $pluginArguments,
+            [self::PLUGIN_NAMESPACE => $values],
+            $frontendUserUid,
+            $uploadedFiles === [] ? [] : [self::PLUGIN_NAMESPACE => $uploadedFiles],
+        );
     }
 
     /**
@@ -134,7 +151,8 @@ trait FrontendRequestTrait
     {
         $fieldNames = [];
         foreach ($values as $key => $value) {
-            $fieldName = $prefix . '[' . $key . ']';
+            // Multiple file uploads are submitted as list ("images[]")
+            $fieldName = $prefix . '[' . (is_int($key) && !is_array($value) && is_object($value) ? '' : $key) . ']';
             $fieldNames = [...$fieldNames, ...(is_array($value) ? $this->getFieldNames($value, $fieldName) : [$fieldName])];
         }
 
