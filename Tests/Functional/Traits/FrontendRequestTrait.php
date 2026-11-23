@@ -13,8 +13,10 @@ namespace JWeiland\Pforum\Tests\Functional\Traits;
 
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Configuration\SiteWriter;
+use TYPO3\CMS\Core\Crypto\HashService;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\MvcPropertyMappingConfigurationService;
+use TYPO3\CMS\Extbase\Security\HashScope;
 use TYPO3\CMS\Frontend\Page\CacheHashCalculator;
 use TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalRequest;
 use TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalRequestContext;
@@ -97,6 +99,7 @@ trait FrontendRequestTrait
      *
      * @param array<string, string> $pluginArguments Arguments of the query string
      * @param array<string, mixed> $values Submitted values of the form without plugin namespace
+     * @param array<string, mixed> $referringArguments Arguments of the action of the form. Extbase forwards to this action on validation errors.
      */
     private function submitForm(
         string $controllerName,
@@ -104,9 +107,21 @@ trait FrontendRequestTrait
         array $pluginArguments,
         array $values,
         int $frontendUserUid = 0,
+        string $referringActionName = '',
+        array $referringArguments = [],
     ): ResponseInterface {
         $values['__trustedProperties'] = $this->get(MvcPropertyMappingConfigurationService::class)
             ->generateTrustedPropertiesToken($this->getFieldNames($values, self::PLUGIN_NAMESPACE), self::PLUGIN_NAMESPACE);
+        if ($referringActionName !== '') {
+            $hashService = $this->get(HashService::class);
+            $values['__referrer'] = [
+                '@request' => $hashService->appendHmac(
+                    (string)json_encode(['@extension' => 'Pforum', '@controller' => $controllerName, '@action' => $referringActionName]),
+                    HashScope::ReferringRequest->prefix(),
+                ),
+                'arguments' => $hashService->appendHmac(base64_encode(serialize($referringArguments)), HashScope::ReferringArguments->prefix()),
+            ];
+        }
 
         return $this->request($controllerName, $actionName, $pluginArguments, [self::PLUGIN_NAMESPACE => $values], $frontendUserUid);
     }

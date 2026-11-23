@@ -119,6 +119,22 @@ class RecordFormTest extends FunctionalTestCase
     }
 
     #[Test]
+    public function createWithInvalidEmailShowsNoGenericErrorMessage(): void
+    {
+        $content = (string)$this->submitForm('Topic', 'create', [], [
+            'forum' => '1',
+            'topic' => [
+                'title' => 'Invalid email',
+                'description' => 'My question',
+                'anonymousUser' => ['name' => 'John', 'username' => 'john', 'email' => 'john@'],
+            ],
+        ], 0, 'new', ['forum' => '1'])->getBody();
+
+        self::assertStringContainsString('The email of user object is not a valid email', $content);
+        self::assertStringNotContainsString('An error occurred while trying to call', $content . $this->getFlashMessages());
+    }
+
+    #[Test]
     public function createWithPreviewStoresHiddenTopicWithoutMail(): void
     {
         $this->submitForm('Topic', 'create', [], [
