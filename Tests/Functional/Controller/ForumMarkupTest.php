@@ -75,4 +75,13 @@ class ForumMarkupTest extends FunctionalTestCase
         self::assertMatchesRegularExpression('/<textarea[^>]*id="topic-description"[^>]*class="form-control"/', $content);
         self::assertMatchesRegularExpression('/<input(?=[^>]*type="submit")(?=[^>]*class="btn btn-primary")/', $content);
     }
+
+    #[Test]
+    public function showForumRendersTeaserWithSeparatedParagraphs(): void
+    {
+        $content = (string)$this->request('Forum', 'show', ['forum' => '2'])->getBody();
+
+        self::assertMatchesRegularExpression('/Question of Mallory\s+Second paragraph/', $content);
+        self::assertStringNotContainsString('<p>Question of Mallory', $content);
+    }
 }
