@@ -70,7 +70,14 @@
         <f:render partial="Post/FormFields" arguments="{_all}"/>
 
         <div class="mb-3">
-            <f:form.submit class="btn btn-primary" value="{f:translate(key: f:if(condition: isNew, then: 'publish', else: 'save'))}"/>
+            <f:if condition="{isNew}">
+                <f:then>
+                    <f:form.submit class="btn btn-primary" value="{f:translate(key: 'publish')}"/>
+                </f:then>
+                <f:else>
+                    <f:form.submit class="btn btn-primary" value="{f:translate(key: 'save')}"/>
+                </f:else>
+            </f:if>
             <f:if condition="{isNew}">
                 <f:form.submit class="btn btn-secondary" name="preview" value="{f:translate(key: 'preview')}"/>
             </f:if>
