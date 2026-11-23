@@ -86,6 +86,33 @@ class RecordManagementTest extends FunctionalTestCase
     }
 
     #[Test]
+    public function editActionRendersSaveButtonForPublishedRecord(): void
+    {
+        $content = (string)$this->request('Topic', 'edit', [
+            'topic' => (string)self::HIDDEN_TOPIC,
+            'token' => $this->generateToken('Topic', self::HIDDEN_TOPIC),
+        ])->getBody();
+
+        self::assertMatchesRegularExpression('/<input(?=[^>]*type="submit")(?=[^>]*value="Save")/', $content);
+        self::assertStringNotContainsString('f:translate', $content);
+        self::assertStringNotContainsString('name="tx_pforum_forum[preview]"', $content);
+    }
+
+    #[Test]
+    public function editActionRendersPublishButtonForNewRecord(): void
+    {
+        $content = (string)$this->request('Topic', 'edit', [
+            'topic' => (string)self::HIDDEN_TOPIC,
+            'token' => $this->generateToken('Topic', self::HIDDEN_TOPIC),
+            'isNew' => '1',
+            'isPreview' => '1',
+        ])->getBody();
+
+        self::assertMatchesRegularExpression('/<input(?=[^>]*type="submit")(?=[^>]*value="Publish")/', $content);
+        self::assertStringContainsString('name="tx_pforum_forum[preview]"', $content);
+    }
+
+    #[Test]
     public function editActionWithInvalidTokenRendersNoForm(): void
     {
         $content = (string)$this->request('Topic', 'edit', [
