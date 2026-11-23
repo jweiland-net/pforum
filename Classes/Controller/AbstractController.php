@@ -85,6 +85,15 @@ class AbstractController extends ActionController
         $this->checkForMisconfiguration();
     }
 
+    /**
+     * The validation errors are shown at the form fields. Do not add the
+     * generic "An error occurred while trying to call ..." message of Extbase.
+     */
+    protected function getErrorFlashMessage(): bool|string
+    {
+        return false;
+    }
+
     protected function getForumSettings(): ForumSettings
     {
         return ForumSettings::fromArray($this->settings);
