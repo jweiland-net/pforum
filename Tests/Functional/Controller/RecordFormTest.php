@@ -135,6 +135,25 @@ class RecordFormTest extends FunctionalTestCase
     }
 
     #[Test]
+    public function textPartOfMailContainsPlainLinksAndTitle(): void
+    {
+        $this->submitForm('Topic', 'create', [], [
+            'forum' => '1',
+            'topic' => [
+                'title' => 'Say "hello" & more',
+                'description' => 'My question',
+                'anonymousUser' => ['name' => 'John', 'username' => 'john', 'email' => 'john@example.com'],
+            ],
+        ]);
+
+        $textPart = $this->getTextPartOfMails();
+        self::assertStringContainsString('Say "hello" & more', $textPart);
+        self::assertMatchesRegularExpression('/https:\/\/www\.example\.com\/[^\s]*&tx_pforum_forum%5Bcontroller%5D=Topic/', $textPart);
+        self::assertStringNotContainsString('&amp;', $textPart);
+        self::assertStringNotContainsString('&quot;', $textPart);
+    }
+
+    #[Test]
     public function createWithPreviewStoresHiddenTopicWithoutMail(): void
     {
         $this->submitForm('Topic', 'create', [], [
@@ -364,6 +383,16 @@ class RecordFormTest extends FunctionalTestCase
         }
 
         parent::tearDown();
+    }
+
+    /**
+     * The text/plain parts of all mails of the mbox file
+     */
+    private function getTextPartOfMails(): string
+    {
+        preg_match_all('/Content-Type: text\/plain[^\n]*\n(?:[^\n]+\n)*\r?\n(.*?)\n--/s', str_replace("\r\n", "\n", $this->getMails()), $matches);
+
+        return implode("\n", $matches[1]);
     }
 
     private function getMails(): string
