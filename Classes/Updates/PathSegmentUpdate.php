@@ -82,6 +82,11 @@ final readonly class PathSegmentUpdate implements UpgradeWizardInterface
 
         return $queryBuilder
             ->from($recordType->getTable())
-            ->where($queryBuilder->expr()->eq(PathSegmentService::COLUMN, $queryBuilder->createNamedParameter('')));
+            ->where(
+                $queryBuilder->expr()->or(
+                    $queryBuilder->expr()->eq(PathSegmentService::COLUMN, $queryBuilder->createNamedParameter('')),
+                    $queryBuilder->expr()->isNull(PathSegmentService::COLUMN),
+                ),
+            );
     }
 }
