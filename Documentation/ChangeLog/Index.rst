@@ -7,6 +7,17 @@
 ChangeLog
 =========
 
+Version 8.0.1
+=============
+
+*   [SECURITY] Check the pforum user of an edited topic or post
+*   [BUGFIX] Fill path segments of records of former versions and of records without title
+*   [BUGFIX] Render the labels of the submit buttons of the edit forms
+*   [BUGFIX] Render links and texts of the plain text mails without HTML entities
+*   [BUGFIX] Do not show the generic error message of Extbase above the forms
+*   [BUGFIX] Keep paragraphs separated in the teaser of topics
+*   [TASK] Remove the rights checkbox of checkfaluploads from the templates
+
 Version 8.0.0
 =============
 
