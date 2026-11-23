@@ -190,6 +190,81 @@ class RecordFormTest extends FunctionalTestCase
         self::assertSame([], $this->getTopicByTitle('Foreign topic'));
     }
 
+    /**
+     * The edit form submits the identity of the pforum user of the record.
+     * Another identity must not change the pforum user of a foreign record.
+     */
+    #[Test]
+    public function updateOfTopicWithForeignPforumUserKeepsTopicAndPforumUser(): void
+    {
+        $this->submitForm('Topic', 'update', [], [
+            'token' => $this->generateToken('Topic', 4),
+            'topic' => [
+                '__identity' => '4',
+                'title' => 'Changed topic',
+                'description' => 'Changed',
+                'anonymousUser' => ['__identity' => '1', 'name' => 'Mallory', 'username' => 'mallory', 'email' => 'attacker@example.com'],
+            ],
+        ]);
+
+        self::assertSame(['Jane', 'jane@example.com'], $this->getPforumUser(1));
+        self::assertSame('Topic of Mallory', $this->getRecord('topic', 4)['title']);
+        self::assertSame(2, (int)$this->getRecord('topic', 4)['anonymous_user']);
+        self::assertStringContainsString('You are not allowed to edit records', $this->getFlashMessages());
+    }
+
+    #[Test]
+    public function updateOfPostWithForeignPforumUserKeepsPostAndPforumUser(): void
+    {
+        $this->submitForm('Post', 'update', [], [
+            'token' => $this->generateToken('Post', 3),
+            'post' => [
+                '__identity' => '3',
+                'title' => 'Changed answer',
+                'description' => 'Changed',
+                'anonymousUser' => ['__identity' => '1', 'name' => 'Mallory', 'username' => 'mallory', 'email' => 'attacker@example.com'],
+            ],
+        ]);
+
+        self::assertSame(['Jane', 'jane@example.com'], $this->getPforumUser(1));
+        self::assertSame('Answer of Mallory', $this->getRecord('post', 3)['title']);
+        self::assertSame(2, (int)$this->getRecord('post', 3)['anonymous_user']);
+    }
+
+    #[Test]
+    public function updateOfPostWithOwnPforumUserChangesPostAndPforumUser(): void
+    {
+        $this->submitForm('Post', 'update', [], [
+            'token' => $this->generateToken('Post', 3),
+            'post' => [
+                '__identity' => '3',
+                'title' => 'Changed answer',
+                'description' => 'Changed',
+                'anonymousUser' => ['__identity' => '2', 'name' => 'Mallory M.', 'username' => 'mallory', 'email' => 'mallory@example.com'],
+            ],
+        ]);
+
+        self::assertSame('Changed answer', $this->getRecord('post', 3)['title']);
+        self::assertSame(['Mallory M.', 'mallory@example.com'], $this->getPforumUser(2));
+        self::assertSame(['Jane', 'jane@example.com'], $this->getPforumUser(1));
+    }
+
+    #[Test]
+    public function updateOfPostWithTokenOfOtherPostKeepsPost(): void
+    {
+        $this->submitForm('Post', 'update', [], [
+            'token' => $this->generateToken('Post', 2),
+            'post' => [
+                '__identity' => '3',
+                'title' => 'Changed answer',
+                'description' => 'Changed',
+                'anonymousUser' => ['__identity' => '2', 'name' => 'Mallory', 'username' => 'mallory', 'email' => 'mallory@example.com'],
+            ],
+        ]);
+
+        self::assertSame('Answer of Mallory', $this->getRecord('post', 3)['title']);
+    }
+
     #[Test]
     public function createStoresPostInTopic(): void
     {
@@ -229,6 +304,31 @@ class RecordFormTest extends FunctionalTestCase
             ->executeQuery()->fetchAssociative();
 
         return is_array($topic) ? $topic : [];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function getRecord(string $recordType, int $uid): array
+    {
+        $table = 'tx_pforum_domain_model_' . $recordType;
+        $queryBuilder = $this->getConnectionPool()->getQueryBuilderForTable($table);
+        $queryBuilder->getRestrictions()->removeAll();
+        $record = $queryBuilder->select('*')->from($table)
+            ->where($queryBuilder->expr()->eq('uid', $uid))
+            ->executeQuery()->fetchAssociative();
+
+        return is_array($record) ? $record : [];
+    }
+
+    /**
+     * @return array{0: string, 1: string} Name and email
+     */
+    private function getPforumUser(int $uid): array
+    {
+        $user = $this->getRecord('anonymoususer', $uid);
+
+        return [(string)($user['name'] ?? ''), (string)($user['email'] ?? '')];
     }
 
     private function getFlashMessages(): string
