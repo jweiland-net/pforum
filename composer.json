@@ -33,6 +33,7 @@
 	},
 	"require-dev": {
 		"ergebnis/composer-normalize": "^2.44",
+		"jweiland/checkfaluploads": "^6.0",
 		"phpstan/phpdoc-parser": "^1.33",
 		"ssch/typo3-rector": "^3.6",
 		"typo3/cms-install": "^13.4",

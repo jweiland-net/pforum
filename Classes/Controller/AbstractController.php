@@ -30,7 +30,6 @@ use JWeiland\Pforum\Service\RichTextDescriptionService;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -163,7 +162,6 @@ class AbstractController extends ActionController
         $this->postProcessAndAssignFluidVariables(array_replace(
             $variables,
             $this->richTextDescriptionService->getFormVariables($record, $this->settings, $this->request),
-            ['isCheckFalUploadsLoaded' => ExtensionManagementUtility::isLoaded('checkfaluploads')],
         ));
 
         return $this->htmlResponse();
@@ -203,6 +201,7 @@ class AbstractController extends ActionController
         if ($denialReason === '' && is_array($argument) && !$this->isAnonymousUserOfRecord($record, $argument)) {
             $denialReason = RecordAccessService::REASON_UNAUTHORIZED;
         }
+
         if ($record === null || $denialReason !== '') {
             throw new PropagateResponseException($this->redirectWithMessage($denialReason, ContextualFeedbackSeverity::ERROR), 1763890804);
         }

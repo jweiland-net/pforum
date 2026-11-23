@@ -28,8 +28,5 @@
         <f:form.upload id="topic-images" property="images" multiple="1" class="form-control" errorClass="is-invalid" accept="image/jpeg,image/png"/>
         <f:render partial="Form/FieldErrors" arguments="{for: 'topic.images'}"/>
     </div>
-    <f:if condition="{isCheckFalUploadsLoaded}">
-        <f:render partial="CheckFalUploads/Rights" arguments="{object: 'topic'}"/>
-    </f:if>
 </f:if>
 </html>

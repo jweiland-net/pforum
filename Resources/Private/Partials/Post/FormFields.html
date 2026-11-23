@@ -27,8 +27,5 @@
         <f:form.upload id="post-images" property="images" multiple="1" class="form-control" errorClass="is-invalid" accept="image/jpeg,image/png"/>
         <f:render partial="Form/FieldErrors" arguments="{for: 'post.images'}"/>
     </div>
-    <f:if condition="{isCheckFalUploadsLoaded}">
-        <f:render partial="CheckFalUploads/Rights" arguments="{object: 'post'}"/>
-    </f:if>
 </f:if>
 </html>
