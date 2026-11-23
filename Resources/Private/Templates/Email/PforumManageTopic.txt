@@ -1,13 +1,13 @@
 <f:layout name="SystemEmail"/>
-<f:section name="Title">{topic.title}</f:section>
-<f:section name="Main">{f:translate(key: 'email.topic.text', extensionName: 'Pforum')}
+<f:section name="Title">{topic.title -> f:format.raw()}</f:section>
+<f:section name="Main">{f:translate(key: 'email.topic.text', extensionName: 'Pforum') -> f:format.raw()}
 <f:if condition="{activationToken}">
-{f:translate(key: 'activateTopic', extensionName: 'Pforum')}:
-<f:uri.action pageUid="{settings.pidOfDetailPage}" action="confirmActivation" controller="Topic" pluginName="Forum" extensionName="Pforum" absolute="1" arguments="{topic: topic.uid, token: activationToken}"/>
+{f:translate(key: 'activateTopic', extensionName: 'Pforum') -> f:format.raw()}:
+<f:format.raw><f:uri.action pageUid="{settings.pidOfDetailPage}" action="confirmActivation" controller="Topic" pluginName="Forum" extensionName="Pforum" absolute="1" arguments="{topic: topic.uid, token: activationToken}"/></f:format.raw>
 </f:if>
-{f:translate(key: 'editTopic', extensionName: 'Pforum')}:
-<f:uri.action pageUid="{settings.pidOfDetailPage}" action="edit" controller="Topic" pluginName="Forum" extensionName="Pforum" absolute="1" arguments="{topic: topic.uid, token: token}"/>
+{f:translate(key: 'editTopic', extensionName: 'Pforum') -> f:format.raw()}:
+<f:format.raw><f:uri.action pageUid="{settings.pidOfDetailPage}" action="edit" controller="Topic" pluginName="Forum" extensionName="Pforum" absolute="1" arguments="{topic: topic.uid, token: token}"/></f:format.raw>
 
-{f:translate(key: 'deleteTopic', extensionName: 'Pforum')}:
-<f:uri.action pageUid="{settings.pidOfDetailPage}" action="delete" controller="Topic" pluginName="Forum" extensionName="Pforum" absolute="1" arguments="{topic: topic.uid, token: token}"/>
+{f:translate(key: 'deleteTopic', extensionName: 'Pforum') -> f:format.raw()}:
+<f:format.raw><f:uri.action pageUid="{settings.pidOfDetailPage}" action="delete" controller="Topic" pluginName="Forum" extensionName="Pforum" absolute="1" arguments="{topic: topic.uid, token: token}"/></f:format.raw>
 </f:section>
