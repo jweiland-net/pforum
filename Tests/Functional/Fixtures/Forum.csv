@@ -15,16 +15,21 @@
 "tx_pforum_domain_model_forum"
 ,"uid","pid","title","teaser","topics"
 ,1,10,"General","General topics",3
+,2,10,"Second forum","Topics of Mallory",1
 "tx_pforum_domain_model_anonymoususer"
 ,"uid","pid","name","username","email"
 ,1,10,"Jane","jane","jane@example.com"
+,2,10,"Mallory","mallory","mallory@example.com"
 "tx_pforum_domain_model_topic"
-,"uid","pid","forum","title","description","hidden","frontend_user","anonymous_user","posts","crdate"
-,1,10,1,"Welcome","<p>Hello forum</p>",0,5,0,1,1700000000
+,"uid","pid","forum","title","description","hidden","frontend_user","anonymous_user","posts","crdate","path_segment"
+,1,10,1,"Welcome","<p>Hello forum</p>",0,5,0,1,1700000300,""
 ,2,10,1,"Hidden topic of Jane","First line
-Second line",1,0,1,0,1700000000
-,3,10,1,"Hidden topic of owner","<p>Waiting</p>",1,5,0,0,1700000000
+Second line",1,0,1,0,1700000200,""
+,3,10,1,"Hidden topic of owner","<p>Waiting</p>",1,5,0,0,1700000100,""
+,4,10,2,"Topic of Mallory","<p>Question of Mallory</p><p>Second paragraph</p>",0,0,2,2,1700000000,\NULL
 "tx_pforum_domain_model_post"
-,"uid","pid","topic","title","description","hidden","frontend_user","anonymous_user","crdate"
-,1,10,1,"Reply","<p>Reply of other</p>",0,6,0,1700000000
-,2,10,1,"Hidden reply","<p>Hidden reply of Jane</p>",1,0,1,1700000000
+,"uid","pid","topic","title","description","hidden","frontend_user","anonymous_user","crdate","path_segment"
+,1,10,1,"Reply","<p>Reply of other</p>",0,6,0,1700000000,""
+,2,10,1,"Hidden reply","<p>Hidden reply of Jane</p>",1,0,1,1700000000,""
+,3,10,4,"Answer of Mallory","<p>Answer of Mallory</p>",0,0,2,1700000000,""
+,4,10,4,"","<p>Answer without title</p>",0,0,2,1700000000,\NULL

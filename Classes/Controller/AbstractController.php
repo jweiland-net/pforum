@@ -191,11 +191,32 @@ class AbstractController extends ActionController
         $token = $this->request->hasArgument('token') ? (string)$this->request->getArgument('token') : '';
 
         $denialReason = $this->recordAccessService->getEditDenialReason($record, $token, $this->getForumSettings());
+        if ($denialReason === '' && is_array($argument) && !$this->isAnonymousUserOfRecord($record, $argument)) {
+            $denialReason = RecordAccessService::REASON_UNAUTHORIZED;
+        }
         if ($record === null || $denialReason !== '') {
             throw new PropagateResponseException($this->redirectWithMessage($denialReason, ContextualFeedbackSeverity::ERROR), 1763890804);
         }
 
         $this->session->registerObject($record, (string)$record->getUid());
+    }
+
+    /**
+     * The edit form submits the identity of the pforum user (anonymous user)
+     * of the record. Another identity would overwrite the name and email of
+     * the author of a foreign record.
+     *
+     * @param array<string, mixed> $argument
+     */
+    private function isAnonymousUserOfRecord(Topic|Post|null $record, array $argument): bool
+    {
+        $anonymousUser = $argument['anonymousUser'] ?? null;
+        if (!is_array($anonymousUser) || !array_key_exists('__identity', $anonymousUser)) {
+            return true;
+        }
+
+        return $record !== null
+            && (int)$anonymousUser['__identity'] === (int)$record->getAnonymousUser()?->getUid();
     }
 
     /**
