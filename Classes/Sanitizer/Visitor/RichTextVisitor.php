@@ -69,7 +69,7 @@ final class RichTextVisitor extends AbstractVisitor
     {
         // Comments, CDATA sections and processing instructions are removed
         if (!$domNode instanceof \DOMElement) {
-            return $domNode instanceof \DOMText ? $domNode : null;
+            return $domNode instanceof \DOMText && !$domNode instanceof \DOMCdataSection ? $domNode : null;
         }
 
         $tagName = strtolower($domNode->nodeName);
