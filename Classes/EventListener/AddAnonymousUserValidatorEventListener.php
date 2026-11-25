@@ -17,6 +17,7 @@ use JWeiland\Pforum\Validation\Validator\AnonymousUserValidator;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator;
+use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
 use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
 
 /**
@@ -75,7 +76,7 @@ final readonly class AddAnonymousUserValidatorEventListener
         }
 
         $conjunctionValidator = GeneralUtility::makeInstance(ConjunctionValidator::class);
-        if ($validator !== null) {
+        if ($validator instanceof ValidatorInterface) {
             $conjunctionValidator->addValidator($validator);
         }
         $conjunctionValidator->addValidator($anonymousUserValidator);

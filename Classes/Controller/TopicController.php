@@ -15,7 +15,7 @@ use JWeiland\Pforum\Domain\Model\Forum;
 use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\RecordType;
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Extbase\Annotation as Extbase;
+use TYPO3\CMS\Extbase\Attribute\IgnoreValidation;
 
 /**
  * Controller to show, create, edit, activate and delete topics
@@ -48,11 +48,11 @@ class TopicController extends AbstractController
         $this->denyCreationUnlessAllowed();
     }
 
-    #[Extbase\IgnoreValidation(['value' => 'topic'])]
-    public function newAction(Forum $forum, ?Topic $topic = null): ResponseInterface
-    {
+    public function newAction(
+        Forum $forum,
+        #[IgnoreValidation] ?Topic $topic = null,
+    ): ResponseInterface {
         $topic ??= new Topic();
-
         return $this->renderForm($topic, [
             'forum' => $forum,
             'topic' => $topic,
@@ -84,9 +84,12 @@ class TopicController extends AbstractController
      * @param bool $isPreview Shows the topic above the form
      * @param bool $isNew The topic is published, when the form is saved
      */
-    #[Extbase\IgnoreValidation(['value' => 'topic'])]
-    public function editAction(Topic $topic, bool $isPreview = false, bool $isNew = false, string $token = ''): ResponseInterface
-    {
+    public function editAction(
+        #[IgnoreValidation] Topic $topic,
+        bool $isPreview = false,
+        bool $isNew = false,
+        string $token = '',
+    ): ResponseInterface {
         return $this->renderForm($topic, [
             'topic' => $topic,
             'isPreview' => $isPreview,

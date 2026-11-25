@@ -14,8 +14,10 @@ namespace JWeiland\Pforum\Service;
 use JWeiland\Pforum\Sanitizer\RichTextSanitizerConfiguration;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
+use TYPO3\CMS\Core\SystemResource\Publishing\SystemResourcePublisherInterface;
+use TYPO3\CMS\Core\SystemResource\Publishing\UriGenerationOptions;
+use TYPO3\CMS\Core\SystemResource\SystemResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -25,6 +27,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 readonly class RichTextEditorOptions
 {
+    public function __construct(private SystemResourceFactory $systemResourceFactory, private SystemResourcePublisherInterface $resourcePublisher) {}
     /**
      * The headings and toolbar items of the editor are based on the allowed tags.
      *
@@ -69,7 +72,7 @@ readonly class RichTextEditorOptions
         if (!is_file(GeneralUtility::getFileAbsFileName($translationFile))) {
             return '';
         }
-
-        return PathUtility::getPublicResourceWebPath($translationFile);
+        $resource = $this->systemResourceFactory->createPublicResource($translationFile);
+        return (string)$this->resourcePublisher->generateUri($resource, $GLOBALS['TYPO3_REQUEST'], new UriGenerationOptions(absoluteUri: true));
     }
 }

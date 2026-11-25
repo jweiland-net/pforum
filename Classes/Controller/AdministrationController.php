@@ -15,6 +15,7 @@ use JWeiland\Pforum\Domain\Repository\PostRepository;
 use JWeiland\Pforum\Domain\Repository\TopicRepository;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
+use TYPO3\CMS\Backend\Template\Components\ComponentFactory;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
@@ -37,6 +38,7 @@ class AdministrationController extends ActionController
         private readonly PostRepository $postRepository,
         private readonly ModuleTemplateFactory $moduleTemplateFactory,
         private readonly IconFactory $iconFactory,
+        private readonly ComponentFactory $componentFactory,
     ) {}
 
     /**
@@ -61,7 +63,7 @@ class AdministrationController extends ActionController
 
         // Back Button Rendering for the Backend Module
         $uriBuilder = $this->uriBuilder;
-        $button = $buttonBar->makeLinkButton()
+        $button = $this->componentFactory->createLinkButton()
             ->setHref($uriBuilder->reset()->uriFor('index', [], 'Administration'))
             ->setTitle('Back')
             ->setIcon($this->iconFactory->getIcon('actions-view-go-back', IconSize::SMALL));
@@ -71,7 +73,7 @@ class AdministrationController extends ActionController
     protected function createShortcutButton(): void
     {
         $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
-        $shortcutButton = $buttonBar->makeShortcutButton()
+        $shortcutButton = $this->componentFactory->createShortcutButton()
             ->setRouteIdentifier($this->request->getAttribute('module')->getIdentifier())
             ->setDisplayName('Shortcut Button');
         $buttonBar->addButton($shortcutButton, ButtonBar::BUTTON_POSITION_RIGHT);
