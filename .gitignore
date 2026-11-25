@@ -45,3 +45,4 @@ nbproject
 
 # Migration working state
 /.migration
+/var

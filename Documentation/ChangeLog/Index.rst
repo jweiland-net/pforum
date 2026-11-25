@@ -7,6 +7,36 @@
 ChangeLog
 =========
 
+Version 9.0.0
+=============
+
+*   [!!!][TASK] Add compatibility with TYPO3 14.3 LTS and remove compatibility with TYPO3 13.4. PHP 8.2 is the
+    minimum version.
+*   [!!!][TASK] Move the backend module into the module group "Admin Tools" (`admin`, formerly `tools`)
+*   [!!!][REFACTOR] Replace `AbstractController::afterPublishing()` by the PSR-14 event `RecordPublishedEvent`.
+    The mail about a new post is sent by `SendNewPostMailEventListener`.
+*   [!!!][REFACTOR] Move finding, storing, activating and removing records from `AbstractController` into
+    `RecordPersistenceService`, and merging of FlexForm and TypoScript settings into `PluginSettingsResolver`.
+    The constructor of `AbstractController` has changed.
+*   [!!!][REFACTOR] Send all mails with `PforumMailer`. `ManageRecordMail::send()` and `NewPostMail::send()`
+    return whether the mail was sent.
+*   [REFACTOR] Let `TopicRepository::findByForum()` and `PostRepository::findByTopic()` include hidden records for
+    admins instead of changing the query settings of their result in the controllers
+*   [TASK] Sign the tokens of the mail links with SHA3-256. Links of mails sent before stay valid.
+*   [TASK] Use the Extbase attributes of namespace `TYPO3\CMS\Extbase\Attribute` with named arguments
+*   [TASK] Register the FlexForm of the plugin with `ExtensionUtility::registerPlugin()`
+*   [TASK] Render the plugin preview with the record API of TYPO3 14 and `FlexFormTools`
+*   [TASK] Resolve the CKEditor translations with the system resource API
+*   [TASK] Move the upgrade wizards to the upgrade API of EXT:core
+*   [TASK] Remove `ctrl.searchFields` from TCA
+*   [TASK] Log access denials, mails, activations, deletions and upgrade wizards
+*   [TASK] Analyze the code with PHPStan level 9
+*   [TASK] Add unit, functional and Playwright end-to-end tests
+*   [BUGFIX] Show a warning, if the mail with the links of a new record can not be sent, instead of an exception
+*   [BUGFIX] Show an error in the backend module, if a record to activate does not exist anymore
+*   [BUGFIX] Translate the messages of the backend module
+*   [BUGFIX] Show the description of records in the backend module without HTML tags
+
 Version 8.0.1
 =============
 

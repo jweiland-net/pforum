@@ -7,6 +7,36 @@ Updating
 
 If you update `pforum` to a newer version, please read this section carefully!
 
+..  _upgrade-9-0-0:
+
+Upgrade to version 9.0.0
+========================
+
+*   pforum 9 requires TYPO3 14.3 and PHP 8.2. Use pforum 8 for TYPO3 13.4.
+*   Run the upgrade wizard "[pforum] Migrate plugins to Content Elements"
+    before the database analyzer removes the column `list_type` of
+    `tt_content`, if you did not run it with pforum 8.
+*   The backend module "Pforum Administration" is part of the module group
+    "Admin Tools" now. Check the module access of your backend groups.
+*   EXT:checkfaluploads needs a release, which supports TYPO3 14.
+*   The tokens of new mail links are signed with SHA3-256. Links of mails
+    sent by pforum 8 stay valid.
+*   For developers:
+
+    *   `AbstractController::afterPublishing()` has been removed. Listen to
+        the PSR-14 event `JWeiland\Pforum\Event\RecordPublishedEvent`
+        instead. It is dispatched after a new visible record was saved and
+        after a hidden record was activated in frontend.
+    *   The constructor of `AbstractController` has changed. Finding,
+        storing, activating and removing records is done by
+        `RecordPersistenceService`.
+    *   `ManageRecordMail::send()` and `NewPostMail::send()` return `bool`.
+        Failures are logged and do not throw exceptions anymore.
+    *   `HiddenRepositoryInterface::findHiddenObject()` has native types.
+    *   The preview of the plugin is rendered by
+        `AddPluginPreviewDataEventListener`. The template gets the variables
+        `record` (a record object of TYPO3 14) and `pforum`.
+
 ..  _upgrade-8-0-1:
 
 Upgrade to version 8.0.1
