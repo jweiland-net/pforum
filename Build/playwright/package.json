@@ -1,0 +1,14 @@
+{
+  "name": "pforum-e2e",
+  "private": true,
+  "description": "Playwright end-to-end tests of EXT:pforum against a DDEV TYPO3 site",
+  "scripts": {
+    "seed": "bash scripts/seed.sh",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  }
+}
