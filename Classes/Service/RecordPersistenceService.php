@@ -57,7 +57,12 @@ readonly class RecordPersistenceService
      */
     public function registerForPropertyMapping(Topic|Post $record): void
     {
-        $this->session->registerObject($record, (string)$record->getUid());
+        $uid = $record->getUid();
+        if ($uid === null) {
+            return;
+        }
+
+        $this->session->registerObject($record, (string)$uid);
     }
 
     /**

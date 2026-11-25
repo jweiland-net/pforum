@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace JWeiland\Pforum\Configuration;
 
 use JWeiland\Pforum\Domain\RecordType;
+use JWeiland\Pforum\Utility\TypeCaster;
 
 /**
  * The plugin settings, which control who may create, edit and activate
@@ -60,12 +61,12 @@ final readonly class ForumSettings
         }
 
         return new self(
-            (int)($settings['auth'] ?? self::AUTH_ANONYMOUS),
+            TypeCaster::toInt($settings['auth'] ?? self::AUTH_ANONYMOUS),
             (bool)($settings['emailIsMandatory'] ?? false),
             (bool)($settings['usernameIsMandatory'] ?? false),
             (bool)($settings['useImages'] ?? false),
-            (int)($settings['uidOfAdminGroup'] ?? 0),
-            (int)($settings['uidOfUserGroup'] ?? 0),
+            TypeCaster::toInt($settings['uidOfAdminGroup'] ?? 0),
+            TypeCaster::toInt($settings['uidOfUserGroup'] ?? 0),
             $hideAtCreation,
             $activateByAdmin,
         );

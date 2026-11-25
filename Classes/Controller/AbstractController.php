@@ -26,6 +26,7 @@ use JWeiland\Pforum\Mail\ManageRecordMail;
 use JWeiland\Pforum\Service\RecordAccessService;
 use JWeiland\Pforum\Service\RecordPersistenceService;
 use JWeiland\Pforum\Service\RichTextDescriptionService;
+use JWeiland\Pforum\Utility\TypeCaster;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
@@ -34,6 +35,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Controller\Arguments;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchActionException;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -111,7 +113,12 @@ abstract class AbstractController extends ActionController
 
         $this->request = $actionEvent->getRequest();
         $this->arguments = $actionEvent->getArguments();
-        $this->actionMethodName = $this->resolveActionMethodName();
+        $actionMethodName = $this->resolveActionMethodName();
+        if ($actionMethodName === '') {
+            throw new NoSuchActionException('The resolved action method name is empty.', 1764000001);
+        }
+
+        $this->actionMethodName = $actionMethodName;
     }
 
     /**
@@ -171,11 +178,11 @@ abstract class AbstractController extends ActionController
         $argument = $this->request->hasArgument($recordType->getArgumentName())
             ? $this->request->getArgument($recordType->getArgumentName())
             : 0;
-        $uid = (int)(is_array($argument) ? ($argument['__identity'] ?? 0) : $argument);
+        $uid = TypeCaster::toInt(is_array($argument) ? ($argument['__identity'] ?? 0) : $argument);
         $record = $this->recordPersistenceService->find($recordType, $uid);
 
         $denialReason = $this->recordAccessService->getEditDenialReason($record, $this->getToken(), $this->getForumSettings());
-        if ($denialReason === '' && is_array($argument) && !$this->isAnonymousUserOfRecord($record, $argument)) {
+        if ($denialReason === '' && is_array($argument) && !$this->isAnonymousUserOfRecord($record, TypeCaster::toStringKeyedArray($argument))) {
             $denialReason = RecordAccessService::REASON_UNAUTHORIZED;
         }
 

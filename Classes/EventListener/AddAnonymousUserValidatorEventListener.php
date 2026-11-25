@@ -62,6 +62,7 @@ final readonly class AddAnonymousUserValidatorEventListener
             return;
         }
 
+        /** @var AnonymousUserValidator $anonymousUserValidator */
         $anonymousUserValidator = $this->validatorResolver->createValidator(
             AnonymousUserValidator::class,
             [

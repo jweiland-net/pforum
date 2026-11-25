@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Configuration;
 
+use JWeiland\Pforum\Utility\TypeCaster;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
@@ -42,14 +43,14 @@ readonly class ExtConf
         try {
             $extensionSettings = array_merge(
                 $extensionSettings,
-                $extensionConfiguration->get(self::EXT_KEY),
+                TypeCaster::toArray($extensionConfiguration->get(self::EXT_KEY)),
             );
         } catch (ExtensionConfigurationExtensionNotConfiguredException|ExtensionConfigurationPathDoesNotExistException) {
         }
 
         return new self(
-            emailFromAddress: (string)$extensionSettings['emailFromAddress'],
-            emailFromName: (string)$extensionSettings['emailFromName'],
+            emailFromAddress: TypeCaster::toString($extensionSettings['emailFromAddress']),
+            emailFromName: TypeCaster::toString($extensionSettings['emailFromName']),
         );
     }
 
@@ -59,7 +60,7 @@ readonly class ExtConf
     public function getEmailFromAddress(): string
     {
         if ($this->emailFromAddress === '') {
-            $senderMail = (string)$GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
+            $senderMail = TypeCaster::toString(self::getMailConfiguration()['defaultMailFromAddress'] ?? '');
             if ($senderMail === '') {
                 throw new \InvalidArgumentException('You have forgotten to set a sender email address in extension settings of pforum or in install tool', 1604694223);
             }
@@ -76,7 +77,7 @@ readonly class ExtConf
     public function getEmailFromName(): string
     {
         if ($this->emailFromName === '') {
-            $senderName = (string)$GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'];
+            $senderName = TypeCaster::toString(self::getMailConfiguration()['defaultMailFromName'] ?? '');
             if ($senderName === '') {
                 throw new \InvalidArgumentException('You have forgotten to set a sender name in extension settings of pforum or in install tool', 1604694279);
             }
@@ -85,5 +86,13 @@ readonly class ExtConf
         }
 
         return $this->emailFromName;
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    private static function getMailConfiguration(): array
+    {
+        return TypeCaster::toArray(TypeCaster::toArray($GLOBALS['TYPO3_CONF_VARS'] ?? [])['MAIL'] ?? []);
     }
 }

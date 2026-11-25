@@ -14,6 +14,7 @@ namespace JWeiland\Pforum\EventListener;
 use JWeiland\Pforum\Domain\RecordType;
 use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
 use JWeiland\Pforum\Traits\IsValidEventListenerRequestTrait;
+use JWeiland\Pforum\Utility\TypeCaster;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 
 /**
@@ -46,7 +47,9 @@ final readonly class ApplyUploadFolderEventListener
             return;
         }
 
-        $uploadFolder = (string)($controllerActionEvent->getSettings()['new']['uploadFolder'] ?? '');
+        $uploadFolder = TypeCaster::toString(
+            TypeCaster::toArray($controllerActionEvent->getSettings()['new'] ?? [])['uploadFolder'] ?? '',
+        );
         if ($uploadFolder === '') {
             return;
         }

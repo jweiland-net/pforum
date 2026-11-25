@@ -61,6 +61,10 @@ final readonly class AnonymousAccessTokenService
 
     private function stripHmac(string $token, HashAlgo $algorithm): ?string
     {
+        if ($token === '') {
+            return null;
+        }
+
         try {
             return $this->hashService->validateAndStripHmac($token, self::ADDITIONAL_SECRET, $algorithm);
         } catch (InvalidHashStringException) {

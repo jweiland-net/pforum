@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace JWeiland\Pforum\Service;
 
 use JWeiland\Pforum\Domain\RecordType;
+use JWeiland\Pforum\Utility\TypeCaster;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
@@ -41,12 +42,12 @@ readonly class PathSegmentService
     public function generate(RecordType $recordType, int $uid, bool $regenerate = false): void
     {
         $record = $this->findRecord($recordType->getTable(), $uid);
-        if ($record === [] || (!$regenerate && (string)$record[self::COLUMN] !== '')) {
+        if ($record === [] || (!$regenerate && TypeCaster::toString($record[self::COLUMN]) !== '')) {
             return;
         }
 
         $pathSegment = $this->buildPathSegment($recordType, $record);
-        if ($pathSegment !== (string)$record[self::COLUMN]) {
+        if ($pathSegment !== TypeCaster::toString($record[self::COLUMN])) {
             $this->connectionPool->getConnectionForTable($recordType->getTable())
                 ->update($recordType->getTable(), [self::COLUMN => $pathSegment], ['uid' => $uid]);
         }
@@ -61,16 +62,16 @@ readonly class PathSegmentService
         $configuration = $this->tcaSchemaFactory->get($table)->getField(self::COLUMN)->getConfiguration();
         $slugHelper = GeneralUtility::makeInstance(SlugHelper::class, $table, self::COLUMN, $configuration);
 
-        $pid = (int)$record['pid'];
+        $pid = TypeCaster::toInt($record['pid']);
         // SlugHelper falls back to "default-[hash]" for records without title
         $pathSegment = $this->hasGeneratorFieldValue($record, $configuration)
             ? $slugHelper->generate($record, $pid)
             : '';
         if ($pathSegment === '' || $pathSegment === '/') {
-            $pathSegment = $slugHelper->sanitize($recordType->value . '-' . $record['uid']);
+            $pathSegment = $slugHelper->sanitize($recordType->value . '-' . TypeCaster::toString($record['uid']));
         }
 
-        $state = RecordStateFactory::forName($table)->fromArray($record, $pid, (int)$record['uid']);
+        $state = RecordStateFactory::forName($table)->fromArray($record, $pid, TypeCaster::toInt($record['uid']));
 
         return $slugHelper->buildSlugForUniqueInPid($pathSegment, $state);
     }
@@ -82,10 +83,10 @@ readonly class PathSegmentService
     private function hasGeneratorFieldValue(array $record, array $configuration): bool
     {
         // Fields can be grouped in arrays, see "generatorOptions" of TCA type "slug"
-        $fields = $configuration['generatorOptions']['fields'] ?? [];
-        foreach (is_array($fields) ? $fields : [] as $field) {
+        $fields = TypeCaster::toArray($configuration['generatorOptions'] ?? [])['fields'] ?? [];
+        foreach (TypeCaster::toArray($fields) as $field) {
             foreach ((array)$field as $fieldName) {
-                if (trim((string)($record[$fieldName] ?? '')) !== '') {
+                if (trim(TypeCaster::toString($record[TypeCaster::toString($fieldName)] ?? '')) !== '') {
                     return true;
                 }
             }

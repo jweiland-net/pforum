@@ -17,6 +17,7 @@ use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\RecordType;
 use JWeiland\Pforum\Security\AnonymousAccessTokenService;
+use JWeiland\Pforum\Utility\TypeCaster;
 use TYPO3\CMS\Core\Context\Context;
 
 /**
@@ -119,13 +120,13 @@ readonly class RecordAccessService
 
     public function getFrontendUserUid(): int
     {
-        return (int)$this->context->getPropertyFromAspect('frontend.user', 'id', 0);
+        return TypeCaster::toInt($this->context->getPropertyFromAspect('frontend.user', 'id', 0));
     }
 
     private function isMemberOfGroup(int $groupUid): bool
     {
         $groupIds = $this->context->getPropertyFromAspect('frontend.user', 'groupIds', []);
 
-        return in_array($groupUid, is_array($groupIds) ? array_map(intval(...), $groupIds) : [], true);
+        return in_array($groupUid, is_array($groupIds) ? array_map(TypeCaster::toInt(...), $groupIds) : [], true);
     }
 }

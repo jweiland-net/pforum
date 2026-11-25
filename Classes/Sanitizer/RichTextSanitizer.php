@@ -101,6 +101,7 @@ readonly class RichTextSanitizer
      */
     public function getConfiguration(string $table = '', string $column = ''): RichTextSanitizerConfiguration
     {
+        /** @var ModifyRichTextSanitizerConfigurationEvent $event */
         $event = $this->eventDispatcher->dispatch(new ModifyRichTextSanitizerConfigurationEvent(
             RichTextVisitor::ALLOWED_TAGS,
             RichTextVisitor::MAPPED_TAGS,

@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace JWeiland\Pforum\Updates;
 
 use JWeiland\Pforum\Converter\RteContentConverter;
+use JWeiland\Pforum\Utility\TypeCaster;
 use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Core\Attribute\UpgradeWizard;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -50,7 +51,7 @@ final readonly class DescriptionToHtmlUpdate implements UpgradeWizardInterface
     public function updateNecessary(): bool
     {
         foreach (self::TABLES as $table) {
-            if ((int)$this->getQueryBuilderForPlainTextDescriptions($table)->count('uid')->executeQuery()->fetchOne() > 0) {
+            if (TypeCaster::toInt($this->getQueryBuilderForPlainTextDescriptions($table)->count('uid')->executeQuery()->fetchOne()) > 0) {
                 return true;
             }
         }
@@ -70,8 +71,8 @@ final readonly class DescriptionToHtmlUpdate implements UpgradeWizardInterface
             while ($record = $result->fetchAssociative()) {
                 $connection->update(
                     $table,
-                    ['description' => $this->rteContentConverter->convertPlainTextToHtml((string)$record['description'])],
-                    ['uid' => (int)$record['uid']],
+                    ['description' => $this->rteContentConverter->convertPlainTextToHtml(TypeCaster::toString($record['description']))],
+                    ['uid' => TypeCaster::toInt($record['uid'])],
                 );
                 $count++;
             }

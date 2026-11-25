@@ -83,8 +83,20 @@ final readonly class CheckFalUploadsEventListener
     private function getValidator(array $options, RequestInterface $request): ValidatorInterface
     {
         /** @var class-string<ValidatorInterface> $className */
-        $className = self::VALIDATOR;
+        $className = $this->getValidatorClassName();
+        $validator = $this->validatorResolver->createValidator($className, $options, $request);
+        if (!$validator instanceof ValidatorInterface) {
+            throw new \RuntimeException(
+                sprintf('The validator %s could not be created.', self::VALIDATOR),
+                1764000002,
+            );
+        }
 
-        return $this->validatorResolver->createValidator($className, $options, $request);
+        return $validator;
+    }
+
+    private function getValidatorClassName(): string
+    {
+        return self::VALIDATOR;
     }
 }

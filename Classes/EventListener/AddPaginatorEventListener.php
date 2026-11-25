@@ -13,6 +13,7 @@ namespace JWeiland\Pforum\EventListener;
 
 use JWeiland\Pforum\Event\PostProcessFluidVariablesEvent;
 use JWeiland\Pforum\Traits\IsValidEventListenerRequestTrait;
+use JWeiland\Pforum\Utility\TypeCaster;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Pagination\SimplePagination;
 use TYPO3\CMS\Core\Utility\MathUtility;
@@ -65,7 +66,7 @@ final readonly class AddPaginatorEventListener
     {
         if ($event->getRequest()->hasArgument('currentPage')) {
             return MathUtility::forceIntegerInRange(
-                (int)$event->getRequest()->getArgument('currentPage'),
+                TypeCaster::toInt($event->getRequest()->getArgument('currentPage')),
                 1,
             );
         }
@@ -75,7 +76,9 @@ final readonly class AddPaginatorEventListener
 
     private function getItemsPerPage(PostProcessFluidVariablesEvent $event): int
     {
-        $itemsPerPage = (int)($event->getSettings()['pageBrowser']['itemsPerPage'] ?? self::ITEMS_PER_PAGE);
+        $itemsPerPage = TypeCaster::toInt(
+            TypeCaster::toArray($event->getSettings()['pageBrowser'] ?? [])['itemsPerPage'] ?? self::ITEMS_PER_PAGE,
+        );
 
         return $itemsPerPage > 0 ? $itemsPerPage : self::ITEMS_PER_PAGE;
     }

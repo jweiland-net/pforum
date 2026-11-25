@@ -13,6 +13,7 @@ namespace JWeiland\Pforum\Service;
 
 use JWeiland\Pforum\Converter\RteContentConverter;
 use JWeiland\Pforum\Sanitizer\RichTextSanitizer;
+use JWeiland\Pforum\Utility\TypeCaster;
 use TYPO3\CMS\Core\Configuration\Richtext;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -59,7 +60,7 @@ readonly class RichTextService
         $storedRecord = $this->getStoredRecord($table, $column, $uid);
         $html = $this->richTextSanitizer->sanitize(
             $value,
-            $this->richTextSanitizer->getT3Hrefs((string)($storedRecord[$column] ?? '')),
+            $this->richTextSanitizer->getT3Hrefs(TypeCaster::toString($storedRecord[$column] ?? '')),
             $table,
             $column,
         );
@@ -68,8 +69,8 @@ readonly class RichTextService
             $html,
             $table,
             $column,
-            (int)($storedRecord['pid'] ?? $pid),
-            (string)($storedRecord['recordType'] ?? ''),
+            TypeCaster::toInt($storedRecord['pid'] ?? $pid),
+            TypeCaster::toString($storedRecord['recordType'] ?? ''),
         );
     }
 

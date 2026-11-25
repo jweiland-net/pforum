@@ -16,6 +16,7 @@ use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\RecordType;
 use JWeiland\Pforum\Sanitizer\RichTextSanitizer;
+use JWeiland\Pforum\Utility\TypeCaster;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -47,7 +48,7 @@ readonly class RichTextDescriptionService
         $richTextSettings = $this->getRichTextSettings($settings);
 
         return (bool)($richTextSettings['enable'] ?? false)
-            && in_array(self::COLUMN, GeneralUtility::trimExplode(',', (string)($richTextSettings['elements'] ?? ''), true), true)
+            && in_array(self::COLUMN, GeneralUtility::trimExplode(',', TypeCaster::toString($richTextSettings['elements'] ?? ''), true), true)
             && $this->packageManager->isPackageActive('rte_ckeditor');
     }
 
@@ -95,7 +96,7 @@ readonly class RichTextDescriptionService
         $options = $this->richTextEditorOptions->getEditorOptions(
             $request,
             $configuration,
-            (string)($this->getRichTextSettings($settings)['translationsPath'] ?? ''),
+            TypeCaster::toString($this->getRichTextSettings($settings)['translationsPath'] ?? ''),
         );
 
         return [
@@ -109,8 +110,6 @@ readonly class RichTextDescriptionService
      */
     private function getRichTextSettings(array $settings): array
     {
-        $richTextSettings = $settings['new']['richText'] ?? [];
-
-        return is_array($richTextSettings) ? $richTextSettings : [];
+        return TypeCaster::toStringKeyedArray(TypeCaster::toArray($settings['new'] ?? [])['richText'] ?? []);
     }
 }
