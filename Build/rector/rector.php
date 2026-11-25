@@ -16,7 +16,6 @@ use Rector\TypeDeclaration\Rector\StmtsAwareInterface\SafeDeclareStrictTypesRect
 use Rector\ValueObject\PhpVersion;
 use Ssch\TYPO3Rector\CodeQuality\General\ExtEmConfRector;
 use Ssch\TYPO3Rector\Configuration\Typo3Option;
-use Ssch\TYPO3Rector\Set\Typo3LevelSetList;
 use Ssch\TYPO3Rector\Set\Typo3SetList;
 
 return RectorConfig::configure()
@@ -38,11 +37,11 @@ return RectorConfig::configure()
     ->withSets([
         Typo3SetList::CODE_QUALITY,
         Typo3SetList::GENERAL,
-        Typo3LevelSetList::UP_TO_TYPO3_13,
+        Typo3SetList::TYPO3_14,
     ])
     ->withPHPStanConfigs([Typo3Option::PHPSTAN_FOR_RECTOR_PATH])
     ->withConfiguredRule(ExtEmConfRector::class, [
-        ExtEmConfRector::TYPO3_VERSION_CONSTRAINT => '13.4.0-13.4.99',
+        ExtEmConfRector::TYPO3_VERSION_CONSTRAINT => '14.3.0-14.3.99',
         ExtEmConfRector::ADDITIONAL_VALUES_TO_BE_REMOVED => [],
     ])
     ->withImportNames(importShortClasses: false, removeUnusedImports: true)

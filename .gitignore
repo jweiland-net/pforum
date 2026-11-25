@@ -42,3 +42,6 @@ nbproject
 /.Build
 /composer.json.orig
 /composer.json.testing
+
+# Migration working state
+/.migration
