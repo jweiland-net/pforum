@@ -158,7 +158,7 @@ class RichTextEditorOptionsTest extends UnitTestCase
     {
         $this->mockTranslation(null);
         $request = $this->createRequest($locale);
-        $resource = $this->createMock(PublicResourceInterface::class);
+        $resource = self::createStub(PublicResourceInterface::class);
         $uri = $this->createMock(UriInterface::class);
         $uri->method('__toString')->willReturn('/typo3conf/ext/foo/translations/' . $languageCode . '.js');
         $this->systemResourceFactory
@@ -182,7 +182,7 @@ class RichTextEditorOptionsTest extends UnitTestCase
             ->expects($this->once())
             ->method('createPublicResource')
             ->with('EXT:foo/translations/de.js')
-            ->willReturn($this->createMock(PublicResourceInterface::class));
+            ->willReturn(self::createStub(PublicResourceInterface::class));
         $this->resourcePublisher->method('generateUri')->willReturn(new Uri('/de.js'));
 
         $this->subject->getEditorOptions($this->createRequest('de-DE'), $this->createConfiguration(), "  EXT:foo/translations// \n");

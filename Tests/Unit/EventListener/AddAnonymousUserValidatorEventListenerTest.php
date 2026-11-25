@@ -158,7 +158,7 @@ class AddAnonymousUserValidatorEventListenerTest extends UnitTestCase
     public function newConjunctionValidatorWrapsExistingValidator(): void
     {
         $request = $this->createRequest('Post', 'create');
-        $existingValidator = $this->createMock(ValidatorInterface::class);
+        $existingValidator = self::createStub(ValidatorInterface::class);
         $anonymousUserValidator = $this->createAnonymousUserValidator();
         $this->validatorResolver
             ->expects($this->once())

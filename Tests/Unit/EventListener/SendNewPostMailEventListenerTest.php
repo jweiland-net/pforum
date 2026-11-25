@@ -44,7 +44,7 @@ class SendNewPostMailEventListenerTest extends UnitTestCase
         $post = new Post();
         $post->setHidden(false);
         $settings = ['auth' => '1'];
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = self::createStub(ServerRequestInterface::class);
         $this->newPostMail->expects($this->once())->method('send')->with($post, $settings, $request);
 
         ($this->subject)(new RecordPublishedEvent($post, $settings, $request));
@@ -57,7 +57,7 @@ class SendNewPostMailEventListenerTest extends UnitTestCase
         $post->setHidden(true);
         $this->newPostMail->expects($this->never())->method('send');
 
-        ($this->subject)(new RecordPublishedEvent($post, [], $this->createMock(ServerRequestInterface::class)));
+        ($this->subject)(new RecordPublishedEvent($post, [], self::createStub(ServerRequestInterface::class)));
     }
 
     #[Test]
@@ -67,6 +67,6 @@ class SendNewPostMailEventListenerTest extends UnitTestCase
         $topic->setHidden(false);
         $this->newPostMail->expects($this->never())->method('send');
 
-        ($this->subject)(new RecordPublishedEvent($topic, [], $this->createMock(ServerRequestInterface::class)));
+        ($this->subject)(new RecordPublishedEvent($topic, [], self::createStub(ServerRequestInterface::class)));
     }
 }

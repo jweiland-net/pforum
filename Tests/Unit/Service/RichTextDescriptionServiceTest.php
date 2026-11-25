@@ -178,7 +178,7 @@ class RichTextDescriptionServiceTest extends UnitTestCase
         $this->packageManager->method('isPackageActive')->willReturn(true);
         $this->rteContentConverter->expects($this->never())->method('convertHtmlToPlainText');
 
-        $variables = $this->subject->getFormVariables(new Topic(), [], $this->createMock(ServerRequestInterface::class));
+        $variables = $this->subject->getFormVariables(new Topic(), [], self::createStub(ServerRequestInterface::class));
 
         self::assertSame(['richTextEditor' => ['enabled' => false], 'descriptionPlainText' => null], $variables);
     }
@@ -197,7 +197,7 @@ class RichTextDescriptionServiceTest extends UnitTestCase
         $post->_setProperty('uid', 4);
         $post->setDescription('<p>foo</p>');
 
-        $variables = $this->subject->getFormVariables($post, $this->richTextSettings(), $this->createMock(ServerRequestInterface::class));
+        $variables = $this->subject->getFormVariables($post, $this->richTextSettings(), self::createStub(ServerRequestInterface::class));
 
         self::assertSame(['richTextEditor' => ['enabled' => false], 'descriptionPlainText' => 'foo'], $variables);
     }
@@ -206,7 +206,7 @@ class RichTextDescriptionServiceTest extends UnitTestCase
     public function getFormVariablesWithEditorContainsEditorOptionsAsJson(): void
     {
         $this->packageManager->method('isPackageActive')->willReturn(true);
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = self::createStub(ServerRequestInterface::class);
         $configuration = RichTextSanitizerConfiguration::fromEvent(
             new ModifyRichTextSanitizerConfigurationEvent(['strong'], [], [], []),
         );

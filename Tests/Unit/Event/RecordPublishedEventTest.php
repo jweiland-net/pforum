@@ -27,7 +27,7 @@ class RecordPublishedEventTest extends UnitTestCase
     public function gettersReturnConstructorArgumentsForTopic(): void
     {
         $topic = new Topic();
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = self::createStub(ServerRequestInterface::class);
 
         $subject = new RecordPublishedEvent($topic, ['auth' => '1'], $request);
 
@@ -41,7 +41,7 @@ class RecordPublishedEventTest extends UnitTestCase
     {
         $post = new Post();
 
-        $subject = new RecordPublishedEvent($post, [], $this->createMock(ServerRequestInterface::class));
+        $subject = new RecordPublishedEvent($post, [], self::createStub(ServerRequestInterface::class));
 
         self::assertSame($post, $subject->getRecord());
         self::assertSame([], $subject->getSettings());

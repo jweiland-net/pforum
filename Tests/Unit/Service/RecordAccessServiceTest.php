@@ -53,7 +53,7 @@ class RecordAccessServiceTest extends UnitTestCase
 
         $this->context = $this->createMock(Context::class);
         $this->hashService = new HashService();
-        $this->tokenService = new AnonymousAccessTokenService($this->hashService, $this->createMock(LoggerInterface::class));
+        $this->tokenService = new AnonymousAccessTokenService($this->hashService, self::createStub(LoggerInterface::class));
         $this->subject = new RecordAccessService($this->context, $this->tokenService);
     }
 

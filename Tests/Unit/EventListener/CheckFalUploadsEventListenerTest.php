@@ -144,7 +144,7 @@ class CheckFalUploadsEventListenerTest extends UnitTestCase
     #[DataProvider('validActionDataProvider')]
     public function validatorIsAddedToImagesConfiguration(string $controller, string $action, string $argumentName): void
     {
-        $validator = $this->createMock(ValidatorInterface::class);
+        $validator = self::createStub(ValidatorInterface::class);
         $request = $this->createRequest($controller, $action);
         $this->packageManager->method('isPackageActive')->with('checkfaluploads')->willReturn(true);
         $this->validatorResolver
@@ -167,7 +167,7 @@ class CheckFalUploadsEventListenerTest extends UnitTestCase
     public function missingImagesConfigurationDoesNotFail(): void
     {
         $this->packageManager->method('isPackageActive')->willReturn(true);
-        $this->validatorResolver->method('createValidator')->willReturn($this->createMock(ValidatorInterface::class));
+        $this->validatorResolver->method('createValidator')->willReturn(self::createStub(ValidatorInterface::class));
         $configuration = new FileUploadConfiguration('documents');
 
         ($this->subject)(new PreProcessControllerActionEvent(

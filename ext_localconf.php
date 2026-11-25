@@ -30,5 +30,4 @@ ExtensionUtility::configurePlugin(
         TopicController::class => 'show, new, create, edit, update, delete, confirmActivation, activate',
         PostController::class => 'new, create, edit, update, delete, confirmActivation, activate',
     ],
-    ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
 );
