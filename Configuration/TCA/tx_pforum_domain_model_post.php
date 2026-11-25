@@ -34,7 +34,7 @@ return [
             'showitem' => '--palette--;;languageHidden, title, path_segment, description,
             anonymous_user, frontend_user, images,
             --div--;core.form.tabs:access,
-            --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.palettes.access;access',
+            --palette--;core.form.palettes:access;access',
         ],
     ],
     'palettes' => [

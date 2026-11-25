@@ -135,6 +135,24 @@ class PforumMailerTest extends FunctionalTestCase
         self::assertFalse($this->send($subject, $this->createUser('jane@example.com', 'Jane')));
     }
 
+    #[Test]
+    public function sendReturnsFalseIfTemplateDoesNotExist(): void
+    {
+        $subject = $this->createPforumMailer(new CapturingTransport());
+        $post = $this->getPost(1);
+        $recipient = $this->createUser('jane@example.com', 'Jane');
+
+        self::assertFalse($subject->send(
+            $recipient,
+            'Subject of the mail',
+            'PforumTemplateDoesNotExist',
+            ['author' => $recipient, 'topic' => $post->getTopic(), 'post' => $post],
+            $this->getMailSettings(),
+            $this->createExtbaseRequest(),
+        ));
+        self::assertSame([], CapturingTransport::getMails());
+    }
+
     private function send(PforumMailer $subject, AnonymousUser $recipient): bool
     {
         $post = $this->getPost(1);

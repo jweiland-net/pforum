@@ -33,7 +33,7 @@ return [
         '1' => [
             'showitem' => '--palette--;;languageHidden, title, teaser, topics,
             --div--;core.form.tabs:access,
-            --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.palettes.access;access',
+            --palette--;core.form.palettes:access;access',
         ],
     ],
     'palettes' => [

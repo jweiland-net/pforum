@@ -17,11 +17,17 @@ Version 9.0.0
     The mail about a new post is sent by `SendNewPostMailEventListener`.
 *   [!!!][REFACTOR] Move finding, storing, activating and removing records from `AbstractController` into
     `RecordPersistenceService`, and merging of FlexForm and TypoScript settings into `PluginSettingsResolver`.
-    The constructor of `AbstractController` has changed.
+    `AbstractController` is abstract, its constructor has changed and the protected members
+    `checkForMisconfiguration()`, `persistRecord()`, `findRecord()`, `getCreationMessageKey()`, `$session`,
+    `$frontendUserRepository`, `$persistenceManager`, `$anonymousAccessTokenService` and `$pathSegmentService`
+    have been removed.
+*   [!!!][REFACTOR] Remove `PostController::injectNewPostMail()` and `PostController::$newPostMail`
+*   [!!!][TASK] Add native types to `HiddenRepositoryInterface::findHiddenObject()`
+*   [!!!][TASK] Render the plugin preview with the variables `record` (record object of TYPO3 14) and `pforum` only
 *   [!!!][REFACTOR] Send all mails with `PforumMailer`. `ManageRecordMail::send()` and `NewPostMail::send()`
     return whether the mail was sent.
-*   [REFACTOR] Let `TopicRepository::findByForum()` and `PostRepository::findByTopic()` include hidden records for
-    admins instead of changing the query settings of their result in the controllers
+*   [!!!][REFACTOR] Add the argument `$includeHidden` to `TopicRepository::findByForum()` and
+    `PostRepository::findByTopic()` instead of changing the query settings of their result in the controllers
 *   [TASK] Sign the tokens of the mail links with SHA3-256. Links of mails sent before stay valid.
 *   [TASK] Use the Extbase attributes of namespace `TYPO3\CMS\Extbase\Attribute` with named arguments
 *   [TASK] Register the FlexForm of the plugin with `ExtensionUtility::registerPlugin()`
@@ -32,7 +38,8 @@ Version 9.0.0
 *   [TASK] Log access denials, mails, activations, deletions and upgrade wizards
 *   [TASK] Analyze the code with PHPStan level 9
 *   [TASK] Add unit, functional and Playwright end-to-end tests
-*   [BUGFIX] Show a warning, if the mail with the links of a new record can not be sent, instead of an exception
+*   [BUGFIX] Show a warning, if the mail with the links of a new record can not be sent (sender, transport or
+    template error), instead of an exception
 *   [BUGFIX] Show an error in the backend module, if a record to activate does not exist anymore
 *   [BUGFIX] Translate the messages of the backend module
 *   [BUGFIX] Show the description of records in the backend module without HTML tags

@@ -16,9 +16,10 @@ use JWeiland\Pforum\Domain\Model\Topic;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Dispatched after a topic or post was published in frontend: a new visible
- * record was saved, or a hidden record was activated by its author or an
- * admin. A record saved as hidden is not published.
+ * Dispatched after a topic or post was published by the frontend plugin: a
+ * new visible record was saved, or a hidden record was activated by its
+ * author or a member of the admin group. A record saved as hidden is not
+ * published. Activations in the backend module do not dispatch this event.
  */
 final readonly class RecordPublishedEvent
 {

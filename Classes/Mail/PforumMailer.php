@@ -69,7 +69,8 @@ readonly class PforumMailer
                 ->assignMultiple(array_replace(['settings' => $settings], $variables));
 
             $this->mailer->send($email);
-        } catch (TransportExceptionInterface|\InvalidArgumentException $exception) {
+        } catch (TransportExceptionInterface|\InvalidArgumentException|\RuntimeException $exception) {
+            // Missing sender, transport errors and errors of the Fluid template (e.g. a missing template)
             $this->logger->error('Mail "{template}" could not be sent: {message}', [
                 'template' => $template,
                 'message' => $exception->getMessage(),

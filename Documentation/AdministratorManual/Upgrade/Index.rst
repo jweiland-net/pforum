@@ -27,15 +27,34 @@ Upgrade to version 9.0.0
         the PSR-14 event `JWeiland\Pforum\Event\RecordPublishedEvent`
         instead. It is dispatched after a new visible record was saved and
         after a hidden record was activated in frontend.
-    *   The constructor of `AbstractController` has changed. Finding,
-        storing, activating and removing records is done by
-        `RecordPersistenceService`.
+    *   `AbstractController` is abstract and its constructor has changed.
+        Finding, storing, activating and removing records is done by
+        `RecordPersistenceService` (`find()`, `persist()`, `activate()`,
+        `remove()`). The removed protected members and their replacements:
+        `checkForMisconfiguration()` → `ForumSettings::assertConsistency()`,
+        `getCreationMessageKey()` → `ForumSettings::getCreationMessageKey()`,
+        `persistRecord()` → `RecordPersistenceService::persist()`,
+        `findRecord()` → `RecordPersistenceService::find()`. The properties
+        `$session`, `$frontendUserRepository`, `$persistenceManager`,
+        `$anonymousAccessTokenService` and `$pathSegmentService` have been
+        removed. Adapt your XClasses and subclasses.
+    *   `PostController::injectNewPostMail()` has been removed. The mail about
+        a new post is sent by `SendNewPostMailEventListener`.
+    *   `TopicRepository::findByForum()` and `PostRepository::findByTopic()`
+        get the argument `bool $includeHidden = false`. Overriding methods
+        need the same signature.
     *   `ManageRecordMail::send()` and `NewPostMail::send()` return `bool`.
         Failures are logged and do not throw exceptions anymore.
-    *   `HiddenRepositoryInterface::findHiddenObject()` has native types.
+    *   `HiddenRepositoryInterface::findHiddenObject()` has native types:
+        `findHiddenObject(mixed $value, string $property = 'uid'):
+        ?AbstractDomainObject`. Add them to your implementations.
     *   The preview of the plugin is rendered by
         `AddPluginPreviewDataEventListener`. The template gets the variables
-        `record` (a record object of TYPO3 14) and `pforum`.
+        `record` (a record object of TYPO3 14) and `pforum` only. Replace
+        fields of the content element like `{header}` by `{record.header}`
+        in your overrides of the template.
+    *   `RecordPublishedEvent` is dispatched by the frontend plugin only, not
+        by the backend module.
 
 ..  _upgrade-8-0-1:
 
