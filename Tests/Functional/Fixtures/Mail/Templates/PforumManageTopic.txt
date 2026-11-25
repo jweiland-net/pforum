@@ -1,0 +1,4 @@
+topic={topic.title}
+token={token}
+activationToken={activationToken}
+pid={settings.pidOfDetailPage}

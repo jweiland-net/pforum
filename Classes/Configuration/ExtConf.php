@@ -60,7 +60,7 @@ readonly class ExtConf
     public function getEmailFromAddress(): string
     {
         if ($this->emailFromAddress === '') {
-            $senderMail = TypeCaster::toString(self::getMailConfiguration()['defaultMailFromAddress'] ?? '');
+            $senderMail = TypeCaster::toString($this->getMailConfiguration()['defaultMailFromAddress'] ?? '');
             if ($senderMail === '') {
                 throw new \InvalidArgumentException('You have forgotten to set a sender email address in extension settings of pforum or in install tool', 1604694223);
             }
@@ -77,7 +77,7 @@ readonly class ExtConf
     public function getEmailFromName(): string
     {
         if ($this->emailFromName === '') {
-            $senderName = TypeCaster::toString(self::getMailConfiguration()['defaultMailFromName'] ?? '');
+            $senderName = TypeCaster::toString($this->getMailConfiguration()['defaultMailFromName'] ?? '');
             if ($senderName === '') {
                 throw new \InvalidArgumentException('You have forgotten to set a sender name in extension settings of pforum or in install tool', 1604694279);
             }
@@ -91,7 +91,7 @@ readonly class ExtConf
     /**
      * @return array<mixed>
      */
-    private static function getMailConfiguration(): array
+    private function getMailConfiguration(): array
     {
         return TypeCaster::toArray(TypeCaster::toArray($GLOBALS['TYPO3_CONF_VARS'] ?? [])['MAIL'] ?? []);
     }

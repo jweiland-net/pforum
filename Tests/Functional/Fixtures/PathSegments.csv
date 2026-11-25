@@ -1,0 +1,20 @@
+"pages"
+,"uid","pid","title","slug","doktype","is_siteroot"
+,1,0,"Root","/",1,1
+,10,1,"Storage","/storage",254,0
+,20,1,"Other storage","/other-storage",254,0
+"tx_pforum_domain_model_forum"
+,"uid","pid","title"
+,1,10,"General"
+"tx_pforum_domain_model_topic"
+,"uid","pid","forum","title","description","path_segment"
+,10,10,1,"Same title","<p>First</p>","same-title"
+,11,10,1,"Same title","<p>Second</p>",""
+,12,20,1,"Same title","<p>Other storage</p>",""
+,13,10,1,"Kept title","<p>Has segment</p>","custom-segment"
+,14,10,1,"","<p>Without title</p>",""
+,15,10,1,"Café & Spaces!","<p>Special</p>",""
+"tx_pforum_domain_model_post"
+,"uid","pid","topic","title","description","path_segment"
+,10,10,10,"","<p>Without title</p>",""
+,11,10,10,"Reply","<p>With title</p>",""

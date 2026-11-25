@@ -10,7 +10,7 @@ declare(strict_types=1);
  */
 
 use Rector\Config\RectorConfig;
-use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
+use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\TypeDeclaration\Rector\Class_\TypedPropertyFromCreateMockAssignRector;
 use Rector\TypeDeclaration\Rector\StmtsAwareInterface\SafeDeclareStrictTypesRector;
 use Rector\ValueObject\PhpVersion;
@@ -46,7 +46,13 @@ return RectorConfig::configure()
     ])
     ->withImportNames(importShortClasses: false, removeUnusedImports: true)
     ->withSkip([
-        NullToStrictStringFuncCallArgRector::class,
+        // EXT:checkfaluploads is optional, so its validator is referenced by a string
+        StringClassNameToClassConstantRector::class => [
+            '*/Classes/EventListener/CheckFalUploadsEventListener.php',
+            '*/Tests/Unit/EventListener/CheckFalUploadsEventListenerTest.php',
+        ],
+        // Test doubles implement the signatures of TYPO3 core
+        '*/Tests/Functional/Fixtures/*',
         SafeDeclareStrictTypesRector::class => [
             '*ext_emconf.php',
         ],

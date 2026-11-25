@@ -1,0 +1,4 @@
+author={author.name}
+topic={topic.title}
+post={post.title}
+pid={settings.pidOfDetailPage}

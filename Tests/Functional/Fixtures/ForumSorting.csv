@@ -1,0 +1,9 @@
+"pages"
+,"uid","pid","title","slug","doktype","is_siteroot"
+,1,0,"Root","/",1,1
+,10,1,"Storage","/storage",254,0
+"tx_pforum_domain_model_forum"
+,"uid","pid","title","teaser","sorting"
+,11,10,"Third","",300
+,12,10,"First","",100
+,13,10,"Second","",200

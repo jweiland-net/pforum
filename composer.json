@@ -39,13 +39,13 @@
 	"require-dev": {
 		"ergebnis/composer-normalize": "^2.44",
 		"phpstan/phpstan": "^2.1",
+		"rector/rector": "~2.8.3",
 		"saschaegerer/phpstan-typo3": "^3.0",
 		"ssch/typo3-rector": "^3.17",
 		"typo3/cms-install": "^14.3",
 		"typo3/cms-rte-ckeditor": "^14.3",
 		"typo3/coding-standards": "^0.8",
-		"typo3/testing-framework": "^9.7",
-		"rector/rector": "~2.8.3"
+		"typo3/testing-framework": "^9.7"
 	},
 	"replace": {
 		"typo3-ter/pforum": "self.version"
@@ -61,6 +61,7 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
+			"JWeiland\\Checkfaluploads\\": "Tests/Functional/Fixtures/Extensions/checkfaluploads/Classes",
 			"JWeiland\\Pforum\\Tests\\": "Tests"
 		}
 	},
@@ -68,8 +69,7 @@
 		"allow-plugins": {
 			"ergebnis/composer-normalize": true,
 			"typo3/class-alias-loader": true,
-			"typo3/cms-composer-installers": true,
-			"phpstan/extension-installer": true
+			"typo3/cms-composer-installers": true
 		},
 		"bin-dir": ".Build/bin",
 		"vendor-dir": ".Build/vendor"
