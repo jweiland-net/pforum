@@ -32,11 +32,17 @@ class TopicRepository extends Repository implements HiddenRepositoryInterface
     ];
 
     /**
+     * @param bool $includeHidden Admins see hidden topics to activate them
      * @return QueryResultInterface<int, Topic>
      */
-    public function findByForum(Forum $forum): QueryResultInterface
+    public function findByForum(Forum $forum, bool $includeHidden = false): QueryResultInterface
     {
         $query = $this->createQuery();
+        if ($includeHidden) {
+            $query->getQuerySettings()
+                ->setIgnoreEnableFields(true)
+                ->setEnableFieldsToBeIgnored(['disabled']);
+        }
 
         return $query->matching($query->equals('forum', $forum))->execute();
     }
@@ -56,13 +62,11 @@ class TopicRepository extends Repository implements HiddenRepositoryInterface
         return $query->matching($query->equals('hidden', 1))->execute();
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function findHiddenObject($value, string $property = 'uid'): ?Topic
+    public function findHiddenObject(mixed $value, string $property = 'uid'): ?Topic
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setIgnoreEnableFields(true)->setRespectStoragePage(false);
+
         return $query->matching($query->equals($property, $value))->execute()->getFirst();
     }
 }

@@ -13,6 +13,7 @@ namespace JWeiland\Pforum\Updates;
 
 use JWeiland\Pforum\Domain\RecordType;
 use JWeiland\Pforum\Service\PathSegmentService;
+use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Core\Attribute\UpgradeWizard;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -29,6 +30,7 @@ final readonly class PathSegmentUpdate implements UpgradeWizardInterface
     public function __construct(
         private ConnectionPool $connectionPool,
         private PathSegmentService $pathSegmentService,
+        private LoggerInterface $logger,
     ) {}
 
     public function getTitle(): string
@@ -57,9 +59,12 @@ final readonly class PathSegmentUpdate implements UpgradeWizardInterface
     {
         foreach (RecordType::cases() as $recordType) {
             $result = $this->getQueryBuilderForEmptyPathSegments($recordType)->select('uid')->executeQuery();
+            $count = 0;
             while ($uid = $result->fetchOne()) {
                 $this->pathSegmentService->generate($recordType, (int)$uid);
+                $count++;
             }
+            $this->logger->info('Generated {count} path segments of table {table}', ['count' => $count, 'table' => $recordType->getTable()]);
         }
 
         return true;

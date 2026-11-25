@@ -24,20 +24,12 @@ class TopicController extends AbstractController
 {
     public function showAction(Topic $topic): ResponseInterface
     {
-        $isAdmin = $this->recordAccessService->isAdmin($this->getForumSettings());
-        $posts = $this->postRepository->findByTopic($topic);
-        if ($isAdmin) {
-            $posts->getQuery()
-                ->getQuerySettings()
-                ->setIgnoreEnableFields(true)
-                ->setEnableFieldsToBeIgnored(['disabled']);
-        }
+        $permissions = $this->getPermissionVariables();
 
         $this->postProcessAndAssignFluidVariables([
             'topic' => $topic,
-            'posts' => $posts,
-            'isCreationAllowed' => $this->recordAccessService->getCreationDenialReason($this->getForumSettings()) === '',
-            'isAdmin' => $isAdmin,
+            'posts' => $this->postRepository->findByTopic($topic, $permissions['isAdmin']),
+            ...$permissions,
         ]);
 
         return $this->htmlResponse();
@@ -53,6 +45,7 @@ class TopicController extends AbstractController
         #[IgnoreValidation] ?Topic $topic = null,
     ): ResponseInterface {
         $topic ??= new Topic();
+
         return $this->renderForm($topic, [
             'forum' => $forum,
             'topic' => $topic,

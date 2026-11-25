@@ -11,72 +11,44 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Controller;
 
+use JWeiland\Pforum\Domain\Model\Post;
+use JWeiland\Pforum\Domain\Model\Topic;
+use JWeiland\Pforum\Domain\RecordType;
 use JWeiland\Pforum\Domain\Repository\PostRepository;
 use JWeiland\Pforum\Domain\Repository\TopicRepository;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
+use TYPO3\CMS\Backend\Module\ExtbaseModule;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\Components\ComponentFactory;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
-use TYPO3\CMS\Core\Imaging\IconFactory;
-use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3Fluid\Fluid\View\TemplateAwareViewInterface;
-use TYPO3Fluid\Fluid\View\ViewInterface;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
- * Main controller to list and show postings/questions
+ * Backend module to list and activate hidden topics and posts
  */
 class AdministrationController extends ActionController
 {
+    private const LANGUAGE_FILE = 'LLL:EXT:pforum/Resources/Private/Language/locallang_mod_administration.xlf:';
+
     private ModuleTemplate $moduleTemplate;
 
     public function __construct(
         private readonly TopicRepository $topicRepository,
         private readonly PostRepository $postRepository,
         private readonly ModuleTemplateFactory $moduleTemplateFactory,
-        private readonly IconFactory $iconFactory,
         private readonly ComponentFactory $componentFactory,
+        private readonly LoggerInterface $logger,
     ) {}
 
-    /**
-     * Set up the doc header properly here
-     *
-     * @param ViewInterface $view
-     */
-    protected function initializeView($view): void
+    protected function initializeAction(): void
     {
-        if ($view instanceof TemplateAwareViewInterface) {
-            $this->createDocHeaderActionButtons();
-            $this->createShortcutButton();
-        }
-    }
-
-    protected function createDocHeaderActionButtons(): void
-    {
-        // Initializing Backend Module Template
         $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-
-        $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
-
-        // Back Button Rendering for the Backend Module
-        $uriBuilder = $this->uriBuilder;
-        $button = $this->componentFactory->createLinkButton()
-            ->setHref($uriBuilder->reset()->uriFor('index', [], 'Administration'))
-            ->setTitle('Back')
-            ->setIcon($this->iconFactory->getIcon('actions-view-go-back', IconSize::SMALL));
-        $buttonBar->addButton($button, ButtonBar::BUTTON_POSITION_LEFT);
-    }
-
-    protected function createShortcutButton(): void
-    {
-        $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
-        $shortcutButton = $this->componentFactory->createShortcutButton()
-            ->setRouteIdentifier($this->request->getAttribute('module')->getIdentifier())
-            ->setDisplayName('Shortcut Button');
-        $buttonBar->addButton($shortcutButton, ButtonBar::BUTTON_POSITION_RIGHT);
+        $this->addDocHeaderButtons();
     }
 
     public function indexAction(): ResponseInterface
@@ -98,37 +70,82 @@ class AdministrationController extends ActionController
         return $this->moduleTemplate->renderResponse('Backend/Administration/ListHiddenPosts');
     }
 
-    public function activateTopicAction(): ResponseInterface
+    public function activateTopicAction(int $record): ResponseInterface
     {
-        $topicRecord = $this->topicRepository->findHiddenObject($this->request->getArgument('record'));
-        $topicRecord->setHidden(false);
-        $this->topicRepository->update($topicRecord);
-        $this->addFlashMessage(
-            'Topic "' . $topicRecord->getTitle() . '" was activated.',
-            'Topic activated',
-            ContextualFeedbackSeverity::INFO,
-            true,
-        );
+        $this->activate(RecordType::Topic, $this->topicRepository->findHiddenObject($record), $record);
 
         return $this->redirect('listHiddenTopics');
     }
 
-    public function activatePostAction(): ResponseInterface
+    public function activatePostAction(int $record): ResponseInterface
     {
-        $postRecord = $this->postRepository->findHiddenObject($this->request->getArgument('record'));
-        $postRecord->setHidden(false);
-        $this->postRepository->update($postRecord);
-        $this->addFlashMessage(
-            'Post "' . $postRecord->getTitle() . '" was activated.',
-            'Post activated',
-            ContextualFeedbackSeverity::INFO,
-        );
+        $this->activate(RecordType::Post, $this->postRepository->findHiddenObject($record), $record);
 
         return $this->redirect('listHiddenPosts');
     }
 
-    protected function getBackendUser(): BackendUserAuthentication
+    private function activate(RecordType $recordType, Topic|Post|null $record, int $uid): void
     {
-        return $GLOBALS['BE_USER'];
+        if ($record === null) {
+            $this->logger->warning('{type} {uid} to activate not found', ['type' => $recordType->getControllerName(), 'uid' => $uid]);
+            $this->addTranslatedFlashMessage('recordNotFound', ContextualFeedbackSeverity::ERROR, $recordType, (string)$uid);
+
+            return;
+        }
+
+        $record->setHidden(false);
+        $record instanceof Topic ? $this->topicRepository->update($record) : $this->postRepository->update($record);
+
+        $this->logger->info('{type} {uid} activated in backend module', [
+            'type' => $recordType->getControllerName(),
+            'uid' => $uid,
+            'backendUser' => $this->getBackendUser()?->getUserId(),
+        ]);
+        $this->addTranslatedFlashMessage('recordActivated', ContextualFeedbackSeverity::OK, $recordType, $record->getTitle());
+    }
+
+    private function addDocHeaderButtons(): void
+    {
+        $docHeader = $this->moduleTemplate->getDocHeaderComponent();
+        if ($this->request->getControllerActionName() !== 'index') {
+            $docHeader->getButtonBar()->addButton(
+                $this->componentFactory->createBackButton($this->uriBuilder->reset()->uriFor('index')),
+                ButtonBar::BUTTON_POSITION_LEFT,
+            );
+        }
+
+        $module = $this->request->getAttribute('module');
+        if ($module instanceof ExtbaseModule) {
+            $docHeader->setShortcutContext(
+                $module->getIdentifier(),
+                $this->translate('mlang_tabs_tab'),
+                ['action' => $this->request->getControllerActionName()],
+            );
+        }
+    }
+
+    private function addTranslatedFlashMessage(
+        string $key,
+        ContextualFeedbackSeverity $severity,
+        RecordType $recordType,
+        string $value,
+    ): void {
+        $this->addFlashMessage(
+            sprintf($this->translate($recordType->value . '.' . $key . '.message'), $value),
+            $this->translate($recordType->value . '.' . $key . '.title'),
+            $severity,
+        );
+    }
+
+    private function translate(string $key): string
+    {
+        return (string)LocalizationUtility::translate(self::LANGUAGE_FILE . $key);
+    }
+
+    private function getBackendUser(): ?BackendUserAuthentication
+    {
+        $backendUser = $GLOBALS['BE_USER'] ?? null;
+
+        return $backendUser instanceof BackendUserAuthentication ? $backendUser : null;
     }
 }

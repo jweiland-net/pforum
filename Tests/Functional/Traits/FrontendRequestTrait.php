@@ -13,6 +13,7 @@ namespace JWeiland\Pforum\Tests\Functional\Traits;
 
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Configuration\SiteWriter;
+use TYPO3\CMS\Core\Crypto\HashAlgo;
 use TYPO3\CMS\Core\Crypto\HashService;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\MvcPropertyMappingConfigurationService;
@@ -118,8 +119,13 @@ trait FrontendRequestTrait
                 '@request' => $hashService->appendHmac(
                     (string)json_encode(['@extension' => 'Pforum', '@controller' => $controllerName, '@action' => $referringActionName]),
                     HashScope::ReferringRequest->prefix(),
+                    HashAlgo::SHA3_256,
                 ),
-                'arguments' => $hashService->appendHmac(base64_encode(serialize($referringArguments)), HashScope::ReferringArguments->prefix()),
+                'arguments' => $hashService->appendHmac(
+                    base64_encode(serialize($referringArguments)),
+                    HashScope::ReferringArguments->prefix(),
+                    HashAlgo::SHA3_256,
+                ),
             ];
         }
 

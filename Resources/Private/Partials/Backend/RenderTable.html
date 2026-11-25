@@ -16,11 +16,11 @@
             <f:for each="{records}" as="record">
                 <tr>
                     <td>{record.title}</td>
-                    <td>{record.description}</td>
+                    <td>{record.description -> f:format.stripTags() -> f:format.crop(maxCharacters: 150)}</td>
                     <td>
                         <f:link.action action="{action}"
                                        class="btn btn-default"
-                                       arguments="{record: record}">
+                                       arguments="{record: record.uid}">
                             {f:translate(key: 'activate')}
                         </f:link.action>
                     </td>

@@ -23,6 +23,7 @@ ExtensionUtility::registerPlugin(
     'ext-pforum-wizard-icon',
     'Pforum',
     'LLL:EXT:pforum/Resources/Private/Language/locallang_db.xlf:plugin.pforum.description',
+    'FILE:EXT:pforum/Configuration/FlexForms/Forum.xml',
 );
 
 ExtensionManagementUtility::addToAllTCAtypes(
@@ -30,10 +31,4 @@ ExtensionManagementUtility::addToAllTCAtypes(
     '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:plugin,pi_flexform,',
     'pforum_forum',
     'after:subheader',
-);
-
-ExtensionManagementUtility::addPiFlexFormValue(
-    '*',
-    'FILE:EXT:pforum/Configuration/FlexForms/Forum.xml',
-    'pforum_forum',
 );

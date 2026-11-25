@@ -60,7 +60,7 @@ readonly class RecordAccessService
         $isAllowed = match (true) {
             $record === null => false,
             $settings->isAnonymousMode() => $this->anonymousAccessTokenService->isTokenValid(
-                $this->getRecordType($record)->getAccessTokenType(),
+                RecordType::fromRecord($record)->getAccessTokenType(),
                 (int)$record->getUid(),
                 $token,
             ),
@@ -82,7 +82,7 @@ readonly class RecordAccessService
             return true;
         }
 
-        $recordType = $this->getRecordType($record);
+        $recordType = RecordType::fromRecord($record);
 
         return $settings->isActivatedByUser($recordType)
             && $this->anonymousAccessTokenService->isTokenValid(
@@ -106,14 +106,20 @@ readonly class RecordAccessService
             && (int)$frontendUser->getUid() === $this->getFrontendUserUid();
     }
 
+    /**
+     * Token, which allows anonymous users to edit and delete their record
+     */
+    public function generateAccessToken(Topic|Post $record): string
+    {
+        return $this->anonymousAccessTokenService->generateToken(
+            RecordType::fromRecord($record)->getAccessTokenType(),
+            (int)$record->getUid(),
+        );
+    }
+
     public function getFrontendUserUid(): int
     {
         return (int)$this->context->getPropertyFromAspect('frontend.user', 'id', 0);
-    }
-
-    private function getRecordType(Topic|Post $record): RecordType
-    {
-        return $record instanceof Topic ? RecordType::Topic : RecordType::Post;
     }
 
     private function isMemberOfGroup(int $groupUid): bool

@@ -30,20 +30,12 @@ class ForumController extends AbstractController
 
     public function showAction(Forum $forum): ResponseInterface
     {
-        $isAdmin = $this->recordAccessService->isAdmin($this->getForumSettings());
-        $topics = $this->topicRepository->findByForum($forum);
-        if ($isAdmin) {
-            $topics->getQuery()
-                ->getQuerySettings()
-                ->setIgnoreEnableFields(true)
-                ->setEnableFieldsToBeIgnored(['disabled']);
-        }
+        $permissions = $this->getPermissionVariables();
 
         $this->postProcessAndAssignFluidVariables([
             'forum' => $forum,
-            'topics' => $topics,
-            'isCreationAllowed' => $this->recordAccessService->getCreationDenialReason($this->getForumSettings()) === '',
-            'isAdmin' => $isAdmin,
+            'topics' => $this->topicRepository->findByForum($forum, $permissions['isAdmin']),
+            ...$permissions,
         ]);
 
         return $this->htmlResponse();

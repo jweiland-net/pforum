@@ -61,7 +61,7 @@ readonly class RichTextDescriptionService
             $this->isEnabled($settings)
                 ? $this->richTextService->prepareForPersistence(
                     $description,
-                    $this->getRecordType($record)->getTable(),
+                    RecordType::fromRecord($record)->getTable(),
                     self::COLUMN,
                     (int)$record->getUid(),
                     (int)$record->getPid(),
@@ -91,7 +91,7 @@ readonly class RichTextDescriptionService
             ];
         }
 
-        $configuration = $this->richTextSanitizer->getConfiguration($this->getRecordType($record)->getTable(), self::COLUMN);
+        $configuration = $this->richTextSanitizer->getConfiguration(RecordType::fromRecord($record)->getTable(), self::COLUMN);
         $options = $this->richTextEditorOptions->getEditorOptions(
             $request,
             $configuration,
@@ -112,10 +112,5 @@ readonly class RichTextDescriptionService
         $richTextSettings = $settings['new']['richText'] ?? [];
 
         return is_array($richTextSettings) ? $richTextSettings : [];
-    }
-
-    private function getRecordType(Topic|Post $record): RecordType
-    {
-        return $record instanceof Topic ? RecordType::Topic : RecordType::Post;
     }
 }

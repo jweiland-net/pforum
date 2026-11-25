@@ -110,6 +110,37 @@ final readonly class ForumSettings
     }
 
     /**
+     * Label key (locallang.xlf) of the message shown after a record was published
+     */
+    public function getCreationMessageKey(RecordType $recordType, bool $isHidden): string
+    {
+        return match (true) {
+            !$isHidden => $recordType->getMessageKey('Created'),
+            $this->isActivatedByAdmin($recordType) => 'hidden' . $recordType->getControllerName() . 'CreatedAndActivateByAdmin',
+            default => 'hidden' . $recordType->getControllerName() . 'CreatedAndActivateByUser',
+        };
+    }
+
+    /**
+     * @throws \RuntimeException if records would be hidden forever
+     */
+    public function assertConsistency(): void
+    {
+        foreach (RecordType::cases() as $recordType) {
+            if ($this->hasUnreachableHiddenRecords($recordType)) {
+                throw new \RuntimeException(
+                    sprintf(
+                        "You can't hide %ss at creation, deactivate admin activation and mark email as NOT mandatory. "
+                        . 'This would produce hidden records which will never be visible',
+                        $recordType->value,
+                    ),
+                    $recordType === RecordType::Topic ? 1378371532 : 1378371541,
+                );
+            }
+        }
+    }
+
+    /**
      * Hidden records, which are neither activated by an admin nor by their
      * author, would never be visible
      */

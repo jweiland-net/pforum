@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace JWeiland\Pforum\Updates;
 
 use JWeiland\Pforum\Converter\RteContentConverter;
+use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Core\Attribute\UpgradeWizard;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -32,6 +33,7 @@ final readonly class DescriptionToHtmlUpdate implements UpgradeWizardInterface
     public function __construct(
         private ConnectionPool $connectionPool,
         private RteContentConverter $rteContentConverter,
+        private LoggerInterface $logger,
     ) {}
 
     public function getTitle(): string
@@ -64,13 +66,16 @@ final readonly class DescriptionToHtmlUpdate implements UpgradeWizardInterface
                 ->select('uid', 'description')
                 ->executeQuery();
 
+            $count = 0;
             while ($record = $result->fetchAssociative()) {
                 $connection->update(
                     $table,
                     ['description' => $this->rteContentConverter->convertPlainTextToHtml((string)$record['description'])],
                     ['uid' => (int)$record['uid']],
                 );
+                $count++;
             }
+            $this->logger->info('Converted {count} plain text descriptions of table {table} into HTML', ['count' => $count, 'table' => $table]);
         }
 
         return true;

@@ -11,15 +11,19 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\EventListener;
 
-use JWeiland\Checkfaluploads\Validation\Validator\CheckFalUploadValidator;
+use JWeiland\Pforum\Domain\RecordType;
 use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
 use JWeiland\Pforum\Traits\IsValidEventListenerRequestTrait;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
 use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
 
+/**
+ * Adds the validator of EXT:checkfaluploads (mandatory rights checkbox) to
+ * the image uploads of topics and posts, if the extension is installed
+ */
 #[AsEventListener(
     identifier: 'pforum/assign-media-type-converter-for-topic',
 )]
@@ -38,29 +42,30 @@ final readonly class CheckFalUploadsEventListener
         ],
     ];
 
-    private const VALIDATOR = CheckFalUploadValidator::class;
+    private const EXTENSION_KEY = 'checkfaluploads';
+
+    /**
+     * The validator of EXT:checkfaluploads. A string, as the extension is optional.
+     */
+    private const VALIDATOR = 'JWeiland\\Checkfaluploads\\Validation\\Validator\\CheckFalUploadValidator';
 
     public function __construct(
         private ValidatorResolver $validatorResolver,
+        private PackageManager $packageManager,
     ) {}
 
     public function __invoke(PreProcessControllerActionEvent $controllerActionEvent): void
     {
-        if (!ExtensionManagementUtility::isLoaded('checkfaluploads')) {
+        if (!$this->packageManager->isPackageActive(self::EXTENSION_KEY) || !$this->isValidRequest($controllerActionEvent)) {
             return;
         }
 
-        if (!$this->isValidRequest($controllerActionEvent)) {
-            return;
-        }
-
-        $argumentName = $this->getArgumentName($controllerActionEvent);
-        if ($argumentName === '') {
+        $argumentName = RecordType::tryFromControllerName($controllerActionEvent->getControllerName())?->getArgumentName();
+        if ($argumentName === null || !$controllerActionEvent->getArguments()->hasArgument($argumentName)) {
             return;
         }
 
         $checkFalUploadsValidator = $this->getValidator(
-            self::VALIDATOR,
             ['propertyPath' => $argumentName . '.images'],
             $controllerActionEvent->getRequest(),
         );
@@ -72,27 +77,14 @@ final readonly class CheckFalUploadsEventListener
         $configuration?->addValidator($checkFalUploadsValidator);
     }
 
-    private function getArgumentName(PreProcessControllerActionEvent $event): string
-    {
-        if ($event->getControllerName() === 'Topic') {
-            return 'topic';
-        }
-
-        if ($event->getControllerName() === 'Post') {
-            return 'post';
-        }
-
-        return '';
-    }
-
     /**
      * @param array<string, mixed> $options
      */
-    private function getValidator(
-        string $className,
-        array $options,
-        RequestInterface $request,
-    ): ValidatorInterface {
+    private function getValidator(array $options, RequestInterface $request): ValidatorInterface
+    {
+        /** @var class-string<ValidatorInterface> $className */
+        $className = self::VALIDATOR;
+
         return $this->validatorResolver->createValidator($className, $options, $request);
     }
 }

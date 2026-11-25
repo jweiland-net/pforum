@@ -14,9 +14,10 @@ namespace JWeiland\Pforum\Domain\Model;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Annotation as Extbase;
-use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
-use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
+use TYPO3\CMS\Extbase\Attribute\FileUpload;
+use TYPO3\CMS\Extbase\Attribute\ORM\Cascade;
+use TYPO3\CMS\Extbase\Attribute\ORM\Lazy;
+use TYPO3\CMS\Extbase\Attribute\Validate;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
@@ -32,20 +33,20 @@ class Topic extends AbstractEntity
 
     protected ?Forum $forum = null;
 
-    #[Extbase\Validate(['validator' => 'NotEmpty'])]
+    #[Validate(validator: 'NotEmpty')]
     protected string $title = '';
 
-    #[Extbase\Validate(['validator' => 'NotEmpty'])]
+    #[Validate(validator: 'NotEmpty')]
     protected string $description = '';
 
     /**
      * @var ObjectStorage<Post>
      */
-    #[Cascade(['value' => 'remove'])]
+    #[Cascade('remove')]
     #[Lazy]
     protected ObjectStorage $posts;
 
-    #[Cascade(['value' => 'remove'])]
+    #[Cascade('remove')]
     protected ?AnonymousUser $anonymousUser = null;
 
     protected ?FrontendUser $frontendUser = null;
@@ -57,8 +58,8 @@ class Topic extends AbstractEntity
      * @var ObjectStorage<FileReference>
      */
     #[Lazy]
-    #[Extbase\FileUpload([
-        'validation' => [
+    #[FileUpload(
+        validation: [
             'required' => false,
             'maxFiles' => 2,
             'fileSize' => [
@@ -79,10 +80,10 @@ class Topic extends AbstractEntity
                 ],
             ],
         ],
-        'uploadFolder' => '1:/user_upload/tx_pforum/',
-        'duplicationBehavior' => DuplicationBehavior::RENAME,
-        'createUploadFolderIfNotExist' => true,
-    ])]
+        uploadFolder: '1:/user_upload/tx_pforum/',
+        createUploadFolderIfNotExist: true,
+        duplicationBehavior: DuplicationBehavior::RENAME,
+    )]
     protected ObjectStorage $images;
 
     public function __construct()

@@ -254,6 +254,9 @@
 			<trans-unit id="activation.alreadyActivated">
 				<source>The entry is activated already.</source>
 			</trans-unit>
+			<trans-unit id="mailNotSent">
+				<source>The email with the links to edit and delete your entry could not be sent. Please contact the administrator of this website.</source>
+			</trans-unit>
 			<trans-unit id="email.newPost.subject">
 				<source>New post at your topic: %s</source>
 			</trans-unit>

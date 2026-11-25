@@ -14,7 +14,6 @@ namespace JWeiland\Pforum\Controller;
 use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\RecordType;
-use JWeiland\Pforum\Mail\NewPostMail;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Extbase\Attribute\IgnoreValidation;
 
@@ -23,13 +22,6 @@ use TYPO3\CMS\Extbase\Attribute\IgnoreValidation;
  */
 class PostController extends AbstractController
 {
-    protected NewPostMail $newPostMail;
-
-    public function injectNewPostMail(NewPostMail $newPostMail): void
-    {
-        $this->newPostMail = $newPostMail;
-    }
-
     public function initializeNewAction(): void
     {
         $this->denyCreationUnlessAllowed();
@@ -40,6 +32,7 @@ class PostController extends AbstractController
         #[IgnoreValidation] ?Post $post = null,
     ): ResponseInterface {
         $post ??= new Post();
+
         return $this->renderForm($post, [
             'topic' => $topic,
             'post' => $post,
@@ -109,15 +102,5 @@ class PostController extends AbstractController
     public function activateAction(int $post, string $token = ''): ResponseInterface
     {
         return $this->processActivation(RecordType::Post, $post, $token);
-    }
-
-    /**
-     * The author of the topic gets a mail about a new visible post
-     */
-    protected function afterPublishing(Topic|Post $record): void
-    {
-        if ($record instanceof Post && !$record->getHidden()) {
-            $this->newPostMail->send($record, $this->settings, $this->request);
-        }
     }
 }
