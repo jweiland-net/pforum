@@ -1,5 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { label } from './labels';
+import { randomUUID } from 'node:crypto';
 
 export const FORUM_PAGE_PATH = process.env.PFORUM_E2E_PAGE_PATH ?? '/forum-e2e';
 export const SEEDED_FORUM_TITLE = 'E2E Forum';
@@ -20,7 +21,7 @@ export interface RecordData {
  * of the host site (e.g. "Element", "Image", "Header").
  */
 export function uniqueSuffix(): string {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  return `${Date.now()}-${randomUUID().slice(0, 8)}`;
 }
 
 export function createAuthor(prefix: string): AuthorData {
