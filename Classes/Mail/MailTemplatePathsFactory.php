@@ -48,7 +48,7 @@ readonly class MailTemplatePathsFactory
     /**
      * @return array<string>
      */
-    private function toStringList(mixed $paths): array
+    protected function toStringList(mixed $paths): array
     {
         return array_map(TypeCaster::toString(...), TypeCaster::toArray($paths));
     }

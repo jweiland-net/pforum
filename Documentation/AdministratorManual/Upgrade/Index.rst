@@ -55,6 +55,17 @@ Upgrade to version 9.0.0
         in your overrides of the template.
     *   `RecordPublishedEvent` is dispatched by the frontend plugin only, not
         by the backend module.
+    *   The events `PreProcessControllerActionEvent` and
+        `PostProcessFluidVariablesEvent` and the upgrade wizard
+        `PluginToContentElementUpdate` are `final`. Do not extend them.
+    *   Extension points: the controllers, the services in
+        `Classes/Service/`, the mail classes in `Classes/Mail/`,
+        `RichTextSanitizer`, `RteContentConverter`, `ExtConf` and
+        `PluginSettingsResolver` are not `final` and their members are
+        `protected`. Replace them by XCLASS or by a service alias in your
+        :file:`Services.yaml`. Classes, which are `readonly`, can only be
+        extended by `readonly` classes. Value objects, events, event
+        listeners, upgrade wizards, validators and ViewHelpers are `final`.
 
 ..  _upgrade-8-0-1:
 

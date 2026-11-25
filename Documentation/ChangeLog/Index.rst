@@ -28,6 +28,10 @@ Version 9.0.0
     return whether the mail was sent.
 *   [!!!][REFACTOR] Add the argument `$includeHidden` to `TopicRepository::findByForum()` and
     `PostRepository::findByTopic()` instead of changing the query settings of their result in the controllers
+*   [!!!][TASK] Declare the events `PreProcessControllerActionEvent` and `PostProcessFluidVariablesEvent` and the
+    upgrade wizard `PluginToContentElementUpdate` as `final`
+*   [TASK] Keep services, mail classes and controllers extensible: they are not `final` and their members are
+    `protected`, so they can be replaced by XCLASS or by a service alias
 *   [TASK] Sign the tokens of the mail links with SHA3-256. Links of mails sent before stay valid.
 *   [TASK] Use the Extbase attributes of namespace `TYPO3\CMS\Extbase\Attribute` with named arguments
 *   [TASK] Register the FlexForm of the plugin with `ExtensionUtility::registerPlugin()`

@@ -42,15 +42,15 @@ use TYPO3\HtmlSanitizer\Visitor\CommonVisitor;
  */
 readonly class RichTextSanitizer
 {
-    private const ALLOWED_SCHEMES_PATTERN = '#^(?:https?://|mailto:|tel:)\S+$#i';
+    protected const ALLOWED_SCHEMES_PATTERN = '#^(?:https?://|mailto:|tel:)\S+$#i';
 
     /**
      * Elements without content
      */
-    private const VOID_TAGS = ['br', 'hr', 'wbr'];
+    protected const VOID_TAGS = ['br', 'hr', 'wbr'];
 
     public function __construct(
-        private EventDispatcherInterface $eventDispatcher,
+        protected EventDispatcherInterface $eventDispatcher,
     ) {}
 
     /**
@@ -120,7 +120,7 @@ readonly class RichTextSanitizer
      * @param string[] $allowedT3Hrefs
      * @return Tag[]
      */
-    private function getAllowedTags(RichTextSanitizerConfiguration $configuration, array $allowedT3Hrefs): array
+    protected function getAllowedTags(RichTextSanitizerConfiguration $configuration, array $allowedT3Hrefs): array
     {
         $tags = [new Tag(RichTextVisitor::UNWRAP_TAG, Tag::ALLOW_CHILDREN)];
         foreach ($configuration->allowedTags as $tagName) {
@@ -137,7 +137,7 @@ readonly class RichTextSanitizer
     /**
      * @param string[] $allowedT3Hrefs
      */
-    private function getLinkTag(array $allowedT3Hrefs): Tag
+    protected function getLinkTag(array $allowedT3Hrefs): Tag
     {
         $isAllowedHref = static fn(string $href): bool => str_starts_with(strtolower(trim($href)), 't3://')
             ? in_array($href, $allowedT3Hrefs, true)

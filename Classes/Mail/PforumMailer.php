@@ -30,10 +30,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 readonly class PforumMailer
 {
     public function __construct(
-        private MailTemplatePathsFactory $mailTemplatePathsFactory,
-        private ExtConf $extConf,
-        private MailerInterface $mailer,
-        private LoggerInterface $logger,
+        protected MailTemplatePathsFactory $mailTemplatePathsFactory,
+        protected ExtConf $extConf,
+        protected MailerInterface $mailer,
+        protected LoggerInterface $logger,
     ) {}
 
     /**

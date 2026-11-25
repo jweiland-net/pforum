@@ -28,9 +28,9 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 readonly class RichTextEditorOptions
 {
     public function __construct(
-        private SystemResourceFactory $systemResourceFactory,
-        private SystemResourcePublisherInterface $resourcePublisher,
-        private LoggerInterface $logger,
+        protected SystemResourceFactory $systemResourceFactory,
+        protected SystemResourcePublisherInterface $resourcePublisher,
+        protected LoggerInterface $logger,
     ) {}
 
     /**
@@ -56,7 +56,7 @@ readonly class RichTextEditorOptions
         ];
     }
 
-    private function getLanguageCode(ServerRequestInterface $request): string
+    protected function getLanguageCode(ServerRequestInterface $request): string
     {
         $siteLanguage = $request->getAttribute('language');
         $languageCode = $siteLanguage instanceof SiteLanguage ? $siteLanguage->getLocale()->getLanguageCode() : 'en';
@@ -67,7 +67,7 @@ readonly class RichTextEditorOptions
     /**
      * English is the built-in language of CKEditor and has no translation file
      */
-    private function getTranslationUrl(ServerRequestInterface $request, string $languageCode, string $translationsPath): string
+    protected function getTranslationUrl(ServerRequestInterface $request, string $languageCode, string $translationsPath): string
     {
         if ($languageCode === 'en' || trim($translationsPath) === '') {
             return '';

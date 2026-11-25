@@ -29,8 +29,8 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 readonly class ManageRecordMail
 {
     public function __construct(
-        private AnonymousAccessTokenService $anonymousAccessTokenService,
-        private PforumMailer $pforumMailer,
+        protected AnonymousAccessTokenService $anonymousAccessTokenService,
+        protected PforumMailer $pforumMailer,
     ) {}
 
     /**
@@ -63,7 +63,7 @@ readonly class ManageRecordMail
     /**
      * @param array<string, mixed> $settings
      */
-    private function getActivationToken(Topic|Post $record, RecordType $recordType, array $settings): string
+    protected function getActivationToken(Topic|Post $record, RecordType $recordType, array $settings): string
     {
         if (!$record->getHidden() || !ForumSettings::fromArray($settings)->isActivatedByUser($recordType)) {
             return '';

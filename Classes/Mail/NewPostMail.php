@@ -24,7 +24,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 readonly class NewPostMail
 {
     public function __construct(
-        private PforumMailer $pforumMailer,
+        protected PforumMailer $pforumMailer,
     ) {}
 
     /**

@@ -45,9 +45,9 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 abstract class AbstractController extends ActionController
 {
-    private const MESSAGE_MAIL_NOT_SENT = 'mailNotSent';
+    protected const MESSAGE_MAIL_NOT_SENT = 'mailNotSent';
 
-    private ?ForumSettings $forumSettings = null;
+    protected ?ForumSettings $forumSettings = null;
 
     public function __construct(
         protected readonly ForumRepository $forumRepository,
@@ -398,12 +398,12 @@ abstract class AbstractController extends ActionController
      * Observers (e.g. the mail to the author of a topic about a new post)
      * listen to RecordPublishedEvent
      */
-    private function dispatchRecordPublishedEvent(Topic|Post $record): void
+    protected function dispatchRecordPublishedEvent(Topic|Post $record): void
     {
         $this->eventDispatcher->dispatch(new RecordPublishedEvent($record, $this->settings, $this->request));
     }
 
-    private function getToken(): string
+    protected function getToken(): string
     {
         $token = $this->request->hasArgument('token') ? $this->request->getArgument('token') : '';
 
@@ -417,7 +417,7 @@ abstract class AbstractController extends ActionController
      *
      * @param array<string, mixed> $argument
      */
-    private function isAnonymousUserOfRecord(Topic|Post|null $record, array $argument): bool
+    protected function isAnonymousUserOfRecord(Topic|Post|null $record, array $argument): bool
     {
         $anonymousUser = $argument['anonymousUser'] ?? null;
         if (!is_array($anonymousUser) || !array_key_exists('__identity', $anonymousUser)) {
@@ -428,7 +428,7 @@ abstract class AbstractController extends ActionController
             && (int)$anonymousUser['__identity'] === (int)$record->getAnonymousUser()?->getUid();
     }
 
-    private function logDenial(string $reason, ?RecordType $recordType = null, int $uid = 0): void
+    protected function logDenial(string $reason, ?RecordType $recordType = null, int $uid = 0): void
     {
         $this->logger->warning('Access denied to action "{action}": {reason}', [
             'action' => $this->request->getControllerName() . '::' . $this->request->getControllerActionName(),

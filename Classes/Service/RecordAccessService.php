@@ -34,8 +34,8 @@ readonly class RecordAccessService
     public const REASON_NOT_ALLOWED_TO_CREATE = 'notAllowedToCreate';
 
     public function __construct(
-        private Context $context,
-        private AnonymousAccessTokenService $anonymousAccessTokenService,
+        protected Context $context,
+        protected AnonymousAccessTokenService $anonymousAccessTokenService,
     ) {}
 
     public function getCreationDenialReason(ForumSettings $settings): string
@@ -123,7 +123,7 @@ readonly class RecordAccessService
         return TypeCaster::toInt($this->context->getPropertyFromAspect('frontend.user', 'id', 0));
     }
 
-    private function isMemberOfGroup(int $groupUid): bool
+    protected function isMemberOfGroup(int $groupUid): bool
     {
         $groupIds = $this->context->getPropertyFromAspect('frontend.user', 'groupIds', []);
 

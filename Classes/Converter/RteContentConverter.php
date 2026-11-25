@@ -22,24 +22,24 @@ namespace JWeiland\Pforum\Converter;
  */
 readonly class RteContentConverter
 {
-    private const PARAGRAPH_SEPARATOR = "\r\n";
+    protected const PARAGRAPH_SEPARATOR = "\r\n";
 
-    private const LINE_BREAK = "\r\n";
+    protected const LINE_BREAK = "\r\n";
 
-    private const NON_BREAKING_SPACE = "\u{00A0}";
+    protected const NON_BREAKING_SPACE = "\u{00A0}";
 
     /**
      * Characters of the private use area of unicode. They mark the borders of
      * block elements until runs of them are converted into line breaks.
      */
-    private const LINE_MARKER = "\u{E000}";
+    protected const LINE_MARKER = "\u{E000}";
 
-    private const PARAGRAPH_MARKER = "\u{E001}";
+    protected const PARAGRAPH_MARKER = "\u{E001}";
 
     /**
      * Start and end of these elements are separated by an empty line
      */
-    private const PARAGRAPH_TAGS = [
+    protected const PARAGRAPH_TAGS = [
         'address', 'article', 'aside', 'blockquote', 'div', 'dl', 'figcaption', 'figure', 'footer',
         'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'hr', 'main', 'nav', 'p', 'pre', 'section', 'table',
     ];
@@ -48,7 +48,7 @@ readonly class RteContentConverter
      * Start and end of these elements are separated by a line break. So list
      * items and nested lists are on their own line without empty lines.
      */
-    private const LINE_TAGS = [
+    protected const LINE_TAGS = [
         'caption', 'dd', 'dt', 'li', 'ol', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'ul',
     ];
 
@@ -56,7 +56,7 @@ readonly class RteContentConverter
      * Matches a run of lines, which contain nothing but spaces, tabs and
      * non-breaking spaces, including the line break before them.
      */
-    private const BLANK_LINES_PATTERN = '/\n(?:[ \t\x{00A0}]*\n)+/u';
+    protected const BLANK_LINES_PATTERN = '/\n(?:[ \t\x{00A0}]*\n)+/u';
 
     /**
      * A single line break is meant as <br />, an empty line between two blocks
@@ -132,7 +132,7 @@ readonly class RteContentConverter
      * with the tag. A run of markers between two texts becomes one line break,
      * or one empty line, if a paragraph like element starts or ends there.
      */
-    private function convertBlockTagsToLineBreaks(string $value): string
+    protected function convertBlockTagsToLineBreaks(string $value): string
     {
         $value = (string)preg_replace($this->getBlockTagPattern(self::PARAGRAPH_TAGS), self::PARAGRAPH_MARKER, $value);
         $value = (string)preg_replace($this->getBlockTagPattern(self::LINE_TAGS), self::LINE_MARKER, $value);
@@ -149,12 +149,12 @@ readonly class RteContentConverter
      *
      * @param string[] $tagNames
      */
-    private function getBlockTagPattern(array $tagNames): string
+    protected function getBlockTagPattern(array $tagNames): string
     {
         return '/\s*<\/?(?:' . implode('|', $tagNames) . ')(?:\s[^>]*)?\/?>\s*/iu';
     }
 
-    private function convertLinesToHtml(string $paragraph): string
+    protected function convertLinesToHtml(string $paragraph): string
     {
         $lines = array_map(
             static fn(string $line): string => str_replace(
@@ -171,7 +171,7 @@ readonly class RteContentConverter
     /**
      * Returns true, if the value contains nothing but whitespace and non-breaking spaces
      */
-    private function isBlank(string $value): bool
+    protected function isBlank(string $value): bool
     {
         return preg_match('/^[\s\x{00A0}]*$/u', $value) === 1;
     }

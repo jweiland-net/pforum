@@ -33,16 +33,16 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class AdministrationController extends ActionController
 {
-    private const LANGUAGE_FILE = 'LLL:EXT:pforum/Resources/Private/Language/locallang_mod_administration.xlf:';
+    protected const LANGUAGE_FILE = 'LLL:EXT:pforum/Resources/Private/Language/locallang_mod_administration.xlf:';
 
-    private ModuleTemplate $moduleTemplate;
+    protected ModuleTemplate $moduleTemplate;
 
     public function __construct(
-        private readonly TopicRepository $topicRepository,
-        private readonly PostRepository $postRepository,
-        private readonly ModuleTemplateFactory $moduleTemplateFactory,
-        private readonly ComponentFactory $componentFactory,
-        private readonly LoggerInterface $logger,
+        protected readonly TopicRepository $topicRepository,
+        protected readonly PostRepository $postRepository,
+        protected readonly ModuleTemplateFactory $moduleTemplateFactory,
+        protected readonly ComponentFactory $componentFactory,
+        protected readonly LoggerInterface $logger,
     ) {}
 
     protected function initializeAction(): void
@@ -84,7 +84,7 @@ class AdministrationController extends ActionController
         return $this->redirect('listHiddenPosts');
     }
 
-    private function activate(RecordType $recordType, Topic|Post|null $record, int $uid): void
+    protected function activate(RecordType $recordType, Topic|Post|null $record, int $uid): void
     {
         if ($record === null) {
             $this->logger->warning('{type} {uid} to activate not found', ['type' => $recordType->getControllerName(), 'uid' => $uid]);
@@ -104,7 +104,7 @@ class AdministrationController extends ActionController
         $this->addTranslatedFlashMessage('recordActivated', ContextualFeedbackSeverity::OK, $recordType, $record->getTitle());
     }
 
-    private function addDocHeaderButtons(): void
+    protected function addDocHeaderButtons(): void
     {
         $docHeader = $this->moduleTemplate->getDocHeaderComponent();
         if ($this->request->getControllerActionName() !== 'index') {
@@ -124,7 +124,7 @@ class AdministrationController extends ActionController
         }
     }
 
-    private function addTranslatedFlashMessage(
+    protected function addTranslatedFlashMessage(
         string $key,
         ContextualFeedbackSeverity $severity,
         RecordType $recordType,
@@ -137,12 +137,12 @@ class AdministrationController extends ActionController
         );
     }
 
-    private function translate(string $key): string
+    protected function translate(string $key): string
     {
         return (string)LocalizationUtility::translate(self::LANGUAGE_FILE . $key);
     }
 
-    private function getBackendUser(): ?BackendUserAuthentication
+    protected function getBackendUser(): ?BackendUserAuthentication
     {
         $backendUser = $GLOBALS['BE_USER'] ?? null;
 

@@ -33,11 +33,11 @@ readonly class RichTextDescriptionService
     public const COLUMN = 'description';
 
     public function __construct(
-        private PackageManager $packageManager,
-        private RichTextService $richTextService,
-        private RichTextSanitizer $richTextSanitizer,
-        private RichTextEditorOptions $richTextEditorOptions,
-        private RteContentConverter $rteContentConverter,
+        protected PackageManager $packageManager,
+        protected RichTextService $richTextService,
+        protected RichTextSanitizer $richTextSanitizer,
+        protected RichTextEditorOptions $richTextEditorOptions,
+        protected RteContentConverter $rteContentConverter,
     ) {}
 
     /**
@@ -108,7 +108,7 @@ readonly class RichTextDescriptionService
      * @param array<string, mixed> $settings
      * @return array<string, mixed>
      */
-    private function getRichTextSettings(array $settings): array
+    protected function getRichTextSettings(array $settings): array
     {
         return TypeCaster::toStringKeyedArray(TypeCaster::toArray($settings['new'] ?? [])['richText'] ?? []);
     }

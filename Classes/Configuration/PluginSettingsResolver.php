@@ -18,14 +18,14 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
  * TypoScript. Empty values of the FlexForm do not override the values of
  * TypoScript.
  */
-final readonly class PluginSettingsResolver
+readonly class PluginSettingsResolver
 {
-    private const EXTENSION_NAME = 'pforum';
+    protected const EXTENSION_NAME = 'pforum';
 
     /**
      * The settings of TypoScript only: a plugin name, which has no FlexForm
      */
-    private const PLUGIN_NAME_WITHOUT_FLEX_FORM = 'doNotLoadFlexFormSettings';
+    protected const PLUGIN_NAME_WITHOUT_FLEX_FORM = 'doNotLoadFlexFormSettings';
 
     /**
      * @return array<string, mixed>

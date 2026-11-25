@@ -32,8 +32,8 @@ readonly class PathSegmentService
     public const COLUMN = 'path_segment';
 
     public function __construct(
-        private ConnectionPool $connectionPool,
-        private TcaSchemaFactory $tcaSchemaFactory,
+        protected ConnectionPool $connectionPool,
+        protected TcaSchemaFactory $tcaSchemaFactory,
     ) {}
 
     /**
@@ -80,7 +80,7 @@ readonly class PathSegmentService
      * @param array<string, mixed> $record
      * @param array<string, mixed> $configuration
      */
-    private function hasGeneratorFieldValue(array $record, array $configuration): bool
+    protected function hasGeneratorFieldValue(array $record, array $configuration): bool
     {
         // Fields can be grouped in arrays, see "generatorOptions" of TCA type "slug"
         $fields = TypeCaster::toArray($configuration['generatorOptions'] ?? [])['fields'] ?? [];
@@ -98,7 +98,7 @@ readonly class PathSegmentService
     /**
      * @return array<string, mixed>
      */
-    private function findRecord(string $table, int $uid): array
+    protected function findRecord(string $table, int $uid): array
     {
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable($table);
         $queryBuilder->getRestrictions()->removeAll()->add(new DeletedRestriction());

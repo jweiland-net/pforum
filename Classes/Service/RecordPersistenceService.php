@@ -30,13 +30,13 @@ use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 readonly class RecordPersistenceService
 {
     public function __construct(
-        private TopicRepository $topicRepository,
-        private PostRepository $postRepository,
-        private FrontendUserRepository $frontendUserRepository,
-        private PersistenceManagerInterface $persistenceManager,
-        private Session $session,
-        private PathSegmentService $pathSegmentService,
-        private LoggerInterface $logger,
+        protected TopicRepository $topicRepository,
+        protected PostRepository $postRepository,
+        protected FrontendUserRepository $frontendUserRepository,
+        protected PersistenceManagerInterface $persistenceManager,
+        protected Session $session,
+        protected PathSegmentService $pathSegmentService,
+        protected LoggerInterface $logger,
     ) {}
 
     public function find(RecordType $recordType, int $uid): Topic|Post|null

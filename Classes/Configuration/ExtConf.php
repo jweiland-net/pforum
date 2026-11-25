@@ -23,16 +23,16 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 #[Autoconfigure(constructor: 'create')]
 readonly class ExtConf
 {
-    private const EXT_KEY = 'pforum';
+    protected const EXT_KEY = 'pforum';
 
-    private const DEFAULT_SETTINGS = [
+    protected const DEFAULT_SETTINGS = [
         'emailFromAddress' => '',
         'emailFromName' => '',
     ];
 
     public function __construct(
-        private string $emailFromAddress = self::DEFAULT_SETTINGS['emailFromAddress'],
-        private string $emailFromName = self::DEFAULT_SETTINGS['emailFromName'],
+        protected string $emailFromAddress = self::DEFAULT_SETTINGS['emailFromAddress'],
+        protected string $emailFromName = self::DEFAULT_SETTINGS['emailFromName'],
     ) {}
 
     public static function create(ExtensionConfiguration $extensionConfiguration): self
@@ -91,7 +91,7 @@ readonly class ExtConf
     /**
      * @return array<mixed>
      */
-    private function getMailConfiguration(): array
+    protected function getMailConfiguration(): array
     {
         return TypeCaster::toArray(TypeCaster::toArray($GLOBALS['TYPO3_CONF_VARS'] ?? [])['MAIL'] ?? []);
     }
