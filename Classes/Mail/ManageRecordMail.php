@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Mail;
 
-use JWeiland\Pforum\Configuration\ExtConf;
 use JWeiland\Pforum\Configuration\ForumSettings;
 use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
@@ -19,10 +18,6 @@ use JWeiland\Pforum\Domain\Model\User;
 use JWeiland\Pforum\Domain\RecordType;
 use JWeiland\Pforum\Security\AnonymousAccessTokenService;
 use Psr\Http\Message\ServerRequestInterface;
-use Symfony\Component\Mime\Address;
-use TYPO3\CMS\Core\Mail\FluidEmail;
-use TYPO3\CMS\Core\Mail\MailerInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -34,44 +29,41 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 readonly class ManageRecordMail
 {
     public function __construct(
-        private AnonymousAccessTokenService $anonymousAccessTokenService,
-        private MailTemplatePathsFactory $mailTemplatePathsFactory,
-        private ExtConf $extConf,
-        private MailerInterface $mailer,
+        protected AnonymousAccessTokenService $anonymousAccessTokenService,
+        protected PforumMailer $pforumMailer,
     ) {}
 
     /**
      * @param array<string, mixed> $settings Plugin settings
+     * @return bool TRUE, if the mail was sent
      */
-    public function send(Topic|Post $record, array $settings, ServerRequestInterface $request): void
+    public function send(Topic|Post $record, array $settings, ServerRequestInterface $request): bool
     {
         $user = $record->getUser();
-        if (!$user instanceof User || !GeneralUtility::validEmail($user->getEmail())) {
-            return;
+        if (!$user instanceof User) {
+            return false;
         }
 
-        $recordType = $record instanceof Topic ? RecordType::Topic : RecordType::Post;
-        $email = GeneralUtility::makeInstance(FluidEmail::class, $this->mailTemplatePathsFactory->create($settings));
-        $email
-            ->to(new Address($user->getEmail(), $user->getName()))
-            ->from(new Address($this->extConf->getEmailFromAddress(), $this->extConf->getEmailFromName()))
-            ->subject((string)LocalizationUtility::translate('email.' . $recordType->value . '.subject', 'pforum'))
-            ->setRequest($request)
-            ->setTemplate('PforumManage' . $recordType->getControllerName())
-            ->assignMultiple([
-                'settings' => $settings,
+        $recordType = RecordType::fromRecord($record);
+
+        return $this->pforumMailer->send(
+            $user,
+            (string)LocalizationUtility::translate('email.' . $recordType->value . '.subject', 'pforum'),
+            'PforumManage' . $recordType->getControllerName(),
+            [
                 $recordType->value => $record,
                 'token' => $this->anonymousAccessTokenService->generateToken($recordType->getAccessTokenType(), (int)$record->getUid()),
                 'activationToken' => $this->getActivationToken($record, $recordType, $settings),
-            ]);
-
-        $this->mailer->send($email);
+            ],
+            $settings,
+            $request,
+        );
     }
 
     /**
      * @param array<string, mixed> $settings
      */
-    private function getActivationToken(Topic|Post $record, RecordType $recordType, array $settings): string
+    protected function getActivationToken(Topic|Post $record, RecordType $recordType, array $settings): string
     {
         if (!$record->getHidden() || !ForumSettings::fromArray($settings)->isActivatedByUser($recordType)) {
             return '';

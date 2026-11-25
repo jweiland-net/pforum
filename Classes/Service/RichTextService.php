@@ -13,6 +13,7 @@ namespace JWeiland\Pforum\Service;
 
 use JWeiland\Pforum\Converter\RteContentConverter;
 use JWeiland\Pforum\Sanitizer\RichTextSanitizer;
+use JWeiland\Pforum\Utility\TypeCaster;
 use TYPO3\CMS\Core\Configuration\Richtext;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -39,11 +40,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 readonly class RichTextService
 {
     public function __construct(
-        private RichTextSanitizer $richTextSanitizer,
-        private RteContentConverter $rteContentConverter,
-        private Richtext $richtext,
-        private ConnectionPool $connectionPool,
-        private TcaSchemaFactory $tcaSchemaFactory,
+        protected RichTextSanitizer $richTextSanitizer,
+        protected RteContentConverter $rteContentConverter,
+        protected Richtext $richtext,
+        protected ConnectionPool $connectionPool,
+        protected TcaSchemaFactory $tcaSchemaFactory,
     ) {}
 
     /**
@@ -59,7 +60,7 @@ readonly class RichTextService
         $storedRecord = $this->getStoredRecord($table, $column, $uid);
         $html = $this->richTextSanitizer->sanitize(
             $value,
-            $this->richTextSanitizer->getT3Hrefs((string)($storedRecord[$column] ?? '')),
+            $this->richTextSanitizer->getT3Hrefs(TypeCaster::toString($storedRecord[$column] ?? '')),
             $table,
             $column,
         );
@@ -68,15 +69,15 @@ readonly class RichTextService
             $html,
             $table,
             $column,
-            (int)($storedRecord['pid'] ?? $pid),
-            (string)($storedRecord['recordType'] ?? ''),
+            TypeCaster::toInt($storedRecord['pid'] ?? $pid),
+            TypeCaster::toString($storedRecord['recordType'] ?? ''),
         );
     }
 
     /**
      * Same transformation as DataHandler does for fields with enableRichtext
      */
-    private function transformForPersistence(string $html, string $table, string $column, int $pid, string $recordType): string
+    protected function transformForPersistence(string $html, string $table, string $column, int $pid, string $recordType): string
     {
         $configuration = $this->richtext->getConfiguration(
             $table,
@@ -96,7 +97,7 @@ readonly class RichTextService
      *
      * @return array<string, mixed>
      */
-    private function getStoredRecord(string $table, string $column, int $uid): array
+    protected function getStoredRecord(string $table, string $column, int $uid): array
     {
         if ($uid <= 0 || !$this->getField($table, $column) instanceof FieldTypeInterface) {
             return [];
@@ -105,7 +106,8 @@ readonly class RichTextService
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable($table);
         $queryBuilder->getRestrictions()->removeAll()->add(new DeletedRestriction());
 
-        $typeField = $this->tcaSchemaFactory->get($table)->getSubSchemaDivisorField()?->getName() ?? '';
+        $schema = $this->tcaSchemaFactory->get($table);
+        $typeField = $schema->supportsSubSchema() ? $schema->getSubSchemaTypeInformation()->getFieldName() : '';
         $record = $queryBuilder
             ->select(...array_filter(['pid', $column, $typeField]))
             ->from($table)
@@ -122,7 +124,7 @@ readonly class RichTextService
         return $record;
     }
 
-    private function getField(string $table, string $column): ?FieldTypeInterface
+    protected function getField(string $table, string $column): ?FieldTypeInterface
     {
         if (!$this->tcaSchemaFactory->has($table)) {
             return null;

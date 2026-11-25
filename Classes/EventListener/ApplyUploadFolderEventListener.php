@@ -11,8 +11,10 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\EventListener;
 
+use JWeiland\Pforum\Domain\RecordType;
 use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
 use JWeiland\Pforum\Traits\IsValidEventListenerRequestTrait;
+use JWeiland\Pforum\Utility\TypeCaster;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 
 /**
@@ -45,13 +47,15 @@ final readonly class ApplyUploadFolderEventListener
             return;
         }
 
-        $uploadFolder = (string)($controllerActionEvent->getSettings()['new']['uploadFolder'] ?? '');
+        $uploadFolder = TypeCaster::toString(
+            TypeCaster::toArray($controllerActionEvent->getSettings()['new'] ?? [])['uploadFolder'] ?? '',
+        );
         if ($uploadFolder === '') {
             return;
         }
 
-        $argumentName = $this->getArgumentName($controllerActionEvent);
-        if ($argumentName === '') {
+        $argumentName = RecordType::tryFromControllerName($controllerActionEvent->getControllerName())?->getArgumentName();
+        if ($argumentName === null || !$controllerActionEvent->getArguments()->hasArgument($argumentName)) {
             return;
         }
 
@@ -60,18 +64,5 @@ final readonly class ApplyUploadFolderEventListener
             ->getFileHandlingServiceConfiguration()
             ->getFileUploadConfigurationForProperty('images');
         $configuration?->setUploadFolder($uploadFolder);
-    }
-
-    private function getArgumentName(PreProcessControllerActionEvent $event): string
-    {
-        if ($event->getControllerName() === 'Topic') {
-            return 'topic';
-        }
-
-        if ($event->getControllerName() === 'Post') {
-            return 'post';
-        }
-
-        return '';
     }
 }

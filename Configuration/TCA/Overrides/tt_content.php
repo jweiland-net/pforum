@@ -13,7 +13,6 @@ if (!defined('TYPO3')) {
     die('Access denied.');
 }
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 ExtensionUtility::registerPlugin(
@@ -23,17 +22,5 @@ ExtensionUtility::registerPlugin(
     'ext-pforum-wizard-icon',
     'Pforum',
     'LLL:EXT:pforum/Resources/Private/Language/locallang_db.xlf:plugin.pforum.description',
-);
-
-ExtensionManagementUtility::addToAllTCAtypes(
-    'tt_content',
-    '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:plugin,pi_flexform,',
-    'pforum_forum',
-    'after:subheader',
-);
-
-ExtensionManagementUtility::addPiFlexFormValue(
-    '*',
     'FILE:EXT:pforum/Configuration/FlexForms/Forum.xml',
-    'pforum_forum',
 );

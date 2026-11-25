@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace JWeiland\Pforum\Configuration;
 
 use JWeiland\Pforum\Domain\RecordType;
+use JWeiland\Pforum\Utility\TypeCaster;
 
 /**
  * The plugin settings, which control who may create, edit and activate
@@ -60,12 +61,12 @@ final readonly class ForumSettings
         }
 
         return new self(
-            (int)($settings['auth'] ?? self::AUTH_ANONYMOUS),
+            TypeCaster::toInt($settings['auth'] ?? self::AUTH_ANONYMOUS),
             (bool)($settings['emailIsMandatory'] ?? false),
             (bool)($settings['usernameIsMandatory'] ?? false),
             (bool)($settings['useImages'] ?? false),
-            (int)($settings['uidOfAdminGroup'] ?? 0),
-            (int)($settings['uidOfUserGroup'] ?? 0),
+            TypeCaster::toInt($settings['uidOfAdminGroup'] ?? 0),
+            TypeCaster::toInt($settings['uidOfUserGroup'] ?? 0),
             $hideAtCreation,
             $activateByAdmin,
         );
@@ -107,6 +108,37 @@ final readonly class ForumSettings
         return $this->isHiddenAtCreation($recordType)
             && !$this->isActivatedByAdmin($recordType)
             && $this->isMailToUserEnabled();
+    }
+
+    /**
+     * Label key (locallang.xlf) of the message shown after a record was published
+     */
+    public function getCreationMessageKey(RecordType $recordType, bool $isHidden): string
+    {
+        return match (true) {
+            !$isHidden => $recordType->getMessageKey('Created'),
+            $this->isActivatedByAdmin($recordType) => 'hidden' . $recordType->getControllerName() . 'CreatedAndActivateByAdmin',
+            default => 'hidden' . $recordType->getControllerName() . 'CreatedAndActivateByUser',
+        };
+    }
+
+    /**
+     * @throws \RuntimeException if records would be hidden forever
+     */
+    public function assertConsistency(): void
+    {
+        foreach (RecordType::cases() as $recordType) {
+            if ($this->hasUnreachableHiddenRecords($recordType)) {
+                throw new \RuntimeException(
+                    sprintf(
+                        "You can't hide %ss at creation, deactivate admin activation and mark email as NOT mandatory. "
+                        . 'This would produce hidden records which will never be visible',
+                        $recordType->value,
+                    ),
+                    $recordType === RecordType::Topic ? 1378371532 : 1378371541,
+                );
+            }
+        }
     }
 
     /**

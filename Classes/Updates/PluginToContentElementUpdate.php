@@ -11,14 +11,14 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Updates;
 
-use TYPO3\CMS\Install\Attribute\UpgradeWizard;
-use TYPO3\CMS\Install\Updates\AbstractListTypeToCTypeUpdate;
+use TYPO3\CMS\Core\Attribute\UpgradeWizard;
+use TYPO3\CMS\Core\Upgrades\AbstractListTypeToCTypeUpdate;
 
 /**
  * With TYPO3 13 all plugins have to be declared as content elements (CType) insteadof "list_type"
  */
 #[UpgradeWizard('pforum_migratePluginsToContentElementsUpdate')]
-class PluginToContentElementUpdate extends AbstractListTypeToCTypeUpdate
+final class PluginToContentElementUpdate extends AbstractListTypeToCTypeUpdate
 {
     protected function getListTypeToCTypeMapping(): array
     {

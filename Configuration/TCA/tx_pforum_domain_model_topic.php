@@ -26,15 +26,14 @@ return [
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ],
-        'searchFields' => 'title,description,posts,user,',
         'iconfile' => 'EXT:pforum/Resources/Public/Icons/tx_pforum_domain_model_topic.svg',
     ],
     'types' => [
         '1' => [
             'showitem' => '--palette--;;languageHidden, title, path_segment, description,
             posts, anonymous_user, frontend_user, images,
-            --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.tabs.access,
-            --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.palettes.access;access',
+            --div--;core.form.tabs:access,
+            --palette--;core.form.palettes:access;access',
         ],
     ],
     'palettes' => [
@@ -42,7 +41,7 @@ return [
             'showitem' => 'hidden, sys_language_uid, l10n_parent',
         ],
         'access' => [
-            'showitem' => 'starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:starttime_formlabel,endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:endtime_formlabel',
+            'showitem' => 'starttime;core.db.general:starttime,endtime;core.db.general:endtime',
         ],
     ],
     'columns' => [
@@ -73,6 +72,7 @@ return [
                 'fallbackCharacter' => '-',
                 'eval' => 'uniqueInPid',
                 'default' => '',
+                'searchable' => false,
             ],
         ],
         'description' => [

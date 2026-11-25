@@ -13,12 +13,14 @@ namespace JWeiland\Pforum\Updates;
 
 use JWeiland\Pforum\Domain\RecordType;
 use JWeiland\Pforum\Service\PathSegmentService;
+use JWeiland\Pforum\Utility\TypeCaster;
+use Psr\Log\LoggerInterface;
+use TYPO3\CMS\Core\Attribute\UpgradeWizard;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
-use TYPO3\CMS\Install\Attribute\UpgradeWizard;
-use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
-use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
+use TYPO3\CMS\Core\Upgrades\DatabaseUpdatedPrerequisite;
+use TYPO3\CMS\Core\Upgrades\UpgradeWizardInterface;
 
 /**
  * Fills the empty path segments of topics and posts
@@ -29,6 +31,7 @@ final readonly class PathSegmentUpdate implements UpgradeWizardInterface
     public function __construct(
         private ConnectionPool $connectionPool,
         private PathSegmentService $pathSegmentService,
+        private LoggerInterface $logger,
     ) {}
 
     public function getTitle(): string
@@ -45,7 +48,7 @@ final readonly class PathSegmentUpdate implements UpgradeWizardInterface
     public function updateNecessary(): bool
     {
         foreach (RecordType::cases() as $recordType) {
-            if ((int)$this->getQueryBuilderForEmptyPathSegments($recordType)->count('uid')->executeQuery()->fetchOne() > 0) {
+            if (TypeCaster::toInt($this->getQueryBuilderForEmptyPathSegments($recordType)->count('uid')->executeQuery()->fetchOne()) > 0) {
                 return true;
             }
         }
@@ -57,9 +60,12 @@ final readonly class PathSegmentUpdate implements UpgradeWizardInterface
     {
         foreach (RecordType::cases() as $recordType) {
             $result = $this->getQueryBuilderForEmptyPathSegments($recordType)->select('uid')->executeQuery();
+            $count = 0;
             while ($uid = $result->fetchOne()) {
-                $this->pathSegmentService->generate($recordType, (int)$uid);
+                $this->pathSegmentService->generate($recordType, TypeCaster::toInt($uid));
+                $count++;
             }
+            $this->logger->info('Generated {count} path segments of table {table}', ['count' => $count, 'table' => $recordType->getTable()]);
         }
 
         return true;

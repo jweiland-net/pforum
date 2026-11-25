@@ -18,6 +18,7 @@ use TYPO3\CMS\Backend\View\Event\PageContentPreviewRenderingEvent;
 use TYPO3\CMS\Backend\View\PageLayoutContext;
 use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
 use TYPO3\CMS\Core\Domain\Persistence\RecordIdentityMap;
+use TYPO3\CMS\Core\Domain\RecordFactory;
 use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
@@ -92,7 +93,12 @@ class PluginPreviewTest extends FunctionalTestCase
         $context->method('getRecordIdentityMap')->willReturn(new RecordIdentityMap());
 
         $event = $this->get(EventDispatcherInterface::class)->dispatch(
-            new PageContentPreviewRenderingEvent('tt_content', 'pforum_forum', $record, $context),
+            new PageContentPreviewRenderingEvent(
+                'tt_content',
+                'pforum_forum',
+                $this->get(RecordFactory::class)->createFromDatabaseRow('tt_content', $record),
+                $context,
+            ),
         );
 
         return (string)$event->getPreviewContent();

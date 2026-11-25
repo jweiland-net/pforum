@@ -27,20 +27,19 @@ return [
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ],
-        'searchFields' => 'title,teaser,topics,',
         'iconfile' => 'EXT:pforum/Resources/Public/Icons/tx_pforum_domain_model_forum.svg',
     ],
     'types' => [
         '1' => [
             'showitem' => '--palette--;;languageHidden, title, teaser, topics,
-            --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.tabs.access,
-            --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.palettes.access;access',
+            --div--;core.form.tabs:access,
+            --palette--;core.form.palettes:access;access',
         ],
     ],
     'palettes' => [
         'languageHidden' => ['showitem' => 'hidden, sys_language_uid, l10n_parent'],
         'access' => [
-            'showitem' => 'starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:starttime_formlabel,endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:endtime_formlabel',
+            'showitem' => 'starttime;core.db.general:starttime,endtime;core.db.general:endtime',
         ],
     ],
     'columns' => [

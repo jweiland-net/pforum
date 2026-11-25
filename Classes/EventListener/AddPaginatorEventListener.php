@@ -13,10 +13,12 @@ namespace JWeiland\Pforum\EventListener;
 
 use JWeiland\Pforum\Event\PostProcessFluidVariablesEvent;
 use JWeiland\Pforum\Traits\IsValidEventListenerRequestTrait;
+use JWeiland\Pforum\Utility\TypeCaster;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Pagination\SimplePagination;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 #[AsEventListener(
     identifier: 'pforum/add-paginator',
@@ -38,17 +40,18 @@ final readonly class AddPaginatorEventListener
 
     public function __invoke(PostProcessFluidVariablesEvent $event): void
     {
-        $typeOfPaginatedItems = 'topics';
-        if ($event->getControllerName() === 'Topic') {
-            $typeOfPaginatedItems = 'posts';
-        }
-
         if (!$this->isValidRequest($event)) {
             return;
         }
 
+        $typeOfPaginatedItems = $event->getControllerName() === 'Topic' ? 'posts' : 'topics';
+        $items = $event->getFluidVariables()[$typeOfPaginatedItems] ?? null;
+        if (!$items instanceof QueryResultInterface) {
+            return;
+        }
+
         $paginator = new QueryResultPaginator(
-            $event->getFluidVariables()[$typeOfPaginatedItems],
+            $items,
             $this->getCurrentPage($event),
             $this->getItemsPerPage($event),
         );
@@ -63,7 +66,7 @@ final readonly class AddPaginatorEventListener
     {
         if ($event->getRequest()->hasArgument('currentPage')) {
             return MathUtility::forceIntegerInRange(
-                (int)$event->getRequest()->getArgument('currentPage'),
+                TypeCaster::toInt($event->getRequest()->getArgument('currentPage')),
                 1,
             );
         }
@@ -73,6 +76,10 @@ final readonly class AddPaginatorEventListener
 
     private function getItemsPerPage(PostProcessFluidVariablesEvent $event): int
     {
-        return (int)($event->getSettings()['pageBrowser']['itemsPerPage'] ?? self::ITEMS_PER_PAGE);
+        $itemsPerPage = TypeCaster::toInt(
+            TypeCaster::toArray($event->getSettings()['pageBrowser'] ?? [])['itemsPerPage'] ?? self::ITEMS_PER_PAGE,
+        );
+
+        return $itemsPerPage > 0 ? $itemsPerPage : self::ITEMS_PER_PAGE;
     }
 }

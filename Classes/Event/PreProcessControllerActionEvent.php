@@ -14,15 +14,15 @@ namespace JWeiland\Pforum\Event;
 use TYPO3\CMS\Extbase\Mvc\Controller\Arguments;
 use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 
-class PreProcessControllerActionEvent implements ControllerActionEventInterface
+final class PreProcessControllerActionEvent implements ControllerActionEventInterface
 {
     /**
      * @param array<string, mixed> $settings
      */
     public function __construct(
-        protected RequestInterface $request,
-        protected Arguments $arguments,
-        protected array $settings,
+        private RequestInterface $request,
+        private Arguments $arguments,
+        private readonly array $settings,
     ) {}
 
     public function getRequest(): RequestInterface

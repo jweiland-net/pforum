@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\Mail;
 
+use JWeiland\Pforum\Utility\TypeCaster;
 use TYPO3\CMS\Fluid\View\TemplatePaths;
 
 /**
@@ -26,18 +27,29 @@ readonly class MailTemplatePathsFactory
      */
     public function create(array $settings): TemplatePaths
     {
-        $ownTemplateRootPaths = $settings['email']['templateRootPaths'] ?? [];
-        $ownTemplateRootPaths = is_array($ownTemplateRootPaths) ? $ownTemplateRootPaths : [];
+        $ownTemplateRootPaths = TypeCaster::toArray(
+            TypeCaster::toArray($settings['email'] ?? [])['templateRootPaths'] ?? [],
+        );
         ksort($ownTemplateRootPaths);
 
+        $mailConfiguration = TypeCaster::toArray(TypeCaster::toArray($GLOBALS['TYPO3_CONF_VARS'] ?? [])['MAIL'] ?? []);
+
         $templatePaths = new TemplatePaths();
-        $templatePaths->setTemplateRootPaths([
-            ...array_values($GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'] ?? []),
+        $templatePaths->setTemplateRootPaths($this->toStringList([
+            ...array_values(TypeCaster::toArray($mailConfiguration['templateRootPaths'] ?? [])),
             ...array_values($ownTemplateRootPaths),
-        ]);
-        $templatePaths->setLayoutRootPaths($GLOBALS['TYPO3_CONF_VARS']['MAIL']['layoutRootPaths'] ?? []);
-        $templatePaths->setPartialRootPaths($GLOBALS['TYPO3_CONF_VARS']['MAIL']['partialRootPaths'] ?? []);
+        ]));
+        $templatePaths->setLayoutRootPaths($this->toStringList($mailConfiguration['layoutRootPaths'] ?? []));
+        $templatePaths->setPartialRootPaths($this->toStringList($mailConfiguration['partialRootPaths'] ?? []));
 
         return $templatePaths;
+    }
+
+    /**
+     * @return array<string>
+     */
+    protected function toStringList(mixed $paths): array
+    {
+        return array_map(TypeCaster::toString(...), TypeCaster::toArray($paths));
     }
 }

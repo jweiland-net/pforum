@@ -13,9 +13,11 @@ namespace JWeiland\Pforum\Service;
 
 use JWeiland\Pforum\Sanitizer\RichTextSanitizerConfiguration;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Core\SystemResource\Exception\SystemResourceException;
+use TYPO3\CMS\Core\SystemResource\Publishing\SystemResourcePublisherInterface;
+use TYPO3\CMS\Core\SystemResource\SystemResourceFactory;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -25,6 +27,12 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 readonly class RichTextEditorOptions
 {
+    public function __construct(
+        protected SystemResourceFactory $systemResourceFactory,
+        protected SystemResourcePublisherInterface $resourcePublisher,
+        protected LoggerInterface $logger,
+    ) {}
+
     /**
      * The headings and toolbar items of the editor are based on the allowed tags.
      *
@@ -41,14 +49,14 @@ readonly class RichTextEditorOptions
         return [
             'language' => $languageCode,
             'allowedTags' => $configuration->allowedTags,
-            'translationUrl' => $this->getTranslationUrl($languageCode, $translationsPath),
+            'translationUrl' => $this->getTranslationUrl($request, $languageCode, $translationsPath),
             'labels' => [
                 'openInNewTab' => LocalizationUtility::translate('richText.openInNewTab', 'pforum') ?? 'Open in a new tab',
             ],
         ];
     }
 
-    private function getLanguageCode(ServerRequestInterface $request): string
+    protected function getLanguageCode(ServerRequestInterface $request): string
     {
         $siteLanguage = $request->getAttribute('language');
         $languageCode = $siteLanguage instanceof SiteLanguage ? $siteLanguage->getLocale()->getLanguageCode() : 'en';
@@ -59,17 +67,21 @@ readonly class RichTextEditorOptions
     /**
      * English is the built-in language of CKEditor and has no translation file
      */
-    private function getTranslationUrl(string $languageCode, string $translationsPath): string
+    protected function getTranslationUrl(ServerRequestInterface $request, string $languageCode, string $translationsPath): string
     {
         if ($languageCode === 'en' || trim($translationsPath) === '') {
             return '';
         }
 
         $translationFile = rtrim(trim($translationsPath), '/') . '/' . $languageCode . '.js';
-        if (!is_file(GeneralUtility::getFileAbsFileName($translationFile))) {
+        try {
+            $resource = $this->systemResourceFactory->createPublicResource($translationFile);
+
+            return (string)$this->resourcePublisher->generateUri($resource, $request);
+        } catch (SystemResourceException $exception) {
+            $this->logger->debug('No CKEditor translation "{file}" available', ['file' => $translationFile, 'exception' => $exception]);
+
             return '';
         }
-
-        return PathUtility::getPublicResourceWebPath($translationFile);
     }
 }

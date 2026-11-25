@@ -29,23 +29,29 @@
 		"source": "https://github.com/jweiland-net/pforum"
 	},
 	"require": {
-		"typo3/cms-core": "^13.4"
+		"php": "^8.2",
+		"typo3/cms-backend": "^14.3",
+		"typo3/cms-core": "^14.3",
+		"typo3/cms-extbase": "^14.3",
+		"typo3/cms-fluid": "^14.3",
+		"typo3/cms-frontend": "^14.3"
 	},
 	"require-dev": {
 		"ergebnis/composer-normalize": "^2.44",
-		"jweiland/checkfaluploads": "^6.0",
-		"phpstan/phpdoc-parser": "^1.33",
-		"ssch/typo3-rector": "^3.6",
-		"typo3/cms-install": "^13.4",
-		"typo3/cms-rte-ckeditor": "^13.4",
+		"phpstan/phpstan": "^2.1",
+		"rector/rector": "~2.8.3",
+		"saschaegerer/phpstan-typo3": "^3.0",
+		"ssch/typo3-rector": "^3.17",
+		"typo3/cms-install": "^14.3",
+		"typo3/cms-rte-ckeditor": "^14.3",
 		"typo3/coding-standards": "^0.8",
-		"typo3/testing-framework": "^9.0.1"
+		"typo3/testing-framework": "^9.7"
 	},
 	"replace": {
 		"typo3-ter/pforum": "self.version"
 	},
 	"suggest": {
-		"jweiland/checkfaluploads": "Adds a mandatory rights checkbox to file uploads in pforum's forms. Requires at least version 6.0.0.",
+		"jweiland/checkfaluploads": "Adds a mandatory rights checkbox to file uploads in pforum's forms. Requires a release of EXT:checkfaluploads, which supports TYPO3 14.",
 		"typo3/cms-rte-ckeditor": "Needed for the optional rich text editor (CKEditor 5) of the description of topics and posts (site setting pforum.form.richText.enable)."
 	},
 	"autoload": {
@@ -55,6 +61,7 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
+			"JWeiland\\Checkfaluploads\\": "Tests/Functional/Fixtures/Extensions/checkfaluploads/Classes",
 			"JWeiland\\Pforum\\Tests\\": "Tests"
 		}
 	},
@@ -69,8 +76,11 @@
 	},
 	"extra": {
 		"typo3/cms": {
-			"app-dir": ".Build",
+			"Package": {
+				"providesPackages": {}
+			},
 			"extension-key": "pforum",
+			"version": "9.0.0",
 			"web-dir": ".Build/public"
 		}
 	}

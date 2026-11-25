@@ -32,11 +32,17 @@ class PostRepository extends Repository implements HiddenRepositoryInterface
     ];
 
     /**
+     * @param bool $includeHidden Admins see hidden posts to activate them
      * @return QueryResultInterface<int, Post>
      */
-    public function findByTopic(Topic $topic): QueryResultInterface
+    public function findByTopic(Topic $topic, bool $includeHidden = false): QueryResultInterface
     {
         $query = $this->createQuery();
+        if ($includeHidden) {
+            $query->getQuerySettings()
+                ->setIgnoreEnableFields(true)
+                ->setEnableFieldsToBeIgnored(['disabled']);
+        }
 
         return $query->matching($query->equals('topic', $topic))->execute();
     }
@@ -58,15 +64,13 @@ class PostRepository extends Repository implements HiddenRepositoryInterface
         return $query->matching($query->equals('hidden', 1))->execute();
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function findHiddenObject($value, string $property = 'uid'): ?Post
+    public function findHiddenObject(mixed $value, string $property = 'uid'): ?Post
     {
         $query = $this->createQuery();
         $querySettings = $query->getQuerySettings();
         $querySettings->setIgnoreEnableFields(true);
         $querySettings->setRespectStoragePage(false);
+
         return $query->matching($query->equals($property, $value))->execute()->getFirst();
     }
 }

@@ -17,6 +17,7 @@ use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\RecordType;
 use JWeiland\Pforum\Security\AnonymousAccessTokenService;
+use JWeiland\Pforum\Utility\TypeCaster;
 use TYPO3\CMS\Core\Context\Context;
 
 /**
@@ -33,8 +34,8 @@ readonly class RecordAccessService
     public const REASON_NOT_ALLOWED_TO_CREATE = 'notAllowedToCreate';
 
     public function __construct(
-        private Context $context,
-        private AnonymousAccessTokenService $anonymousAccessTokenService,
+        protected Context $context,
+        protected AnonymousAccessTokenService $anonymousAccessTokenService,
     ) {}
 
     public function getCreationDenialReason(ForumSettings $settings): string
@@ -60,7 +61,7 @@ readonly class RecordAccessService
         $isAllowed = match (true) {
             $record === null => false,
             $settings->isAnonymousMode() => $this->anonymousAccessTokenService->isTokenValid(
-                $this->getRecordType($record)->getAccessTokenType(),
+                RecordType::fromRecord($record)->getAccessTokenType(),
                 (int)$record->getUid(),
                 $token,
             ),
@@ -82,7 +83,7 @@ readonly class RecordAccessService
             return true;
         }
 
-        $recordType = $this->getRecordType($record);
+        $recordType = RecordType::fromRecord($record);
 
         return $settings->isActivatedByUser($recordType)
             && $this->anonymousAccessTokenService->isTokenValid(
@@ -106,20 +107,26 @@ readonly class RecordAccessService
             && (int)$frontendUser->getUid() === $this->getFrontendUserUid();
     }
 
+    /**
+     * Token, which allows anonymous users to edit and delete their record
+     */
+    public function generateAccessToken(Topic|Post $record): string
+    {
+        return $this->anonymousAccessTokenService->generateToken(
+            RecordType::fromRecord($record)->getAccessTokenType(),
+            (int)$record->getUid(),
+        );
+    }
+
     public function getFrontendUserUid(): int
     {
-        return (int)$this->context->getPropertyFromAspect('frontend.user', 'id', 0);
+        return TypeCaster::toInt($this->context->getPropertyFromAspect('frontend.user', 'id', 0));
     }
 
-    private function getRecordType(Topic|Post $record): RecordType
-    {
-        return $record instanceof Topic ? RecordType::Topic : RecordType::Post;
-    }
-
-    private function isMemberOfGroup(int $groupUid): bool
+    protected function isMemberOfGroup(int $groupUid): bool
     {
         $groupIds = $this->context->getPropertyFromAspect('frontend.user', 'groupIds', []);
 
-        return in_array($groupUid, is_array($groupIds) ? array_map(intval(...), $groupIds) : [], true);
+        return in_array($groupUid, is_array($groupIds) ? array_map(TypeCaster::toInt(...), $groupIds) : [], true);
     }
 }

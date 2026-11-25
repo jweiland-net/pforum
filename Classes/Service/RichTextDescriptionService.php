@@ -16,6 +16,7 @@ use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\RecordType;
 use JWeiland\Pforum\Sanitizer\RichTextSanitizer;
+use JWeiland\Pforum\Utility\TypeCaster;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -32,11 +33,11 @@ readonly class RichTextDescriptionService
     public const COLUMN = 'description';
 
     public function __construct(
-        private PackageManager $packageManager,
-        private RichTextService $richTextService,
-        private RichTextSanitizer $richTextSanitizer,
-        private RichTextEditorOptions $richTextEditorOptions,
-        private RteContentConverter $rteContentConverter,
+        protected PackageManager $packageManager,
+        protected RichTextService $richTextService,
+        protected RichTextSanitizer $richTextSanitizer,
+        protected RichTextEditorOptions $richTextEditorOptions,
+        protected RteContentConverter $rteContentConverter,
     ) {}
 
     /**
@@ -47,7 +48,7 @@ readonly class RichTextDescriptionService
         $richTextSettings = $this->getRichTextSettings($settings);
 
         return (bool)($richTextSettings['enable'] ?? false)
-            && in_array(self::COLUMN, GeneralUtility::trimExplode(',', (string)($richTextSettings['elements'] ?? ''), true), true)
+            && in_array(self::COLUMN, GeneralUtility::trimExplode(',', TypeCaster::toString($richTextSettings['elements'] ?? ''), true), true)
             && $this->packageManager->isPackageActive('rte_ckeditor');
     }
 
@@ -61,7 +62,7 @@ readonly class RichTextDescriptionService
             $this->isEnabled($settings)
                 ? $this->richTextService->prepareForPersistence(
                     $description,
-                    $this->getRecordType($record)->getTable(),
+                    RecordType::fromRecord($record)->getTable(),
                     self::COLUMN,
                     (int)$record->getUid(),
                     (int)$record->getPid(),
@@ -91,11 +92,11 @@ readonly class RichTextDescriptionService
             ];
         }
 
-        $configuration = $this->richTextSanitizer->getConfiguration($this->getRecordType($record)->getTable(), self::COLUMN);
+        $configuration = $this->richTextSanitizer->getConfiguration(RecordType::fromRecord($record)->getTable(), self::COLUMN);
         $options = $this->richTextEditorOptions->getEditorOptions(
             $request,
             $configuration,
-            (string)($this->getRichTextSettings($settings)['translationsPath'] ?? ''),
+            TypeCaster::toString($this->getRichTextSettings($settings)['translationsPath'] ?? ''),
         );
 
         return [
@@ -107,15 +108,8 @@ readonly class RichTextDescriptionService
      * @param array<string, mixed> $settings
      * @return array<string, mixed>
      */
-    private function getRichTextSettings(array $settings): array
+    protected function getRichTextSettings(array $settings): array
     {
-        $richTextSettings = $settings['new']['richText'] ?? [];
-
-        return is_array($richTextSettings) ? $richTextSettings : [];
-    }
-
-    private function getRecordType(Topic|Post $record): RecordType
-    {
-        return $record instanceof Topic ? RecordType::Topic : RecordType::Post;
+        return TypeCaster::toStringKeyedArray(TypeCaster::toArray($settings['new'] ?? [])['richText'] ?? []);
     }
 }

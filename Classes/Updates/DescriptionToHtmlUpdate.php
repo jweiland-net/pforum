@@ -12,11 +12,13 @@ declare(strict_types=1);
 namespace JWeiland\Pforum\Updates;
 
 use JWeiland\Pforum\Converter\RteContentConverter;
+use JWeiland\Pforum\Utility\TypeCaster;
+use Psr\Log\LoggerInterface;
+use TYPO3\CMS\Core\Attribute\UpgradeWizard;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\Install\Attribute\UpgradeWizard;
-use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
-use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
+use TYPO3\CMS\Core\Upgrades\DatabaseUpdatedPrerequisite;
+use TYPO3\CMS\Core\Upgrades\UpgradeWizardInterface;
 
 /**
  * The descriptions of topics and posts are stored as HTML like the backend
@@ -32,6 +34,7 @@ final readonly class DescriptionToHtmlUpdate implements UpgradeWizardInterface
     public function __construct(
         private ConnectionPool $connectionPool,
         private RteContentConverter $rteContentConverter,
+        private LoggerInterface $logger,
     ) {}
 
     public function getTitle(): string
@@ -48,7 +51,7 @@ final readonly class DescriptionToHtmlUpdate implements UpgradeWizardInterface
     public function updateNecessary(): bool
     {
         foreach (self::TABLES as $table) {
-            if ((int)$this->getQueryBuilderForPlainTextDescriptions($table)->count('uid')->executeQuery()->fetchOne() > 0) {
+            if (TypeCaster::toInt($this->getQueryBuilderForPlainTextDescriptions($table)->count('uid')->executeQuery()->fetchOne()) > 0) {
                 return true;
             }
         }
@@ -64,13 +67,16 @@ final readonly class DescriptionToHtmlUpdate implements UpgradeWizardInterface
                 ->select('uid', 'description')
                 ->executeQuery();
 
+            $count = 0;
             while ($record = $result->fetchAssociative()) {
                 $connection->update(
                     $table,
-                    ['description' => $this->rteContentConverter->convertPlainTextToHtml((string)$record['description'])],
-                    ['uid' => (int)$record['uid']],
+                    ['description' => $this->rteContentConverter->convertPlainTextToHtml(TypeCaster::toString($record['description']))],
+                    ['uid' => TypeCaster::toInt($record['uid'])],
                 );
+                $count++;
             }
+            $this->logger->info('Converted {count} plain text descriptions of table {table} into HTML', ['count' => $count, 'table' => $table]);
         }
 
         return true;

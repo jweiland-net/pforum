@@ -13,8 +13,8 @@ use JWeiland\Pforum\Controller\AdministrationController;
 
 return [
     'pforumBackendModule' => [
-        'parent' => 'tools',
-        'position' => ['after' => 'tools_maintenance'],
+        'parent' => 'admin',
+        'position' => ['after' => 'integrations'],
         'access' => 'user',
         'workspaces' => 'live',
         'path' => '/module/web/pforum',

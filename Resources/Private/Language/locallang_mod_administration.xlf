@@ -12,6 +12,30 @@
 			<trans-unit id="mlang_labels_tabdescr" xml:space="preserve">
 				<source>This module provides an easy way to activate hidden topics and postings.</source>
 			</trans-unit>
+			<trans-unit id="topic.recordActivated.title" xml:space="preserve">
+				<source>Topic activated</source>
+			</trans-unit>
+			<trans-unit id="topic.recordActivated.message" xml:space="preserve">
+				<source>Topic "%s" was activated.</source>
+			</trans-unit>
+			<trans-unit id="topic.recordNotFound.title" xml:space="preserve">
+				<source>Topic not found</source>
+			</trans-unit>
+			<trans-unit id="topic.recordNotFound.message" xml:space="preserve">
+				<source>The topic with UID %s does not exist anymore.</source>
+			</trans-unit>
+			<trans-unit id="post.recordActivated.title" xml:space="preserve">
+				<source>Post activated</source>
+			</trans-unit>
+			<trans-unit id="post.recordActivated.message" xml:space="preserve">
+				<source>Post "%s" was activated.</source>
+			</trans-unit>
+			<trans-unit id="post.recordNotFound.title" xml:space="preserve">
+				<source>Post not found</source>
+			</trans-unit>
+			<trans-unit id="post.recordNotFound.message" xml:space="preserve">
+				<source>The post with UID %s does not exist anymore.</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

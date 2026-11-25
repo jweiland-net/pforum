@@ -13,6 +13,7 @@ namespace JWeiland\Pforum\ViewHelpers;
 
 use JWeiland\Pforum\Converter\RteContentConverter;
 use JWeiland\Pforum\Sanitizer\RichTextSanitizer;
+use JWeiland\Pforum\Utility\TypeCaster;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 
@@ -62,7 +63,7 @@ final class FormatRichTextViewHelper extends AbstractViewHelper
      */
     public function render(): string
     {
-        $format = (string)$this->arguments['format'];
+        $format = TypeCaster::toString($this->arguments['format']);
         if (!in_array($format, [self::FORMAT_HTML, self::FORMAT_PLAINTEXT], true)) {
             throw new Exception('Argument "format" must be "html" or "plaintext".', 1763890802);
         }
@@ -88,8 +89,8 @@ final class FormatRichTextViewHelper extends AbstractViewHelper
         return $this->richTextSanitizer->sanitize(
             $value,
             [],
-            (string)$this->arguments['table'],
-            (string)$this->arguments['column'],
+            TypeCaster::toString($this->arguments['table']),
+            TypeCaster::toString($this->arguments['column']),
         );
     }
 

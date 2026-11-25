@@ -11,12 +11,15 @@ declare(strict_types=1);
 
 namespace JWeiland\Pforum\EventListener;
 
+use JWeiland\Pforum\Configuration\ForumSettings;
+use JWeiland\Pforum\Domain\RecordType;
 use JWeiland\Pforum\Event\PreProcessControllerActionEvent;
 use JWeiland\Pforum\Traits\IsValidEventListenerRequestTrait;
 use JWeiland\Pforum\Validation\Validator\AnonymousUserValidator;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator;
+use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
 use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
 
 /**
@@ -48,21 +51,23 @@ final readonly class AddAnonymousUserValidatorEventListener
 
     public function __invoke(PreProcessControllerActionEvent $event): void
     {
-        $settings = $event->getSettings();
-        $argumentName = strtolower($event->getControllerName());
+        $settings = ForumSettings::fromArray($event->getSettings());
+        $argumentName = RecordType::tryFromControllerName($event->getControllerName())?->getArgumentName();
         if (
-            !$this->isValidRequest($event)
-            || (int)($settings['auth'] ?? 1) !== 1
+            $argumentName === null
+            || !$this->isValidRequest($event)
+            || !$settings->isAnonymousMode()
             || !$event->getArguments()->hasArgument($argumentName)
         ) {
             return;
         }
 
+        /** @var AnonymousUserValidator $anonymousUserValidator */
         $anonymousUserValidator = $this->validatorResolver->createValidator(
             AnonymousUserValidator::class,
             [
-                'usernameIsMandatory' => (bool)($settings['usernameIsMandatory'] ?? false),
-                'emailIsMandatory' => (bool)($settings['emailIsMandatory'] ?? false),
+                'usernameIsMandatory' => $settings->usernameIsMandatory,
+                'emailIsMandatory' => $settings->emailIsMandatory,
             ],
             $event->getRequest(),
         );
@@ -75,7 +80,7 @@ final readonly class AddAnonymousUserValidatorEventListener
         }
 
         $conjunctionValidator = GeneralUtility::makeInstance(ConjunctionValidator::class);
-        if ($validator !== null) {
+        if ($validator instanceof ValidatorInterface) {
             $conjunctionValidator->addValidator($validator);
         }
         $conjunctionValidator->addValidator($anonymousUserValidator);

@@ -14,30 +14,23 @@ namespace JWeiland\Pforum\Controller;
 use JWeiland\Pforum\Domain\Model\Post;
 use JWeiland\Pforum\Domain\Model\Topic;
 use JWeiland\Pforum\Domain\RecordType;
-use JWeiland\Pforum\Mail\NewPostMail;
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Extbase\Annotation as Extbase;
+use TYPO3\CMS\Extbase\Attribute\IgnoreValidation;
 
 /**
  * Controller to create, edit, activate and delete posts
  */
 class PostController extends AbstractController
 {
-    protected NewPostMail $newPostMail;
-
-    public function injectNewPostMail(NewPostMail $newPostMail): void
-    {
-        $this->newPostMail = $newPostMail;
-    }
-
     public function initializeNewAction(): void
     {
         $this->denyCreationUnlessAllowed();
     }
 
-    #[Extbase\IgnoreValidation(['value' => 'post'])]
-    public function newAction(Topic $topic, ?Post $post = null): ResponseInterface
-    {
+    public function newAction(
+        Topic $topic,
+        #[IgnoreValidation] ?Post $post = null,
+    ): ResponseInterface {
         $post ??= new Post();
 
         return $this->renderForm($post, [
@@ -71,9 +64,12 @@ class PostController extends AbstractController
      * @param bool $isPreview Shows the post above the form
      * @param bool $isNew The post is published, when the form is saved
      */
-    #[Extbase\IgnoreValidation(['value' => 'post'])]
-    public function editAction(Post $post, bool $isPreview = false, bool $isNew = false, string $token = ''): ResponseInterface
-    {
+    public function editAction(
+        #[IgnoreValidation] Post $post,
+        bool $isPreview = false,
+        bool $isNew = false,
+        string $token = '',
+    ): ResponseInterface {
         return $this->renderForm($post, [
             'post' => $post,
             'isPreview' => $isPreview,
@@ -106,15 +102,5 @@ class PostController extends AbstractController
     public function activateAction(int $post, string $token = ''): ResponseInterface
     {
         return $this->processActivation(RecordType::Post, $post, $token);
-    }
-
-    /**
-     * The author of the topic gets a mail about a new visible post
-     */
-    protected function afterPublishing(Topic|Post $record): void
-    {
-        if ($record instanceof Post && !$record->getHidden()) {
-            $this->newPostMail->send($record, $this->settings, $this->request);
-        }
     }
 }
